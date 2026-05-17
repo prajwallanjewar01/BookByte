@@ -1,0 +1,443 @@
+/* =========================================
+   base.css
+========================================= */
+
+:root {
+
+  /* COLORS */
+  --bg: #0b0e13;
+  --surface: #111827;
+  --surface-2: #1f2937;
+  --surface-3: #263244;
+
+  --text: #e5e7eb;
+  --text-muted: #9ca3af;
+  --text-soft: #cbd5e1;
+
+  --accent: #4f8cff;
+  --accent-hover: #3d7df5;
+
+  --success: #10b981;
+  --warning: #f59e0b;
+  --danger: #ef4444;
+
+  --border: rgba(255, 255, 255, 0.08);
+
+  /* SHADOWS */
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.15);
+  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.25);
+  --shadow-lg: 0 16px 40px rgba(0, 0, 0, 0.35);
+
+  /* RADIUS */
+  --radius-sm: 10px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+
+  /* SPACING */
+  --space-xs: 6px;
+  --space-sm: 10px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 36px;
+
+  /* TYPOGRAPHY */
+  --font-main:
+    Inter,
+    system-ui,
+    sans-serif;
+
+  /* TRANSITION */
+  --transition:
+    all 0.25s ease;
+
+  /* =====================================
+     NEW RESPONSIVE VARIABLES
+  ===================================== */
+
+  /* FONT SIZES */
+
+  --fs-xs:
+    clamp(0.72rem, 0.7rem + 0.2vw, 0.82rem);
+
+  --fs-sm:
+    clamp(0.85rem, 0.8rem + 0.3vw, 0.95rem);
+
+  --fs-base:
+    clamp(1rem, 0.95rem + 0.3vw, 1.08rem);
+
+  --fs-md:
+    clamp(1.1rem, 1rem + 0.5vw, 1.35rem);
+
+  --fs-lg:
+    clamp(1.4rem, 1.2rem + 0.8vw, 1.8rem);
+
+  --fs-xl:
+    clamp(1.8rem, 1.5rem + 1.5vw, 2.8rem);
+
+  /* CONTAINER */
+
+  --container-max: 1400px;
+
+  /* MOBILE SAFE PADDING */
+
+  --mobile-padding: 14px;
+
+  /* TOUCH TARGET */
+
+  --touch-size: 44px;
+
+  /* Z-INDEX */
+
+  --z-header: 100;
+  --z-modal: 999;
+}
+
+*,
+*::before,
+*::after {
+
+  margin: 0;
+  padding: 0;
+
+  box-sizing: border-box;
+}
+
+html {
+
+  scroll-behavior: smooth;
+
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+
+  background:
+    linear-gradient(
+      135deg,
+      #0b0e13,
+      #111827,
+      #0f172a
+    );
+
+  color: var(--text);
+
+  font-family: var(--font-main);
+
+  min-height: 100vh;
+
+  transition: var(--transition);
+
+  /* =====================================
+     RESPONSIVE IMPROVEMENTS
+  ===================================== */
+
+  font-size: var(--fs-base);
+
+  line-height: 1.6;
+
+  overflow-x: hidden;
+
+  text-rendering: optimizeLegibility;
+
+  -webkit-font-smoothing: antialiased;
+
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* =========================================
+   MEDIA ELEMENTS
+========================================= */
+
+img,
+picture,
+video,
+canvas,
+svg {
+
+  max-width: 100%;
+
+  display: block;
+}
+
+/* =========================================
+   LINKS
+========================================= */
+
+a {
+
+  color: inherit;
+
+  text-decoration: none;
+
+  transition: var(--transition);
+}
+
+a:hover {
+
+  color: var(--accent);
+}
+
+/* =========================================
+   BUTTONS
+========================================= */
+
+button,
+input,
+select,
+textarea {
+
+  font-family: inherit;
+}
+
+button {
+
+  border: none;
+
+  cursor: pointer;
+
+  transition: var(--transition);
+
+  min-height: var(--touch-size);
+
+  -webkit-tap-highlight-color:
+    transparent;
+}
+
+button:hover {
+
+  transform: translateY(-1px);
+}
+
+button:active {
+
+  transform: scale(0.98);
+}
+
+/* =========================================
+   FORM ELEMENTS
+========================================= */
+
+input,
+select,
+textarea {
+
+  background: var(--surface-2);
+
+  color: var(--text);
+
+  border: 1px solid var(--border);
+
+  border-radius: var(--radius-sm);
+
+  padding: 12px 14px;
+
+  outline: none;
+
+  transition: var(--transition);
+
+  width: 100%;
+
+  font-size: var(--fs-base);
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+
+  border-color: var(--accent);
+
+  box-shadow:
+    0 0 0 4px rgba(79, 140, 255, 0.2);
+}
+
+::placeholder {
+
+  color: var(--text-muted);
+}
+
+/* =========================================
+   TYPOGRAPHY
+========================================= */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+
+  line-height: 1.2;
+
+  font-weight: 700;
+}
+
+h1 {
+
+  font-size: var(--fs-xl);
+}
+
+h2 {
+
+  font-size: var(--fs-lg);
+}
+
+h3 {
+
+  font-size: var(--fs-md);
+}
+
+p {
+
+  color: var(--text-soft);
+}
+
+/* =========================================
+   DIVIDER
+========================================= */
+
+hr {
+
+  border: none;
+
+  border-top: 1px solid var(--border);
+}
+
+/* =========================================
+   UTILITIES
+========================================= */
+
+.hidden {
+
+  display: none !important;
+}
+
+/* =========================================
+   SCROLLBAR
+========================================= */
+
+::-webkit-scrollbar {
+
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+
+  background: var(--surface);
+}
+
+::-webkit-scrollbar-thumb {
+
+  background: rgba(255,255,255,0.12);
+
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+
+  background: rgba(255,255,255,0.22);
+}
+
+/* =========================================
+   TEXT SELECTION
+========================================= */
+
+::selection {
+
+  background: var(--accent);
+
+  color: white;
+}
+
+/* =========================================
+   RESPONSIVE BREAKPOINTS
+========================================= */
+
+/* =====================================
+   MOBILE
+===================================== */
+
+@media (max-width: 640px) {
+
+  body {
+
+    font-size: 12px;
+  }
+
+  h1 {
+
+    font-size: 1rem;
+  }
+
+  h2 {
+
+    font-size: 0.80rem;
+  }
+
+  h3 {
+
+    font-size: 0.70rem;
+  }
+
+  input,
+  select,
+  textarea,
+  button {
+
+    font-size: 12px;
+  }
+}
+
+/* =====================================
+   TABLET
+===================================== */
+
+@media (
+  min-width: 641px
+) and (
+  max-width: 1024px
+) {
+
+  body {
+
+    font-size: 16px;
+  }
+
+  h1 {
+
+    font-size: 2.4rem;
+  }
+}
+
+/* =====================================
+   LARGE DESKTOP
+===================================== */
+
+@media (min-width: 1440px) {
+
+  body {
+
+    font-size: 18px;
+  }
+
+  h1 {
+
+    font-size: 3.2rem;
+  }
+
+  h2 {
+
+    font-size: 2.1rem;
+  }
+}
+
+/* =====================================
+   TOUCH DEVICES
+===================================== */
+
+@media (hover: none) {
+
+  button:hover {
+
+    transform: none;
+  }
+}

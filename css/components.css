@@ -1,0 +1,356 @@
+/*  components.css */
+.card,
+.section {
+  background: rgba(17, 24, 39, 0.7);
+  backdrop-filter: blur(18px);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  box-shadow: var(--shadow-md);
+  transition: var(--transition);
+  
+}
+
+.card:hover,
+.section:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+.btn {
+  padding: 12px 18px;
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  transition: var(--transition);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+}
+
+.btn-primary {
+  background: var(--accent);
+  color: white;
+}
+
+.btn-primary:hover {
+  background: var(--accent-hover);
+}
+
+.btn-secondary {
+  background: var(--surface-3);
+  color: var(--text);
+}
+
+.btn-secondary:hover {
+  background: #324156;
+}
+
+.btn-danger {
+  background: var(--danger);
+  color: white;
+}
+
+.btn-warning {
+  background: var(--warning);
+  color: #111;
+}
+
+.btn-focus {
+  background: linear-gradient(135deg,
+      #4f46e5,
+      #7c3aed);
+  color: white;
+  padding: 14px 24px;
+  border-radius: 999px;
+  font-size: 1rem;
+  box-shadow: var(--shadow-md);
+}
+
+.badge {
+  background: var(--surface-2);
+  padding: 8px 12px;
+  border-radius: 999px;
+  font-size: 0.9rem;
+  color: var(--text-soft);
+}
+
+.clock-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.clock-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(90deg,
+      #4f8cff,
+      #8b5cf6,
+      #06b6d4);
+}
+
+.clock-title {
+  font-size: 1.3rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  margin-bottom: 10px;
+}
+
+.clock-phase {
+  margin-bottom: 12px;
+  font-size: 0.95rem;
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.clock-time {
+  font-size: clamp(1.5rem, 5vw, 1.5rem);
+  font-weight: 800;
+  letter-spacing: 2px;
+  margin-bottom: 10px;
+}
+
+.clock-date {
+  color: var(--text-muted);
+}
+
+#greeting-text {
+  font-size: clamp(1.4rem, 3vw, 1.5rem);
+  font-weight: 800;
+}
+
+.greeting-subtext {
+  color: var(--text-muted);
+  margin-top: 8px;
+}
+.greeting-card{
+  margin: 10px 0px;
+}
+.greeting-card #new-quote-btn{
+  padding: 5px 5px;
+}
+
+#quote-text {
+  font-size: 1.15rem;
+  line-height: 1.7;
+  color: var(--text-soft);
+}
+
+#quote-author {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+#quote-timer {
+  margin-top: 20px;
+  color: var(--text-muted);
+  font-size: 0.55rem;
+}
+
+.result {
+  background: var(--surface-2);
+  border: 1px dashed var(--border);
+  padding: 16px;
+  border-radius: var(--radius-md);
+  color: var(--text-soft);
+}
+
+.arrow {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.folder {
+  margin-top: 20px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.folder h3 {
+  background: rgba(255, 255, 255, 0.04);
+  padding: 16px 18px;
+  font-size: 1rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.folder-content {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 16px;
+}
+
+.link {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 16px;
+  border-radius: var(--radius-sm);
+  background: rgba(255, 255, 255, 0.03);
+  transition: var(--transition);
+}
+
+.link:hover {
+  background: rgba(255, 255, 255, 0.06);
+  transform: translateX(4px);
+}
+
+.link a {
+  flex: 1;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+.drag-handle {
+  cursor: grab;
+  opacity: 0.6;
+}
+
+.bookmark-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.bookmark-actions button {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: var(--surface-3);
+  color: white;
+  transition: var(--transition);
+}
+
+.bookmark-actions button:hover {
+  background: var(--accent);
+}
+
+.bookmark-manager{
+  margin: 10px 0px;
+}
+
+#pomodoro-time {
+  font-size: clamp(1.5rem, 8vw, 3rem);
+  font-weight: 800;
+  text-align: center;
+  margin: 20px 0;
+  letter-spacing: 3px;
+}
+
+#pomodoro-mode {
+  text-align: center;
+  color: var(--accent);
+  font-size: 1.3rem;
+}
+
+#task-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+#task-list div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  padding: 14px 16px;
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: var(--radius-sm);
+}
+
+#task-list button {
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  background: var(--surface-3);
+  color: var(--text);
+  color: white;
+}
+
+#goal-display {
+  padding: 16px;
+  border-radius: var(--radius-md);
+  background: rgba(79, 140, 255, 0.1);
+  border: 1px solid rgba(79, 140, 255, 0.2);
+  color: var(--text-soft);
+}
+
+.divider {
+  margin: 28px 0;
+}
+
+.footer-small {
+  font-size: 0.9rem;
+  opacity: 0.7;
+}
+
+.focus-mode-active {
+  background: #05070a !important;
+}
+
+.focus-mode-active .section,
+.focus-mode-active .card {
+  opacity: 0.92;
+}
+
+
+/* =========================================
+   FOLDER HEADER
+========================================= */
+
+.folder-header {
+
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  gap: 12px;
+
+  margin-bottom: 12px;
+
+  flex-wrap: wrap;
+  padding: 5px;
+}
+
+/* =========================================
+   ACTION BUTTONS
+========================================= */
+
+.folder-actions,
+.bookmark-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin: 5px;}
+
+  .folder-header h3{
+    border-radius: 15px;
+  }
+  
+  .folder-actions button,
+  .bookmark-actions button {
+    
+    min-width: 36px;
+    
+    min-height: 36px;
+    
+    border-radius: 8px;
+  
+    background: var(--surface-3);
+  color: var(--text);
+}

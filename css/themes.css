@@ -1,0 +1,55 @@
+
+ /* themes.css */
+
+body.light {
+  --bg: #f5f7fb;
+  --surface: #ffffff;
+  --surface-2: #eef2ff;
+  --surface-3: #dbe4ff;
+
+  --text: #111827;
+  --text-muted: #6b7280;
+  --text-soft: #374151;
+
+  --border: rgba(0, 0, 0, 0.08);
+
+  background: linear-gradient(
+    135deg,
+    #f8fafc,
+    #eef2ff,
+    #ffffff
+  );
+}
+
+body.light .card,
+body.light .section {
+  background: rgba(255, 255, 255, 0.9);
+
+  backdrop-filter: blur(10px);
+}
+
+body.light .folder {
+  background: rgba(0, 0, 0, 0.02);
+}
+
+body.light .link {
+  background: rgba(0, 0, 0, 0.03);
+}
+
+body.light .link:hover {
+  background: rgba(0, 0, 0, 0.06);
+}
+
+body.light input,
+body.light select,
+body.light textarea {
+  background: white;
+}
+
+body.light .badge {
+  background: rgba(0, 0, 0, 0.06);
+}
+
+body.light .result {
+  background: rgba(0, 0, 0, 0.03);
+}
