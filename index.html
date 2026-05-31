@@ -71,7 +71,7 @@
           class="btn btn-secondary"
           aria-label="Toggle Theme"
         >
-          🌞 Light
+          🌞
         </button>
       </div>
 
@@ -97,12 +97,7 @@
           </p>
         </div>
 
-        <button
-          id="new-quote-btn"
-          class="btn btn-primary"
-        >
-          🔄 New Quote
-        </button>
+        
 
       </div>
 
@@ -123,6 +118,12 @@
         <span id="quote-countdown">
           --
         </span>
+        <button
+          id="new-quote-btn"
+          class="btn btn-primary"
+        >
+          🔄
+        </button>
       </div>
 
     </section>
@@ -141,7 +142,7 @@
       <div class="clock-row">
 
         <!-- IST -->
-        <div class="card clock-card">
+        <div class="card clock-card" id="ist-card-clock">
 
           <div class="clock-title">
             Indian Standard Time
@@ -526,26 +527,27 @@
       <div class="goal-section">
 
         <h3>
-          🎯 Daily Goal
+          🎯 Daily Goal Items
         </h3>
 
-        <div class="goal-row">
+        <div class="task-input-row">
 
           <input
             id="goal-input"
-            placeholder="Today's goal..."
+            placeholder="Add new daily goal target..."
+            aria-label="Goal Input"
           />
 
           <button
             id="save-goal"
             class="btn btn-primary"
           >
-            Save
+            Add
           </button>
 
         </div>
 
-        <p id="goal-display"></p>
+        <div id="goal-display"></div>
 
       </div>
 
