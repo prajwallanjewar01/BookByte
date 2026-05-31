@@ -146,13 +146,13 @@ function updateToggleButton(theme) {
   if (theme === 'light') {
 
     themeToggleBtn.textContent =
-      '🌙 Dark';
+      '🌙';
   }
 
   else {
 
     themeToggleBtn.textContent =
-      '🌞 Light';
+      '🌞';
   }
 }
 

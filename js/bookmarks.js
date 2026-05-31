@@ -235,8 +235,7 @@ function handleSubmit(event) {
 
 function renderBookmarks(
   data = bookmarks
-) 
-{
+) {
 
   bookmarkList.innerHTML = '';
 
@@ -294,58 +293,37 @@ function renderBookmarks(
         'folder';
 
       folder.innerHTML = `
+          <div class="folder-header" draggable="true" data-category="${category}">
+            <div class="folder-title-group">
+              <div class="folder-drag-handle" title="Drag folder to reorder">☰</div>
+              <h3>📁 ${category} (${items.length})</h3>
+            </div>
 
-  <div class="folder-header">
+            <div class="folder-actions">
+              <button
+                data-folder-action="folder-edit"
+                id="folder-edit-btn"
+                data-category="${category}"
+                title="Rename Folder"
+              >
+                ✏️
+              </button>
+            </div>
+          </div>
 
-    <h3>
-      📁 ${category}
-      (${items.length})
-    </h3>
+          </div>
 
-    <div class="folder-actions">
+          <div class="
+            folder-content
+            ${foldersCollapsed ? 'hidden' : ''}
+          ">
 
-      <button
-        data-folder-action="folder-up"
-        id="folder-up-btn"
-        data-category="${category}"
-        title="Move Folder Up"
-        >
-        ⬆️
-        </button>
-        
-        <button
-        data-folder-action="folder-down"
-        id="folder-down-btn"
-        data-category="${category}"
-        title="Move Folder Down"
-        >
-        ⬇️
-        </button>
-        
-        <button
-        data-folder-action="folder-edit"
-        id="folder-edit-btn"
-        data-category="${category}"
-        title="Rename Folder"
-      >
-        ✏️
-      </button>
+            ${items
+                  .map(renderBookmarkCard)
+                  .join('')}
 
-    </div>
-
-  </div>
-
-  <div class="
-    folder-content
-    ${foldersCollapsed ? 'hidden' : ''}
-  ">
-
-    ${items
-      .map(renderBookmarkCard)
-      .join('')}
-
-  </div>
-`;
+          </div>
+        `;
 
       bookmarkList.appendChild(
         folder
@@ -368,51 +346,24 @@ function renderBookmarkCard(
     getVisitCount(bookmark.url);
 
   return `
-    <div
-      class="link"
-      draggable="true"
-    >
-
-      <span class="drag-handle">
-        ☰
-      </span>
-
-      <span>
-        ${bookmark.emoji}
-      </span>
-
-      <a
-        href="${bookmark.url}"
-        target="_blank"
-        rel="noopener noreferrer"
-        data-visit-url="${bookmark.url}"
-        title="${bookmark.url}"
-      >
-        ${bookmark.label}
-      </a>
-
-      <span class="badge">
-        ${visits} visits
-      </span>
+    <div class="link" draggable="true" data-id="${bookmark.id}">
+      <div class="bookmark-drag-handle" title="Drag bookmark to reorder">☰</div>
+      
+      <div class="bookmark-content-core">
+        <span>${bookmark.emoji}</span>
+        <a
+          href="${bookmark.url}"
+          target="_blank"
+          rel="noopener noreferrer"
+          data-visit-url="${bookmark.url}"
+          title="${bookmark.url}"
+        >
+          ${bookmark.label}
+        </a>
+        <span class="badge">${visits} visits</span>
+      </div>
 
       <div class="bookmark-actions">
-
-        <button
-          data-action="move-up"
-          data-id="${bookmark.id}"
-          title="Move Up"
-        >
-          ⬆️
-        </button>
-
-        <button
-          data-action="move-down"
-          data-id="${bookmark.id}"
-          title="Move Down"
-        >
-          ⬇️
-        </button>
-
         <button
           data-action="edit"
           data-id="${bookmark.id}"
@@ -420,7 +371,6 @@ function renderBookmarkCard(
         >
           ✏️
         </button>
-
         <button
           data-action="delete"
           data-id="${bookmark.id}"
@@ -428,7 +378,6 @@ function renderBookmarkCard(
         >
           🗑️
         </button>
-
       </div>
     </div>
   `;
@@ -524,7 +473,7 @@ function handleBookmarkActions(
 
   if (action === 'move-down') {
     moveBookmarkDown(id);
-  } 
+  }
 }
 
 // =========================================
@@ -728,9 +677,9 @@ function moveBookmarkUp(id) {
     bookmarks[index - 1],
     bookmarks[index]
   ] = [
-    bookmarks[index],
-    bookmarks[index - 1]
-  ];
+      bookmarks[index],
+      bookmarks[index - 1]
+    ];
 
   saveBookmarks();
 
@@ -759,9 +708,9 @@ function moveBookmarkDown(id) {
     bookmarks[index],
     bookmarks[index + 1]
   ] = [
-    bookmarks[index + 1],
-    bookmarks[index]
-  ];
+      bookmarks[index + 1],
+      bookmarks[index]
+    ];
 
   saveBookmarks();
 
@@ -901,9 +850,9 @@ function moveFolder(
     categories[index],
     categories[targetIndex]
   ] = [
-    categories[targetIndex],
-    categories[index]
-  ];
+      categories[targetIndex],
+      categories[index]
+    ];
 
   // ===============================
   // REBUILD BOOKMARK ARRAY
@@ -930,3 +879,57 @@ function moveFolder(
 
   renderBookmarks();
 }
+
+// ===================================================================
+// UNIVERSAL DRAG-AND-DROP MANAGER FOR FOLDERS AND BOOKMARKS
+// ===================================================================
+let draggedItemType = null; // 'folder' or 'bookmark'
+let draggedTargetId = null; // Stores category string or unique numeric ID
+
+// Event listener initialization attached directly inside rendering checks
+document.addEventListener("dragstart", (e) => {
+  const folderHeader = e.target.closest('.folder-header');
+  const bookmarkCard = e.target.closest('.link');
+
+  if (folderHeader) {
+    draggedItemType = 'folder';
+    draggedTargetId = folderHeader.dataset.category;
+    folderHeader.parentElement.classList.add('dragging');
+  } else if (bookmarkCard) {
+    draggedItemType = 'bookmark';
+    draggedTargetId = Number(bookmarkCard.dataset.id);
+    bookmarkCard.classList.add('dragging');
+  }
+});
+
+document.addEventListener("dragend", (e) => {
+  document.querySelectorAll('.folder, .link').forEach(el => el.classList.remove('dragging'));
+  draggedItemType = null;
+  draggedTargetId = null;
+});
+
+document.addEventListener("dragover", (e) => {
+  e.preventDefault(); // Permits drops cleanly across sub-grid rows
+});
+
+document.addEventListener("drop", (e) => {
+  if (draggedItemType === 'folder') {
+    const targetHeader = e.target.closest('.folder-header');
+    if (targetHeader && targetHeader.dataset.category !== draggedTargetId) {
+      moveFolder(draggedTargetId, targetHeader.dataset.category);
+    }
+  } else if (draggedItemType === 'bookmark') {
+    const targetCard = e.target.closest('.link');
+    if (targetCard && Number(targetCard.dataset.id) !== draggedTargetId) {
+      const sourceIndex = bookmarks.findIndex(b => b.id === draggedTargetId);
+      const targetIndex = bookmarks.findIndex(b => b.id === Number(targetCard.dataset.id));
+      
+      if (sourceIndex !== -1 && targetIndex !== -1) {
+        const [moved] = bookmarks.splice(sourceIndex, 1);
+        bookmarks.splice(targetIndex, 0, moved);
+        saveBookmarks();
+        renderBookmarks();
+      }
+    }
+  }
+});
