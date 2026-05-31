@@ -1,14 +1,21 @@
-/*  components.css */
+/* ===================================================================
+   components.css
+   BookByte Productivity OS - Consolidated Structural Components
+=================================================================== */
+
+/* =========================================
+   CARDS & SECTIONS
+========================================= */
 .card,
 .section {
   background: rgba(17, 24, 39, 0.7);
   backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
   padding: 24px;
   box-shadow: var(--shadow-md);
   transition: var(--transition);
-  
 }
 
 .card:hover,
@@ -17,6 +24,9 @@
   box-shadow: var(--shadow-lg);
 }
 
+/* =========================================
+   BUTTONS ENGINE
+========================================= */
 .btn {
   padding: 12px 18px;
   border-radius: var(--radius-sm);
@@ -61,9 +71,7 @@
 }
 
 .btn-focus {
-  background: linear-gradient(135deg,
-      #4f46e5,
-      #7c3aed);
+  background: linear-gradient(135deg, #4f46e5, #7c3aed);
   color: white;
   padding: 14px 24px;
   border-radius: 999px;
@@ -71,6 +79,9 @@
   box-shadow: var(--shadow-md);
 }
 
+/* =========================================
+   BADGES & LABELS
+========================================= */
 .badge {
   background: var(--surface-2);
   padding: 8px 12px;
@@ -79,6 +90,9 @@
   color: var(--text-soft);
 }
 
+/* =========================================
+   CLOCK MODULE COMPONENTS
+========================================= */
 .clock-card {
   position: relative;
   overflow: hidden;
@@ -91,10 +105,7 @@
   left: 0;
   width: 100%;
   height: 4px;
-  background: linear-gradient(90deg,
-      #4f8cff,
-      #8b5cf6,
-      #06b6d4);
+  background: linear-gradient(90deg, #4f8cff, #8b5cf6, #06b6d4);
 }
 
 .clock-title {
@@ -122,6 +133,9 @@
   color: var(--text-muted);
 }
 
+/* =========================================
+   GREETING & QUOTE ENGINES
+========================================= */
 #greeting-text {
   font-size: clamp(1.4rem, 3vw, 1.5rem);
   font-weight: 800;
@@ -131,17 +145,16 @@
   color: var(--text-muted);
   margin-top: 8px;
 }
-.greeting-card{
+
+.greeting-card {
   margin: 10px 0px;
-}
-.greeting-card #new-quote-btn{
-  padding: 5px 5px;
 }
 
 #quote-text {
-  font-size: 1.15rem;
+  font-size: 1.35rem;
   line-height: 1.7;
   color: var(--text-soft);
+  font-weight: 800;
 }
 
 #quote-author {
@@ -150,11 +163,32 @@
 }
 
 #quote-timer {
-  margin-top: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 12px;
+  font-size: 0.92rem;
   color: var(--text-muted);
-  font-size: 0.55rem;
 }
 
+#new-quote-btn {
+  padding: 6px 12px;
+  font-size: 0.82rem;
+  min-height: auto;
+  border-radius: 8px;
+  line-height: 1.2;
+  transition: var(--transition);
+}
+
+#new-quote-btn:hover {
+  transform: translateY(-1px);
+}
+
+/* =========================================
+   TIME CONVERTER CONTEXTS
+========================================= */
 .result {
   background: var(--surface-2);
   border: 1px dashed var(--border);
@@ -169,6 +203,13 @@
   color: var(--accent);
 }
 
+/* =========================================
+   SMART BOOKMARK MANAGER COMPONENTS
+========================================= */
+.bookmark-manager {
+  margin: 10px 0px;
+}
+
 .folder {
   margin-top: 20px;
   border: 1px solid var(--border);
@@ -177,11 +218,26 @@
   background: rgba(255, 255, 255, 0.03);
 }
 
-.folder h3 {
-  background: rgba(255, 255, 255, 0.04);
+.folder-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
   padding: 16px 18px;
-  font-size: 1rem;
+  background: rgba(255, 255, 255, 0.04);
   border-bottom: 1px solid var(--border);
+}
+
+.folder-header h3 {
+  font-size: 1rem;
+  margin: 0;
+}
+
+.folder-title-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .folder-content {
@@ -194,10 +250,11 @@
 .link {
   display: flex;
   align-items: center;
-  gap: 14px;
-  padding: 14px 16px;
+  gap: 12px;
+  padding: 8px 12px;
   border-radius: var(--radius-sm);
   background: rgba(255, 255, 255, 0.03);
+  box-sizing: border-box;
   transition: var(--transition);
 }
 
@@ -206,39 +263,56 @@
   transform: translateX(4px);
 }
 
-.link a {
+.bookmark-content-core {
   flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.bookmark-content-core a {
   font-weight: 600;
-  overflow-wrap: anywhere;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
-.drag-handle {
-  cursor: grab;
-  opacity: 0.6;
-}
-
+/* Unified Horizontal Layout for Bookmark/Folder Controls */
+.folder-actions,
 .bookmark-actions {
   display: flex;
+  align-items: center;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: flex-end;
   gap: 8px;
+  width: auto;
+  flex-shrink: 0;
 }
 
+.folder-actions button,
 .bookmark-actions button {
-  width: 36px;
+  min-width: 36px;
   height: 36px;
-  border-radius: 10px;
+  padding: 4px 8px;
+  border-radius: 8px;
   background: var(--surface-3);
   color: white;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   transition: var(--transition);
 }
 
+.folder-actions button:hover,
 .bookmark-actions button:hover {
   background: var(--accent);
 }
 
-.bookmark-manager{
-  margin: 10px 0px;
-}
-
+/* =========================================
+   POMODORO ENGINE
+========================================= */
 #pomodoro-time {
   font-size: clamp(1.5rem, 8vw, 3rem);
   font-weight: 800;
@@ -253,6 +327,9 @@
   font-size: 1.3rem;
 }
 
+/* =========================================
+   TASK ENGINE COMPONENTS
+========================================= */
 #task-list {
   display: flex;
   flex-direction: column;
@@ -260,35 +337,121 @@
   margin-top: 20px;
 }
 
-#task-list div {
+.task-item {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  gap: 16px;
-  padding: 14px 16px;
+  width: 100%;
+  padding: 10px 16px;
   background: rgba(255, 255, 255, 0.04);
   border-radius: var(--radius-sm);
+  box-sizing: border-box;
+  gap: 12px;
 }
 
-#task-list button {
+.task-left-checkbox {
+  width: 50px; 
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+}
+
+.task-text-container {
+  flex: 1;
+  min-width: 0;
+}
+
+.task-text {
+  display: block;
+  width: 100%;
+  white-space: normal;
+  word-break: break-word;
+}
+
+.task-actions {
+  width: 80px; 
+  flex-shrink: 0;
+  display: flex;
+  justify-content: flex-end;
+  gap: 6px;
+}
+
+.task-actions button {
   width: 34px;
   height: 34px;
   border-radius: 8px;
   background: var(--surface-3);
-  color: var(--text);
   color: white;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition);
 }
 
+.task-actions button:hover {
+  background: var(--accent);
+}
+
+/* =========================================
+   GLOBAL DRAG-AND-DROP SYSTEM INTERFACES
+========================================= */
+.task-drag-handle,
+.folder-drag-handle,
+.bookmark-drag-handle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  flex-shrink: 0;
+  cursor: grab;
+  font-size: 1.2rem;
+  color: var(--text-muted, #888);
+  padding: 0 4px;
+  user-select: none;
+}
+
+.task-drag-handle:active,
+.folder-drag-handle:active,
+.bookmark-drag-handle:active {
+  cursor: grabbing;
+}
+
+/* Universal Dragging Visual Accent Placeholder State */
+.task-item.dragging,
+.folder.dragging,
+.link.dragging {
+  opacity: 0.4;
+  outline: 2px dashed var(--accent-color, #4a90e2);
+  border-color: transparent;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+/* =========================================
+   DAILY GOALS & APP GENERAL LAYOUTS
+========================================= */
 #goal-display {
-  padding: 16px;
-  border-radius: var(--radius-md);
-  background: rgba(79, 140, 255, 0.1);
-  border: 1px solid rgba(79, 140, 255, 0.2);
-  color: var(--text-soft);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;         /* Creates a clean gap between each goal item */
+  margin-top: 10px;
+  min-height: 50px;
+}
+
+/* Modifies the inner items inside the goal container to clean up background spaces */
+#goal-display .goal-item {
+  background: rgba(79, 140, 255, 0.06);
+  border: 1px solid rgba(79, 140, 255, 0.15);
+  transition: var(--transition);
+}
+
+#goal-display .goal-item:hover {
+  background: rgba(79, 140, 255, 0.12);
+  border-color: rgba(79, 140, 255, 0.3);
 }
 
 .divider {
   margin: 28px 0;
+  border: 0;
+  border-top: 1px solid var(--border);
 }
 
 .footer-small {
@@ -303,54 +466,4 @@
 .focus-mode-active .section,
 .focus-mode-active .card {
   opacity: 0.92;
-}
-
-
-/* =========================================
-   FOLDER HEADER
-========================================= */
-
-.folder-header {
-
-  display: flex;
-
-  justify-content: space-between;
-
-  align-items: center;
-
-  gap: 12px;
-
-  margin-bottom: 12px;
-
-  flex-wrap: wrap;
-  padding: 5px;
-}
-
-/* =========================================
-   ACTION BUTTONS
-========================================= */
-
-.folder-actions,
-.bookmark-actions {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  flex-wrap: wrap;
-  margin: 5px;}
-
-  .folder-header h3{
-    border-radius: 15px;
-  }
-  
-  .folder-actions button,
-  .bookmark-actions button {
-    
-    min-width: 36px;
-    
-    min-height: 36px;
-    
-    border-radius: 8px;
-  
-    background: var(--surface-3);
-  color: var(--text);
 }
