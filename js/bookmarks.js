@@ -1,7 +1,6 @@
 // =========================================
 // IMPORTS
 // =========================================
-
 import {
   storage,
   STORAGE_KEYS,
@@ -12,324 +11,169 @@ import {
 // =========================================
 // STATE
 // =========================================
-
-let bookmarks =
-  storage.get(
-    STORAGE_KEYS.BOOKMARKS,
-    []
-  );
-
+let bookmarks = storage.get(STORAGE_KEYS.BOOKMARKS, []);
 let editId = null;
 
-let foldersCollapsed = false;
+// Track individually collapsed folder categories
+let collapsedFolders = new Set();
 
 // =========================================
-// ELEMENTS
+// DOM ELEMENTS
 // =========================================
-
-const form =
-  document.getElementById(
-    'bookmark-form'
-  );
-
-const bookmarkList =
-  document.getElementById(
-    'bookmark-list'
-  );
-
-const filterInput =
-  document.getElementById(
-    'filter'
-  );
-
-const countEl =
-  document.getElementById(
-    'count'
-  );
-
-const clearBtn =
-  document.getElementById(
-    'bm-clear'
-  );
-
-const toggleFoldersBtn =
-  document.getElementById(
-    'toggle-folders'
-  );
+const form = document.getElementById('bookmark-form');
+const bookmarkList = document.getElementById('bookmark-list');
+const filterInput = document.getElementById('filter');
+const countEl = document.getElementById('count');
+const clearBtn = document.getElementById('bm-clear');
+const toggleFoldersBtn = document.getElementById('toggle-folders');
 
 // =========================================
 // INIT
 // =========================================
-
 export function initBookmarks() {
-
-  // ===============================
-  // ELEMENT VALIDATION
-  // ===============================
-
-  if (
-    !form ||
-    !bookmarkList
-  ) {
-
-    console.error(
-      '❌ Bookmark module elements missing'
-    );
-
+  if (!form || !bookmarkList) {
+    console.error('❌ Bookmark module elements missing');
     return;
   }
 
-  // ===============================
-  // INITIAL RENDER
-  // ===============================
-
   renderBookmarks();
 
-  // ===============================
-  // EVENTS
-  // ===============================
+  // Primary Event Listeners
+  form.addEventListener('submit', handleSubmit);
+  bookmarkList.addEventListener('click', handleBookmarkActions);
+  filterInput?.addEventListener('input', filterBookmarks);
+  clearBtn?.addEventListener('click', clearBookmarks);
+  toggleFoldersBtn?.addEventListener('click', toggleAllFolders);
 
-  form.addEventListener(
-    'submit',
-    handleSubmit
-  );
+  // Sync with Import/Export engine
+  document.addEventListener("bookbyte:bookmarks-updated", () => {
+    bookmarks = storage.get("bookbyte-bookmarks", []);
+    renderBookmarks();
+    updateCount(bookmarks.length);
+  });
 
-  bookmarkList.addEventListener(
-    'click',
-    handleBookmarkActions
-  );
-
-  filterInput?.addEventListener(
-    'input',
-    filterBookmarks
-  );
-
-  clearBtn?.addEventListener(
-    'click',
-    clearBookmarks
-  );
-
-  toggleFoldersBtn?.addEventListener(
-    'click',
-    toggleFolders
-  );
-
-  console.log(
-    '✅ Bookmark Module Ready'
-  );
+  console.log('✅ Bookmark Module Ready');
 }
 
 // =========================================
 // HANDLE FORM SUBMIT
 // =========================================
-
 function handleSubmit(event) {
-
   event.preventDefault();
 
-  const category =
-    getInputValue('bm-category');
+  const category = getInputValue('bm-category');
+  const emoji = getInputValue('bm-emoji');
+  const label = getInputValue('bm-label');
+  const url = getInputValue('bm-url');
 
-  const emoji =
-    getInputValue('bm-emoji');
-
-  const label =
-    getInputValue('bm-label');
-
-  const url =
-    getInputValue('bm-url');
-
-  // ===============================
-  // VALIDATION
-  // ===============================
-
-  if (
-    !category ||
-    !emoji ||
-    !label ||
-    !url
-  ) {
-
-    alert(
-      'Please fill all fields.'
-    );
-
+  if (!category || !emoji || !label || !url) {
+    alert('Please fill all fields.');
     return;
   }
 
-  // ===============================
-  // DUPLICATE CHECK
-  // ===============================
-
-  const duplicate =
-    bookmarks.find(bookmark =>
-      bookmark.url === url &&
-      bookmark.id !== editId
-    );
+  const duplicate = bookmarks.find(
+    b => b.url.toLowerCase() === url.toLowerCase() && b.id !== editId
+  );
 
   if (duplicate) {
-
-    alert(
-      'Bookmark already exists.'
-    );
-
+    alert('A bookmark with this URL already exists in "' + duplicate.category + '".');
     return;
   }
 
-  // ===============================
-  // CREATE BOOKMARK
-  // ===============================
-
   const bookmark = {
-
-    id:
-      editId ||
-      Date.now(),
-
+    id: editId || Date.now(),
     category,
-
     emoji,
-
     label,
-
     url,
-
-    createdAt:
-      new Date().toISOString()
+    createdAt: new Date().toISOString()
   };
 
-  // ===============================
-  // UPDATE OR CREATE
-  // ===============================
-
   if (editId) {
-
-    bookmarks = bookmarks.map(item =>
-      item.id === editId
-        ? bookmark
-        : item
-    );
-
+    bookmarks = bookmarks.map(item => (item.id === editId ? bookmark : item));
     editId = null;
-  }
-
-  else {
-
+    resetSubmitButton();
+  } else {
     bookmarks.push(bookmark);
   }
 
-  // ===============================
-  // SAVE + RENDER
-  // ===============================
-
   saveBookmarks();
-
   renderBookmarks();
-
   form.reset();
 }
 
 // =========================================
 // RENDER BOOKMARKS
 // =========================================
-
-function renderBookmarks(
-  data = bookmarks
-) {
-
+function renderBookmarks(data = bookmarks) {
   bookmarkList.innerHTML = '';
 
-  // ===============================
-  // EMPTY STATE
-  // ===============================
-
   if (!data.length) {
-
     bookmarkList.innerHTML = `
-      <div class="card">
-        <p>No bookmarks added yet.</p>
+      <div class="card" style="text-align: center; padding: 2rem;">
+        <p style="color: var(--text-muted); margin: 0;">No bookmarks found.</p>
       </div>
     `;
-
     updateCount(0);
-
     return;
   }
 
-  // ===============================
-  // GROUP BY CATEGORY
-  // ===============================
-
   const grouped = {};
-
-  data.forEach(bookmark => {
-
-    if (
-      !grouped[bookmark.category]
-    ) {
-
-      grouped[
-        bookmark.category
-      ] = [];
+  data.forEach(bm => {
+    if (!grouped[bm.category]) {
+      grouped[bm.category] = [];
     }
-
-    grouped[
-      bookmark.category
-    ].push(bookmark);
+    grouped[bm.category].push(bm);
   });
 
-  // ===============================
-  // RENDER FOLDERS
-  // ===============================
+  Object.entries(grouped).forEach(([category, items]) => {
+    const isCollapsed = collapsedFolders.has(category);
+    const folder = document.createElement('div');
+    folder.className = 'folder';
 
-  Object.entries(grouped).forEach(
+    folder.innerHTML = `
+      <div class="folder-header" draggable="true" data-category="${escapeHTML(category)}">
+        <div class="folder-title-group">
+          <div class="folder-drag-handle" title="Drag folder to reorder">☰</div>
+          <h3 
+            data-folder-action="toggle-folder" 
+            data-category="${escapeHTML(category)}"
+            class="folder-title-text"
+            title="Click to toggle folder"
+          >
+            📁 ${escapeHTML(category)} (${items.length})
+          </h3>
+        </div>
 
-    ([category, items]) => {
+        <div class="folder-actions">
+          <button
+            type="button"
+            data-folder-action="folder-edit"
+            data-category="${escapeHTML(category)}"
+            title="Rename Folder"
+          >
+            ✏️
+          </button>
+          <button
+            type="button"
+            class="folder-collapse-btn"
+            data-folder-action="toggle-folder"
+            data-category="${escapeHTML(category)}"
+            title="${isCollapsed ? 'Expand folder' : 'Collapse folder'}"
+            aria-expanded="${!isCollapsed}"
+          >
+            ${isCollapsed ? '+' : '−'}
+          </button>
+        </div>
+      </div>
 
-      const folder =
-        document.createElement('div');
+      <div class="folder-content ${isCollapsed ? 'hidden' : ''}">
+        ${items.map(renderBookmarkCard).join('')}
+      </div>
+    `;
 
-      folder.className =
-        'folder';
-
-      folder.innerHTML = `
-          <div class="folder-header" draggable="true" data-category="${category}">
-            <div class="folder-title-group">
-              <div class="folder-drag-handle" title="Drag folder to reorder">☰</div>
-              <h3>📁 ${category} (${items.length})</h3>
-            </div>
-
-            <div class="folder-actions">
-              <button
-                data-folder-action="folder-edit"
-                id="folder-edit-btn"
-                data-category="${category}"
-                title="Rename Folder"
-              >
-                ✏️
-              </button>
-            </div>
-          </div>
-
-          </div>
-
-          <div class="
-            folder-content
-            ${foldersCollapsed ? 'hidden' : ''}
-          ">
-
-            ${items
-                  .map(renderBookmarkCard)
-                  .join('')}
-
-          </div>
-        `;
-
-      bookmarkList.appendChild(
-        folder
-      );
-    }
-  );
+    bookmarkList.appendChild(folder);
+  });
 
   updateCount(data.length);
 }
@@ -337,34 +181,30 @@ function renderBookmarks(
 // =========================================
 // RENDER SINGLE CARD
 // =========================================
-
-function renderBookmarkCard(
-  bookmark
-) {
-
-  const visits =
-    getVisitCount(bookmark.url);
+function renderBookmarkCard(bookmark) {
+  const visits = getVisitCount(bookmark.url);
 
   return `
     <div class="link" draggable="true" data-id="${bookmark.id}">
       <div class="bookmark-drag-handle" title="Drag bookmark to reorder">☰</div>
       
       <div class="bookmark-content-core">
-        <span>${bookmark.emoji}</span>
+        <span>${escapeHTML(bookmark.emoji)}</span>
         <a
-          href="${bookmark.url}"
+          href="${escapeHTML(bookmark.url)}"
           target="_blank"
           rel="noopener noreferrer"
-          data-visit-url="${bookmark.url}"
-          title="${bookmark.url}"
+          data-visit-url="${escapeHTML(bookmark.url)}"
+          title="${escapeHTML(bookmark.url)}"
         >
-          ${bookmark.label}
+          ${escapeHTML(bookmark.label)}
         </a>
         <span class="badge">${visits} visits</span>
       </div>
 
       <div class="bookmark-actions">
         <button
+          type="button"
           data-action="edit"
           data-id="${bookmark.id}"
           title="Edit Bookmark"
@@ -372,6 +212,7 @@ function renderBookmarkCard(
           ✏️
         </button>
         <button
+          type="button"
           data-action="delete"
           data-id="${bookmark.id}"
           title="Delete Bookmark"
@@ -386,507 +227,220 @@ function renderBookmarkCard(
 // =========================================
 // HANDLE ACTIONS
 // =========================================
-
-function handleBookmarkActions(
-  event
-) {
-
-  // ===============================
-  // VISIT TRACKING
-  // ===============================
-
-  const link =
-    event.target.closest('a');
-
-  if (link?.dataset.visitUrl) {
-
-    incrementVisit(
-      link.dataset.visitUrl
-    );
+function handleBookmarkActions(event) {
+  const link = event.target.closest('a[data-visit-url]');
+  if (link) {
+    incrementVisit(link.dataset.visitUrl);
   }
 
-  // ===============================
-  // FOLDER ACTIONS
-  // ===============================
+  const folderActionTrigger = event.target.closest('[data-folder-action]');
+  if (folderActionTrigger) {
+    const action = folderActionTrigger.dataset.folderAction;
+    const category = folderActionTrigger.dataset.category;
 
-  const folderAction =
-    event.target.dataset.folderAction;
-
-  const category =
-    event.target.dataset.category;
-
-  if (
-    folderAction &&
-    category
-  ) {
-
-    if (
-      folderAction === 'folder-edit'
-    ) {
-
+    if (action === 'toggle-folder') {
+      toggleSingleFolder(category);
+      return;
+    }
+    if (action === 'folder-edit') {
       renameFolder(category);
+      return;
     }
-
-    if (
-      folderAction === 'folder-up'
-    ) {
-
-      moveFolderUp(category);
-    }
-
-    if (
-      folderAction === 'folder-down'
-    ) {
-
-      moveFolderDown(category);
-    }
-
-    return;
   }
 
-  // ===============================
-  // ACTION BUTTONS
-  // ===============================
+  const btn = event.target.closest('button[data-action]');
+  if (!btn) return;
 
-  const action =
-    event.target.dataset.action;
+  const action = btn.dataset.action;
+  const id = Number(btn.dataset.id);
 
-  const id =
-    Number(
-      event.target.dataset.id
-    );
-
-  if (!action) {
-    return;
-  }
-
-  if (action === 'edit') {
-    editBookmark(id);
-  }
-
-  if (action === 'delete') {
-    deleteBookmark(id);
-  }
-  if (action === 'move-up') {
-    moveBookmarkUp(id);
-  }
-
-  if (action === 'move-down') {
-    moveBookmarkDown(id);
-  }
+  if (action === 'edit') editBookmark(id);
+  if (action === 'delete') deleteBookmark(id);
 }
 
 // =========================================
-// EDIT BOOKMARK
+// EDIT BOOKMARK (SCROLLS TO FORM SECTION)
 // =========================================
-
 function editBookmark(id) {
+  const bookmark = bookmarks.find(item => item.id === id);
+  if (!bookmark) return;
 
-  const bookmark =
-    bookmarks.find(
-      item => item.id === id
-    );
-
-  if (!bookmark) {
-    return;
-  }
-
-  setInputValue(
-    'bm-category',
-    bookmark.category
-  );
-
-  setInputValue(
-    'bm-emoji',
-    bookmark.emoji
-  );
-
-  setInputValue(
-    'bm-label',
-    bookmark.label
-  );
-
-  setInputValue(
-    'bm-url',
-    bookmark.url
-  );
+  setInputValue('bm-category', bookmark.category);
+  setInputValue('bm-emoji', bookmark.emoji);
+  setInputValue('bm-label', bookmark.label);
+  setInputValue('bm-url', bookmark.url);
 
   editId = id;
 
-  window.scrollTo({
-    top: 0,
-    behavior: 'smooth'
+  // 1. Auto-expand the Add/Update Bookmark section if collapsed
+  const addSection = form.closest('.section');
+  const addHeader = addSection?.querySelector('.section-header[role="button"]');
+  if (addHeader && addHeader.getAttribute('aria-expanded') === 'false') {
+    addHeader.click();
+  }
+
+  // 2. Scroll smoothly to the form inputs
+  form.scrollIntoView({
+    behavior: 'smooth',
+    block: 'center'
   });
+
+  // 3. Highlight button to show active edit state
+  const submitBtn = form.querySelector('button[type="submit"]');
+  if (submitBtn) {
+    submitBtn.textContent = '💾 Update Bookmark';
+    submitBtn.classList.remove('btn-primary');
+    submitBtn.classList.add('btn-warning');
+  }
+
+  setTimeout(() => {
+    document.getElementById('bm-label')?.focus();
+  }, 350);
+}
+
+function resetSubmitButton() {
+  const submitBtn = form.querySelector('button[type="submit"]');
+  if (submitBtn) {
+    submitBtn.textContent = 'Add / Update';
+    submitBtn.classList.remove('btn-warning');
+    submitBtn.classList.add('btn-primary');
+  }
 }
 
 // =========================================
 // DELETE BOOKMARK
 // =========================================
-
 function deleteBookmark(id) {
+  const confirmDelete = confirm('Delete this bookmark?');
+  if (!confirmDelete) return;
 
-  const confirmDelete =
-    confirm(
-      'Delete this bookmark?'
-    );
-
-  if (!confirmDelete) {
-    return;
-  }
-
-  bookmarks =
-    bookmarks.filter(
-      item => item.id !== id
-    );
-
+  bookmarks = bookmarks.filter(item => item.id !== id);
   saveBookmarks();
+  renderBookmarks();
+
+  if (editId === id) {
+    clearBookmarks();
+  }
+}
+
+// =========================================
+// FOLDER ACCORDION TOGGLES (+ / −)
+// =========================================
+function toggleSingleFolder(category) {
+  if (collapsedFolders.has(category)) {
+    collapsedFolders.delete(category);
+  } else {
+    collapsedFolders.add(category);
+  }
+  renderBookmarks();
+}
+
+function toggleAllFolders() {
+  const allCategories = [...new Set(bookmarks.map(b => b.category))];
+  
+  if (collapsedFolders.size >= allCategories.length) {
+    collapsedFolders.clear();
+  } else {
+    allCategories.forEach(cat => collapsedFolders.add(cat));
+  }
 
   renderBookmarks();
 }
 
 // =========================================
-// FILTER
+// SEARCH FILTER
 // =========================================
-
 function filterBookmarks() {
+  const query = filterInput.value.trim().toLowerCase();
 
-  const query =
-    filterInput.value
-      .trim()
-      .toLowerCase();
+  if (!query) {
+    renderBookmarks(bookmarks);
+    return;
+  }
 
-  const filtered =
-    bookmarks.filter(bookmark =>
-
-      bookmark.label
-        .toLowerCase()
-        .includes(query)
-
-      ||
-
-      bookmark.category
-        .toLowerCase()
-        .includes(query)
-
-      ||
-
-      bookmark.url
-        .toLowerCase()
-        .includes(query)
-    );
+  const filtered = bookmarks.filter(
+    b =>
+      b.label.toLowerCase().includes(query) ||
+      b.category.toLowerCase().includes(query) ||
+      b.url.toLowerCase().includes(query)
+  );
 
   renderBookmarks(filtered);
 }
 
 // =========================================
-// CLEAR ALL
+// CLEAR / RESET FORM
 // =========================================
-
 function clearBookmarks() {
-
   form.reset();
-
   editId = null;
-
-  console.log(
-    '🧹 Bookmark form cleared'
-  );
-}
-// =========================================
-// TOGGLE FOLDERS
-// =========================================
-
-function toggleFolders() {
-
-  foldersCollapsed =
-    !foldersCollapsed;
-
-  renderBookmarks();
-}
-
-// =========================================
-// SAVE
-// =========================================
-
-function saveBookmarks() {
-
-  storage.set(
-    STORAGE_KEYS.BOOKMARKS,
-    bookmarks
-  );
-}
-
-// =========================================
-// UPDATE COUNT
-// =========================================
-
-function updateCount(count) {
-
-  if (!countEl) {
-    return;
-  }
-
-  countEl.textContent =
-    `${count} shown`;
-}
-
-// =========================================
-// HELPERS
-// =========================================
-
-function getInputValue(id) {
-
-  const element =
-    document.getElementById(id);
-
-  return element
-    ? element.value.trim()
-    : '';
-}
-
-function setInputValue(
-  id,
-  value
-) {
-
-  const element =
-    document.getElementById(id);
-
-  if (element) {
-
-    element.value = value;
-  }
-}
-
-// =========================================
-// MOVE BOOKMARK UP
-// =========================================
-
-function moveBookmarkUp(id) {
-
-  const index =
-    bookmarks.findIndex(
-      item => item.id === id
-    );
-
-  if (index <= 0) {
-    return;
-  }
-
-  [
-    bookmarks[index - 1],
-    bookmarks[index]
-  ] = [
-      bookmarks[index],
-      bookmarks[index - 1]
-    ];
-
-  saveBookmarks();
-
-  renderBookmarks();
-}
-
-// =========================================
-// MOVE BOOKMARK DOWN
-// =========================================
-
-function moveBookmarkDown(id) {
-
-  const index =
-    bookmarks.findIndex(
-      item => item.id === id
-    );
-
-  if (
-    index === -1 ||
-    index >= bookmarks.length - 1
-  ) {
-    return;
-  }
-
-  [
-    bookmarks[index],
-    bookmarks[index + 1]
-  ] = [
-      bookmarks[index + 1],
-      bookmarks[index]
-    ];
-
-  saveBookmarks();
-
-  renderBookmarks();
+  resetSubmitButton();
 }
 
 // =========================================
 // RENAME FOLDER
 // =========================================
-
 function renameFolder(category) {
+  const updated = prompt('Rename folder:', category);
+  if (updated === null) return;
 
-  const updated =
-    prompt(
-      'Rename folder:',
-      category
-    );
-
-  if (!updated) {
-    return;
-  }
-
-  const trimmed =
-    updated.trim();
-
+  const trimmed = updated.trim();
   if (!trimmed) {
+    alert('Folder name cannot be empty.');
     return;
   }
 
   bookmarks = bookmarks.map(item => {
-
-    if (
-      item.category === category
-    ) {
-
-      return {
-
-        ...item,
-
-        category: trimmed
-      };
+    if (item.category === category) {
+      return { ...item, category: trimmed };
     }
-
     return item;
   });
 
-  saveBookmarks();
+  if (collapsedFolders.has(category)) {
+    collapsedFolders.delete(category);
+    collapsedFolders.add(trimmed);
+  }
 
+  saveBookmarks();
   renderBookmarks();
 }
 
 // =========================================
-// MOVE FOLDER UP
+// STORAGE & UTILITIES
 // =========================================
-
-function moveFolderUp(category) {
-
-  moveFolder(
-    category,
-    'up'
-  );
+function saveBookmarks() {
+  storage.set(STORAGE_KEYS.BOOKMARKS, bookmarks);
 }
 
-// =========================================
-// MOVE FOLDER DOWN
-// =========================================
-
-function moveFolderDown(category) {
-
-  moveFolder(
-    category,
-    'down'
-  );
+function updateCount(count) {
+  if (countEl) {
+    countEl.textContent = `${count} shown`;
+  }
 }
 
-// =========================================
-// MOVE FOLDER CORE
-// =========================================
+function getInputValue(id) {
+  const el = document.getElementById(id);
+  return el ? el.value.trim() : '';
+}
 
-function moveFolder(
-  category,
-  direction
-) {
+function setInputValue(id, value) {
+  const el = document.getElementById(id);
+  if (el) el.value = value;
+}
 
-  // ===============================
-  // UNIQUE CATEGORY ORDER
-  // ===============================
-
-  const categories = [
-
-    ...new Set(
-
-      bookmarks.map(
-        item => item.category
-      )
-    )
-  ];
-
-  const index =
-    categories.indexOf(
-      category
-    );
-
-  // ===============================
-  // EDGE CASES
-  // ===============================
-
-  if (
-    direction === 'up' &&
-    index <= 0
-  ) {
-    return;
-  }
-
-  if (
-    direction === 'down' &&
-    index >= categories.length - 1
-  ) {
-    return;
-  }
-
-  // ===============================
-  // TARGET INDEX
-  // ===============================
-
-  const targetIndex =
-
-    direction === 'up'
-      ? index - 1
-      : index + 1;
-
-  // ===============================
-  // SWAP
-  // ===============================
-
-  [
-    categories[index],
-    categories[targetIndex]
-  ] = [
-      categories[targetIndex],
-      categories[index]
-    ];
-
-  // ===============================
-  // REBUILD BOOKMARK ARRAY
-  // ===============================
-
-  const reordered = [];
-
-  categories.forEach(cat => {
-
-    bookmarks
-      .filter(
-        item =>
-          item.category === cat
-      )
-      .forEach(item => {
-
-        reordered.push(item);
-      });
-  });
-
-  bookmarks = reordered;
-
-  saveBookmarks();
-
-  renderBookmarks();
+function escapeHTML(text) {
+  const div = document.createElement('div');
+  div.textContent = text;
+  return div.innerHTML;
 }
 
 // ===================================================================
-// UNIVERSAL DRAG-AND-DROP MANAGER FOR FOLDERS AND BOOKMARKS
+// DRAG AND DROP HANDLERS
 // ===================================================================
-let draggedItemType = null; // 'folder' or 'bookmark'
-let draggedTargetId = null; // Stores category string or unique numeric ID
+let draggedItemType = null;
+let draggedTargetId = null;
 
-// Event listener initialization attached directly inside rendering checks
 document.addEventListener("dragstart", (e) => {
   const folderHeader = e.target.closest('.folder-header');
   const bookmarkCard = e.target.closest('.link');
@@ -902,14 +456,14 @@ document.addEventListener("dragstart", (e) => {
   }
 });
 
-document.addEventListener("dragend", (e) => {
+document.addEventListener("dragend", () => {
   document.querySelectorAll('.folder, .link').forEach(el => el.classList.remove('dragging'));
   draggedItemType = null;
   draggedTargetId = null;
 });
 
 document.addEventListener("dragover", (e) => {
-  e.preventDefault(); // Permits drops cleanly across sub-grid rows
+  e.preventDefault();
 });
 
 document.addEventListener("drop", (e) => {
@@ -923,7 +477,7 @@ document.addEventListener("drop", (e) => {
     if (targetCard && Number(targetCard.dataset.id) !== draggedTargetId) {
       const sourceIndex = bookmarks.findIndex(b => b.id === draggedTargetId);
       const targetIndex = bookmarks.findIndex(b => b.id === Number(targetCard.dataset.id));
-      
+
       if (sourceIndex !== -1 && targetIndex !== -1) {
         const [moved] = bookmarks.splice(sourceIndex, 1);
         bookmarks.splice(targetIndex, 0, moved);
@@ -933,3 +487,23 @@ document.addEventListener("drop", (e) => {
     }
   }
 });
+
+function moveFolder(fromCat, toCat) {
+  const categories = [...new Set(bookmarks.map(item => item.category))];
+  const fromIdx = categories.indexOf(fromCat);
+  const toIdx = categories.indexOf(toCat);
+
+  if (fromIdx === -1 || toIdx === -1 || fromIdx === toIdx) return;
+
+  const [movedCat] = categories.splice(fromIdx, 1);
+  categories.splice(toIdx, 0, movedCat);
+
+  const reordered = [];
+  categories.forEach(cat => {
+    bookmarks.filter(b => b.category === cat).forEach(b => reordered.push(b));
+  });
+
+  bookmarks = reordered;
+  saveBookmarks();
+  renderBookmarks();
+}

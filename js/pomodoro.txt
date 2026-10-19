@@ -1,0 +1,286 @@
+// =========================================
+// DOM ELEMENTS HOOK SELECTION
+// =========================================
+const container = document.getElementById('pomodoro-container');
+const modeText = document.getElementById('pomodoro-mode');
+const startBtn = document.getElementById('pomodoro-start');
+const resetBtn = document.getElementById('pomodoro-reset');
+const fullscreenBtn = document.getElementById('pomodoro-fullscreen');
+const exitFullscreenBtn = document.getElementById('pomodoro-exit-fullscreen');
+
+const modeFocusBtn = document.getElementById('mode-focus');
+const modeShortBtn = document.getElementById('mode-short');
+const modeLongBtn = document.getElementById('mode-long');
+
+// =========================================
+// RUNTIME INTERVAL STRUCTURES
+// =========================================
+const MODES = {
+  focus: { duration: 25 * 60, label: 'Focus Mode' },
+  shortBreak: { duration: 5 * 60, label: 'Short Break' },
+  longBreak: { duration: 15 * 60, label: 'Long Break' }
+};
+
+let currentMode = 'focus';
+let remainingSeconds = MODES[currentMode].duration;
+let timerInterval = null;
+let isRunning = false;
+
+// Memory buffer array tracking digit positions to optimize animation loops
+let previousDigits = ["0", "0", "0", "0", "0", "0"];
+
+// Central audio buffer reference to guarantee rapid re-firing
+let audioContextBuffer = null;
+
+// =========================================
+// SYSTEM INITIALIZATION
+// =========================================
+export function initPomodoro() {
+  if (!startBtn || !container) {
+    console.error('❌ Pomodoro core layout targets missing');
+    return;
+  }
+
+  // Initial execution sync mapping pass
+  syncTimerToFlaps(remainingSeconds, true);
+  updateModeUI();
+
+  // Primary Listeners
+  startBtn.addEventListener('click', toggleTimer);
+  resetBtn.addEventListener('click', resetTimer);
+  fullscreenBtn.addEventListener('click', enterFullscreen);
+  exitFullscreenBtn.addEventListener('click', exitFullscreen);
+
+  // Tab Adjusters
+  modeFocusBtn.addEventListener('click', () => changeIntervalMode('focus'));
+  modeShortBtn.addEventListener('click', () => changeIntervalMode('shortBreak'));
+  modeLongBtn.addEventListener('click', () => changeIntervalMode('longBreak'));
+
+  document.addEventListener('fullscreenchange', handleFullscreenStateChange);
+
+  // Pre-load audio link parameters to prevent click lag latency spikes
+  preloadAudioEngine();
+
+  console.log('✅ 3D Split-Flap Pomodoro Ready');
+}
+
+function changeIntervalMode(mode) {
+  if (isRunning) {
+    const swapConfirmation = confirm("An active session is currently running. Switch modes?");
+    if (!swapConfirmation) return;
+  }
+  pauseTimer();
+  currentMode = mode;
+  remainingSeconds = MODES[currentMode].duration;
+  updateModeUI();
+  syncTimerToFlaps(remainingSeconds, true);
+}
+
+function toggleTimer() {
+  if (isRunning) {
+    pauseTimer();
+  } else {
+    startTimer();
+  }
+}
+
+function startTimer() {
+  if (timerInterval) clearInterval(timerInterval);
+  isRunning = true;
+  updateStartControlsUI();
+
+  // Slide up task and darken components
+  container.classList.add('timer-running');
+
+  // Lock absolute time markers to prevent system CPU hibernation throttle slips
+  const absoluteTerminalTime = Date.now() + remainingSeconds * 1000;
+
+  timerInterval = setInterval(() => {
+    remainingSeconds = Math.round((absoluteTerminalTime - Date.now()) / 1000);
+
+    if (remainingSeconds <= 0) {
+      remainingSeconds = 0;
+      syncTimerToFlaps(remainingSeconds, false);
+      sessionCompletionWorkflow();
+    } else {
+      syncTimerToFlaps(remainingSeconds, false);
+    }
+  }, 1000);
+}
+
+function pauseTimer() {
+  clearInterval(timerInterval);
+  timerInterval = null;
+  isRunning = false;
+  updateStartControlsUI();
+  container.classList.remove('timer-running');
+}
+
+function resetTimer() {
+  pauseTimer();
+  remainingSeconds = MODES[currentMode].duration;
+  syncTimerToFlaps(remainingSeconds, true);
+}
+
+function sessionCompletionWorkflow() {
+  pauseTimer();
+  playAlertChime(true); // Terminal completion tone alert
+
+  let postCycleContext = "";
+  if (currentMode === 'focus') {
+    postCycleContext = "🎉 Focus interval completed beautifully! Initializing break options.";
+    changeIntervalMode('shortBreak');
+  } else {
+    postCycleContext = "☕ Break cycle completed. Ready to optimize focus pools?";
+    changeIntervalMode('focus');
+  }
+  
+  setTimeout(() => alert(postCycleContext), 150);
+}
+
+// =========================================
+// RE-EVALUATION DIGIT TRANSFORMATION LAYER
+// =========================================
+function syncTimerToFlaps(totalSeconds, absoluteOverride = false) {
+  const hours = Math.floor(totalSeconds / 3600);
+  const minutes = Math.floor((totalSeconds % 3600) / 60);
+  const seconds = totalSeconds % 60;
+
+  const hString = String(hours).padStart(2, '0');
+  const mString = String(minutes).padStart(2, '0');
+  const sString = String(seconds).padStart(2, '0');
+
+  const currentDigitMatrix = [hString[0], hString[1], mString[0], mString[1], sString[0], sString[1]];
+  const structuralNodeIds = ["h1", "h2", "m1", "m2", "s1", "s2"];
+
+  let continuousMechanicalClickPlayed = false;
+
+  currentDigitMatrix.forEach((activeValue, slotIndex) => {
+    const targetedDomId = structuralNodeIds[slotIndex];
+    if (absoluteOverride || previousDigits[slotIndex] !== activeValue) {
+      
+      // Fire generic ticking auditory updates for active changing parameters
+      if (!absoluteOverride && !continuousMechanicalClickPlayed) {
+        playAlertChime(false);
+        continuousMechanicalClickPlayed = true;
+      }
+      
+      executeMechanicalFlapRotation(targetedDomId, previousDigits[slotIndex], activeValue, absoluteOverride);
+    }
+  });
+
+  previousDigits = [...currentDigitMatrix];
+
+  // Map header tab updates cleanly
+  const outputString = `${mString}:${sString}`;
+  document.title = isRunning ? `(${outputString}) ${MODES[currentMode].label}` : `🔖 BookByte Productivity OS`;
+}
+
+/**
+ * Orchestrates physical panel rotations via programmatic layer insertion arrays
+ */
+function executeMechanicalFlapRotation(nodeId, staleValue, freshValue, instantForcedSync) {
+  const parentNode = document.getElementById(nodeId);
+  if (!parentNode) return;
+
+  const topNodeSpan = parentNode.querySelector('.card-top span');
+  const bottomNodeSpan = parentNode.querySelector('.card-bottom span');
+
+  if (instantForcedSync) {
+    if (topNodeSpan) topNodeSpan.textContent = freshValue;
+    if (bottomNodeSpan) bottomNodeSpan.textContent = freshValue;
+    return;
+  }
+
+  // Generate the overlapping moving flap sheet
+  const dynamicFlap = document.createElement('div');
+  dynamicFlap.className = 'card-flip-surface card-top';
+  dynamicFlap.innerHTML = `<span>${staleValue}</span>`;
+  parentNode.appendChild(dynamicFlap);
+
+  // Instantly update backend backdrop fields safely
+  if (topNodeSpan) topNodeSpan.textContent = freshValue;
+
+  // Trigger hardware accelerated animation parameters
+  dynamicFlap.classList.add('flip-down');
+  
+  dynamicFlap.addEventListener('animationend', () => {
+    if (bottomNodeSpan) bottomNodeSpan.textContent = freshValue;
+    dynamicFlap.remove(); // Keep active memory heaps clear
+  });
+}
+
+// =========================================
+// VISUAL DESIGN COMPONENT SETTERS
+// =========================================
+function updateModeUI() {
+  modeText.textContent = MODES[currentMode].label;
+  modeFocusBtn.className = currentMode === 'focus' ? 'btn btn-primary btn-sm' : 'btn btn-secondary btn-sm';
+  modeShortBtn.className = currentMode === 'shortBreak' ? 'btn btn-primary btn-sm' : 'btn btn-secondary btn-sm';
+  modeLongBtn.className = currentMode === 'longBreak' ? 'btn btn-primary btn-sm' : 'btn btn-secondary btn-sm';
+}
+
+function updateStartControlsUI() {
+  startBtn.textContent = isRunning ? 'Pause' : 'Start';
+  startBtn.className = isRunning ? 'btn btn-warning' : 'btn btn-primary';
+}
+
+function enterFullscreen() {
+  if (container.requestFullscreen) {
+    container.requestFullscreen().catch(err => console.warn(err.message));
+  }
+  container.classList.add('pomodoro-fullscreen');
+}
+
+function exitFullscreen() {
+  if (document.fullscreenElement) document.exitFullscreen();
+  container.classList.remove('pomodoro-fullscreen');
+}
+
+function handleFullscreenStateChange() {
+  if (!document.fullscreenElement) container.classList.remove('pomodoro-fullscreen');
+}
+
+// =========================================
+// AUDIO SIGNAL CONTROLLERS
+// =========================================
+function preloadAudioEngine() {
+  try {
+    audioContextBuffer = new Audio('https://actions.google.com/sounds/v1/alarms/digital_watch_alarm_long.ogg');
+    audioContextBuffer.load();
+  } catch (e) {
+    console.warn("Audio array allocation delayed", e);
+  }
+}
+
+function playAlertChime(isTerminalCompletionTone = false) {
+  try {
+    if (isTerminalCompletionTone) {
+      if (audioContextBuffer) {
+        audioContextBuffer.play();
+      } else {
+        const fallbackAudio = new Audio('https://actions.google.com/sounds/v1/alarms/digital_watch_alarm_long.ogg');
+        fallbackAudio.play();
+      }
+    } else {
+      // Subdued mechanical tactile response frequency tone (Simulates hardware split-flap switches)
+      const executionContext = new (window.AudioContext || window.webkitAudioContext)();
+      const audioOscillator = executionContext.createOscillator();
+      const structuralGainNode = executionContext.createGain();
+
+      audioOscillator.type = 'triangle';
+      audioOscillator.frequency.setValueAtTime(140, executionContext.currentTime); // Low physical transient thump frequency
+      
+      structuralGainNode.gain.setValueAtTime(0.06, executionContext.currentTime); // Subtle volume profile to prevent user exhaustion
+      structuralGainNode.gain.exponentialRampToValueAtTime(0.001, executionContext.currentTime + 0.04);
+
+      audioOscillator.connect(structuralGainNode);
+      structuralGainNode.connect(executionContext.destination);
+      
+      audioOscillator.start();
+      audioOscillator.stop(executionContext.currentTime + 0.05);
+    }
+  } catch (error) {
+    // Intercept default browser initialization auto-play restriction blocks gracefully
+  }
+}

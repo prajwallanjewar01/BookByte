@@ -40,7 +40,7 @@ const newQuoteBtn =
 // CONFIG
 // =========================================
 
-const QUOTE_REFRESH_SECONDS = 3600;
+const QUOTE_REFRESH_SECONDS = 600;
 
 let countdown =
   QUOTE_REFRESH_SECONDS;

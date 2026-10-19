@@ -1,6 +1,4 @@
-import {
-  storage
-} from "./storage.js";
+import { storage } from "./storage.js";
 
 // =========================================
 // STORAGE KEYS
@@ -9,115 +7,120 @@ const TASKS_KEY = "tasks";
 const GOALS_KEY = "dailyGoalsList";
 
 // =========================================
-// STATE
+// STATE & SANITIZATION
 // =========================================
-let tasks = storage.get(TASKS_KEY, []);
-let goals = storage.get(GOALS_KEY, []);
+// Sanitize tasks on load to ensure every item has a resolvable ID
+let tasks = (storage.get(TASKS_KEY, []) || []).map((task, idx) => ({
+  id: task && task.id ? task.id : Date.now() + idx,
+  text: task && typeof task.text === "string" ? task.text : "",
+  completed: Boolean(task && task.completed),
+  createdAt: task && task.createdAt ? task.createdAt : new Date().toISOString()
+}));
+
+let goals = (storage.get(GOALS_KEY, []) || []).map((goal, idx) => ({
+  id: goal && goal.id ? goal.id : Date.now() + idx,
+  text: goal && typeof goal.text === "string" ? goal.text : "",
+  createdAt: goal && goal.createdAt ? goal.createdAt : new Date().toISOString()
+}));
 
 // =========================================
-// ELEMENTS
+// DOM ELEMENTS
 // =========================================
-const list = document.getElementById("task-list");
-const addBtn = document.getElementById("add-task");
-const input = document.getElementById("task-input");
+const taskList = document.getElementById("task-list");
+const addTaskBtn = document.getElementById("add-task");
+const taskInput = document.getElementById("task-input");
 
-// =========================================
-// GOAL ELEMENTS
-// =========================================
 const goalInput = document.getElementById("goal-input");
 const saveGoalBtn = document.getElementById("save-goal");
-const goalDisplay = document.getElementById("goal-display");  
+const goalDisplay = document.getElementById("goal-display");
 
 // =========================================
-// DRAG STATE (COMPARTMENTALIZED)
+// DRAG-AND-DROP STATE
 // =========================================
-let draggedIndex = null;
+let draggedTaskIndex = null;
 let draggedGoalIndex = null;
 
 // =========================================
-// INIT
+// INITIALIZATION
 // =========================================
 export function initTasks() {
-  if (!list || !addBtn || !input) {
-    console.error("❌ Task elements missing");
+  if (!taskList || !addTaskBtn || !taskInput) {
+    console.error("❌ Task module elements missing");
     return;
   }
 
   renderTasks();
-  renderGoalsList(); // Safely triggers the dynamic goals array engine
+  renderGoalsList();
 
-  // ===============================
-  // EVENTS
-  // ===============================
-  addBtn.addEventListener("click", addTask);
-  
+  // Primary Button Triggers
+  addTaskBtn.addEventListener("click", addTask);
+
   if (saveGoalBtn) {
     saveGoalBtn.addEventListener("click", saveGoal);
   }
 
-  // ===============================
-  // ENTER KEY LISTENERS
-  // ===============================
-  input.addEventListener("keypress", event => {
+  // Keyboard Submissions (Preventing double-trigger anomalies)
+  taskInput.addEventListener("keydown", (event) => {
     if (event.key === "Enter") {
+      event.preventDefault();
       addTask();
     }
   });
 
   if (goalInput) {
-    goalInput.addEventListener("keypress", event => {
+    goalInput.addEventListener("keydown", (event) => {
       if (event.key === "Enter") {
+        event.preventDefault();
         saveGoal();
       }
     });
   }
 
-  // ===============================
-  // EVENT DELEGATION
-  // ===============================
-  list.addEventListener("click", handleActions);
+  // Event Delegation Routers
+  taskList.addEventListener("click", handleTaskActions);
 
   if (goalDisplay) {
     goalDisplay.addEventListener("click", handleGoalActions);
   }
 
-  console.log("✅ Tasks & Goals Ready");
+  console.log("✅ Tasks & Goals Module Ready");
 }
 
 // =========================================
-// ADD TASK
+// TASK MANAGEMENT
 // =========================================
 function addTask() {
-  const value = input.value.trim();
+  const rawValue = taskInput.value || "";
+  const trimmedValue = rawValue.trim();
 
-  if (!value) {
-    alert("Please enter a task.");
+  // Strict check: rejects empty strings, single spaces, double spaces, and pure whitespace
+  if (!trimmedValue || !/\S/.test(trimmedValue)) {
+    alert("Please enter a valid task name (spaces alone are not allowed).");
+    taskInput.value = "";
+    taskInput.focus();
     return;
   }
 
-  const task = {
+  const newTask = {
     id: Date.now(),
-    text: value,
+    text: trimmedValue,
     completed: false,
     createdAt: new Date().toISOString()
   };
 
-  tasks.unshift(task);
+  tasks.unshift(newTask);
   saveTasks();
   renderTasks();
 
-  input.value = "";
-  input.focus();
+  taskInput.value = "";
+  taskInput.focus();
 }
 
-// =========================================
-// RENDER TASKS
-// =========================================
 function renderTasks() {
-  list.innerHTML = "";
+  taskList.innerHTML = "";
 
   if (!tasks.length) {
-    list.innerHTML = `
+    taskList.innerHTML = `
       <div class="card">
         <p>No tasks added yet.</p>
       </div>
@@ -131,6 +134,11 @@ function renderTasks() {
     item.draggable = true;
     item.dataset.index = index;
 
+    // Render placeholder if task is unnamed so delete controls remain visible and functional
+    const displayText = task.text && task.text.trim()
+      ? escapeHTML(task.text)
+      : `<em style="opacity: 0.6; font-style: italic;">(Untitled Task)</em>`;
+
     item.innerHTML = `
       <div class="task-drag-handle" title="Drag to reorder">☰</div>
 
@@ -140,12 +148,13 @@ function renderTasks() {
           data-action="toggle"
           data-id="${task.id}"
           ${task.completed ? "checked" : ""}
+          aria-label="Mark task as complete"
         />
       </div>
 
       <div class="task-text-container">
-        <span class="task-text ${task.completed ? 'completed' : ''}">
-          ${escapeHTML(task.text)}
+        <span class="task-text ${task.completed ? "completed" : ""}">
+          ${displayText}
         </span>
       </div>
 
@@ -154,6 +163,7 @@ function renderTasks() {
           data-action="edit"
           data-id="${task.id}"
           title="Edit"
+          aria-label="Edit task"
         >
           ✏️
         </button>
@@ -161,110 +171,149 @@ function renderTasks() {
           data-action="delete"
           data-id="${task.id}"
           title="Delete"
+          aria-label="Delete task"
         >
           ❌
         </button>
       </div>
     `;
 
-    // DESKTOP MOUSE DRAG EVENTS
+    // Desktop Drag-and-Drop
     item.addEventListener("dragstart", () => {
-      draggedIndex = index;
+      draggedTaskIndex = index;
       item.classList.add("dragging");
     });
 
     item.addEventListener("dragend", () => {
       item.classList.remove("dragging");
-      draggedIndex = null;
+      draggedTaskIndex = null;
     });
 
     item.addEventListener("dragover", (e) => e.preventDefault());
 
     item.addEventListener("drop", () => {
-      moveTask(draggedIndex, index);
+      moveTask(draggedTaskIndex, index);
     });
 
-    // MOBILE TOUCH DRAG EVENTS
-    const handle = item.querySelector('.task-drag-handle');
+    // Mobile Touch Drag-and-Drop
+    const handle = item.querySelector(".task-drag-handle");
     if (handle) {
-      handle.addEventListener('touchstart', (e) => {
-        draggedIndex = index;
-        item.classList.add('dragging');
+      handle.addEventListener("touchstart", (e) => {
+        draggedTaskIndex = index;
+        item.classList.add("dragging");
         e.stopPropagation();
       }, { passive: true });
 
-      handle.addEventListener('touchmove', (e) => {
+      handle.addEventListener("touchmove", (e) => {
         e.preventDefault();
-        const touchLocation = e.touches[0];
-        const targetElement = document.elementFromPoint(touchLocation.clientX, touchLocation.clientY);
-        const closestItem = targetElement?.closest('.task-item');
-        
-        if (closestItem && closestItem !== item && !closestItem.classList.contains('goal-item')) {
+        const touch = e.touches[0];
+        const targetElement = document.elementFromPoint(touch.clientX, touch.clientY);
+        const closestItem = targetElement?.closest(".task-item");
+
+        if (closestItem && closestItem !== item && !closestItem.classList.contains("goal-item")) {
           const targetIndex = Number(closestItem.dataset.index);
-          if (!isNaN(targetIndex) && targetIndex !== draggedIndex) {
-            moveTask(draggedIndex, targetIndex);
-            draggedIndex = targetIndex; 
+          if (!isNaN(targetIndex) && targetIndex !== draggedTaskIndex) {
+            moveTask(draggedTaskIndex, targetIndex);
+            draggedTaskIndex = targetIndex;
           }
         }
       }, { passive: false });
 
-      handle.addEventListener('touchend', () => {
-        item.classList.remove('dragging');
-        draggedIndex = null;
+      handle.addEventListener("touchend", () => {
+        item.classList.remove("dragging");
+        draggedTaskIndex = null;
       });
     }
 
-    list.appendChild(item);
+    taskList.appendChild(item);
   });
 }
 
-// =========================================
-// ACTION DELEGATION FRAMEWORKS
-// =========================================
-function handleActions(event) {
-  const targetBtn = event.target.closest('button') || event.target;
-  const action = targetBtn.dataset.action || event.target.dataset.action;
-  const id = Number(targetBtn.dataset.id || event.target.dataset.id);
-
-  if (event.target.type === "checkbox") {
-    const checkId = Number(event.target.dataset.id);
-    toggleTask(checkId);
+function handleTaskActions(event) {
+  // Checkbox toggle
+  const checkbox = event.target.closest('input[data-action="toggle"]');
+  if (checkbox) {
+    const id = checkbox.dataset.id;
+    const item = checkbox.closest(".task-item");
+    const index = item ? Number(item.dataset.index) : -1;
+    toggleTask(id, index);
     return;
   }
 
-  if (!action || !id) return;
+  // Button actions
+  const button = event.target.closest("button[data-action]");
+  if (!button) return;
 
-  if (action === "delete") deleteTask(id);
-  if (action === "edit") editTask(id);
+  const action = button.dataset.action;
+  const id = button.dataset.id;
+  const item = button.closest(".task-item");
+  const index = item ? Number(item.dataset.index) : -1;
+
+  if (action === "delete") {
+    deleteTask(id, index);
+  } else if (action === "edit") {
+    editTask(id, index);
+  }
 }
 
-function deleteTask(id) {
-  tasks = tasks.filter(task => task.id !== id);
-  saveTasks();
-  renderTasks();
+function deleteTask(id, index) {
+  let targetIndex = -1;
+
+  // Primary: Match by ID using string comparison to bridge string/numeric IDs safely
+  if (id !== undefined && id !== null && id !== "" && id !== "undefined") {
+    targetIndex = tasks.findIndex((task) => String(task.id) === String(id));
+  }
+
+  // Secondary Fallback: Match by DOM dataset index if ID is absent or corrupted
+  if (targetIndex === -1 && typeof index === "number" && index >= 0 && index < tasks.length) {
+    targetIndex = index;
+  }
+
+  if (targetIndex !== -1) {
+    tasks.splice(targetIndex, 1);
+    saveTasks();
+    renderTasks();
+  }
 }
 
-function toggleTask(id) {
-  tasks = tasks.map(task => {
-    if (task.id === id) {
-      return { ...task, completed: !task.completed };
-    }
-    return task;
-  });
-  saveTasks();
-  renderTasks();
+function toggleTask(id, index) {
+  let targetIndex = -1;
+
+  if (id !== undefined && id !== null && id !== "" && id !== "undefined") {
+    targetIndex = tasks.findIndex((task) => String(task.id) === String(id));
+  }
+
+  if (targetIndex === -1 && typeof index === "number" && index >= 0 && index < tasks.length) {
+    targetIndex = index;
+  }
+
+  if (targetIndex !== -1) {
+    tasks[targetIndex].completed = !tasks[targetIndex].completed;
+    saveTasks();
+    renderTasks();
+  }
 }
 
-function editTask(id) {
-  const task = tasks.find(t => t.id === id);
-  if (!task) return;
+function editTask(id, index) {
+  let targetIndex = -1;
 
-  const updated = prompt("Edit task:", task.text);
-  if (updated === null) return;
+  if (id !== undefined && id !== null && id !== "" && id !== "undefined") {
+    targetIndex = tasks.findIndex((task) => String(task.id) === String(id));
+  }
 
-  const trimmed = updated.trim();
-  if (!trimmed) {
-    alert("Task cannot be empty.");
+  if (targetIndex === -1 && typeof index === "number" && index >= 0 && index < tasks.length) {
+    targetIndex = index;
+  }
+
+  if (targetIndex === -1) return;
+
+  const task = tasks[targetIndex];
+  const updatedText = prompt("Edit task:", task.text || "");
+  if (updatedText === null) return;
+
+  const trimmed = updatedText.trim();
+  if (!trimmed || !/\S/.test(trimmed)) {
+    alert("Task cannot be empty or only spaces.");
     return;
   }
 
@@ -273,10 +322,10 @@ function editTask(id) {
   renderTasks();
 }
 
-function moveTask(from, to) {
-  if (from === null || to === null || from === to) return;
-  const moved = tasks.splice(from, 1)[0];
-  tasks.splice(to, 0, moved);
+function moveTask(fromIndex, toIndex) {
+  if (fromIndex === null || toIndex === null || fromIndex === toIndex) return;
+  const [moved] = tasks.splice(fromIndex, 1);
+  tasks.splice(toIndex, 0, moved);
   saveTasks();
   renderTasks();
 }
@@ -285,26 +334,23 @@ function saveTasks() {
   storage.set(TASKS_KEY, tasks);
 }
 
-function escapeHTML(text) {
-  const div = document.createElement("div");
-  div.textContent = text;
-  return div.innerHTML;
-}
-
 // =========================================
-// MULTI-GOAL ENGINE MANAGEMENT
+// GOAL MANAGEMENT
 // =========================================
 function saveGoal() {
-  const goalValue = goalInput.value.trim();
+  const rawValue = goalInput.value || "";
+  const trimmedValue = rawValue.trim();
 
-  if (!goalValue) {
-    alert("Please enter a goal.");
+  if (!trimmedValue || !/\S/.test(trimmedValue)) {
+    alert("Please enter a valid goal (spaces alone are not allowed).");
+    goalInput.value = "";
+    goalInput.focus();
     return;
   }
 
   const newGoal = {
     id: Date.now(),
-    text: goalValue,
+    text: trimmedValue,
     createdAt: new Date().toISOString()
   };
 
@@ -331,16 +377,19 @@ function renderGoalsList() {
 
   goals.forEach((goal, index) => {
     const goalItem = document.createElement("div");
-    goalItem.className = "task-item goal-item"; 
+    goalItem.className = "task-item goal-item";
     goalItem.draggable = true;
     goalItem.dataset.index = index;
 
-    // Assembled markup first so selectors exist inside DOM nodes correctly
+    const displayText = goal.text && goal.text.trim()
+      ? escapeHTML(goal.text)
+      : `<em style="opacity: 0.6; font-style: italic;">(Untitled Goal)</em>`;
+
     goalItem.innerHTML = `
       <div class="task-drag-handle" title="Drag to reorder">☰</div>
-      
+
       <div class="task-text-container" style="padding-left: 8px;">
-        <span class="task-text">🎯 ${escapeHTML(goal.text)}</span>
+        <span class="task-text">🎯 ${displayText}</span>
       </div>
 
       <div class="task-actions">
@@ -348,6 +397,7 @@ function renderGoalsList() {
           data-goal-action="edit"
           data-id="${goal.id}"
           title="Edit Goal"
+          aria-label="Edit goal"
         >
           ✏️
         </button>
@@ -355,13 +405,14 @@ function renderGoalsList() {
           data-goal-action="delete"
           data-id="${goal.id}"
           title="Delete Goal"
+          aria-label="Delete goal"
         >
           ❌
         </button>
       </div>
     `;
 
-    // DESKTOP MOUSE DRAG LISTENERS
+    // Desktop Drag-and-Drop
     goalItem.addEventListener("dragstart", () => {
       draggedGoalIndex = index;
       goalItem.classList.add("dragging");
@@ -376,32 +427,32 @@ function renderGoalsList() {
 
     goalItem.addEventListener("drop", () => {
       if (draggedGoalIndex !== null && draggedGoalIndex !== index) {
-        const movedGoal = goals.splice(draggedGoalIndex, 1)[0];
+        const [movedGoal] = goals.splice(draggedGoalIndex, 1);
         goals.splice(index, 0, movedGoal);
         persistGoalsToStorage();
         renderGoalsList();
       }
     });
 
-    // CONNECT MOBILE TOUCH HANDLERS Safely
-    const touchHandle = goalItem.querySelector('.task-drag-handle');
+    // Mobile Touch Drag-and-Drop
+    const touchHandle = goalItem.querySelector(".task-drag-handle");
     if (touchHandle) {
-      touchHandle.addEventListener('touchstart', (e) => {
+      touchHandle.addEventListener("touchstart", (e) => {
         draggedGoalIndex = index;
-        goalItem.classList.add('dragging');
+        goalItem.classList.add("dragging");
         e.stopPropagation();
       }, { passive: true });
 
-      touchHandle.addEventListener('touchmove', (e) => {
+      touchHandle.addEventListener("touchmove", (e) => {
         e.preventDefault();
-        const touchLocation = e.touches[0];
-        const targetElement = document.elementFromPoint(touchLocation.clientX, touchLocation.clientY);
-        const closestGoal = targetElement?.closest('.goal-item');
-        
+        const touch = e.touches[0];
+        const targetElement = document.elementFromPoint(touch.clientX, touch.clientY);
+        const closestGoal = targetElement?.closest(".goal-item");
+
         if (closestGoal && closestGoal !== goalItem) {
           const targetIndex = Number(closestGoal.dataset.index);
           if (!isNaN(targetIndex) && targetIndex !== draggedGoalIndex) {
-            const movedGoal = goals.splice(draggedGoalIndex, 1)[0];
+            const [movedGoal] = goals.splice(draggedGoalIndex, 1);
             goals.splice(targetIndex, 0, movedGoal);
             persistGoalsToStorage();
             renderGoalsList();
@@ -410,8 +461,8 @@ function renderGoalsList() {
         }
       }, { passive: false });
 
-      touchHandle.addEventListener('touchend', () => {
-        goalItem.classList.remove('dragging');
+      touchHandle.addEventListener("touchend", () => {
+        goalItem.classList.remove("dragging");
         draggedGoalIndex = null;
       });
     }
@@ -421,37 +472,76 @@ function renderGoalsList() {
 }
 
 function handleGoalActions(event) {
-  const targetBtn = event.target.closest('button') || event.target;
-  const action = targetBtn.dataset.goalAction || event.target.dataset.goalAction;
-  const id = Number(targetBtn.dataset.id || event.target.dataset.id);
+  const button = event.target.closest("button[data-goal-action]");
+  if (!button) return;
 
-  if (!action || !id) return;
+  const action = button.dataset.goalAction;
+  const id = button.dataset.id;
+  const item = button.closest(".goal-item");
+  const index = item ? Number(item.dataset.index) : -1;
 
   if (action === "delete") {
-    goals = goals.filter(g => g.id !== id);
-    persistGoalsToStorage();
-    renderGoalsList();
+    deleteGoal(id, index);
+  } else if (action === "edit") {
+    editGoal(id, index);
+  }
+}
+
+function deleteGoal(id, index) {
+  let targetIndex = -1;
+
+  if (id !== undefined && id !== null && id !== "" && id !== "undefined") {
+    targetIndex = goals.findIndex((g) => String(g.id) === String(id));
   }
 
-  if (action === "edit") {
-    const targetGoal = goals.find(g => g.id === id);
-    if (!targetGoal) return;
+  if (targetIndex === -1 && typeof index === "number" && index >= 0 && index < goals.length) {
+    targetIndex = index;
+  }
 
-    const updatedText = prompt("Edit your daily goal:", targetGoal.text);
-    if (updatedText === null) return;
-
-    const trimmed = updatedText.trim();
-    if (!trimmed) {
-      alert("Goal cannot be empty.");
-      return;
-    }
-
-    targetGoal.text = trimmed;
+  if (targetIndex !== -1) {
+    goals.splice(targetIndex, 1);
     persistGoalsToStorage();
     renderGoalsList();
   }
 }
 
+function editGoal(id, index) {
+  let targetIndex = -1;
+
+  if (id !== undefined && id !== null && id !== "" && id !== "undefined") {
+    targetIndex = goals.findIndex((g) => String(g.id) === String(id));
+  }
+
+  if (targetIndex === -1 && typeof index === "number" && index >= 0 && index < goals.length) {
+    targetIndex = index;
+  }
+
+  if (targetIndex === -1) return;
+
+  const targetGoal = goals[targetIndex];
+  const updatedText = prompt("Edit your daily goal:", targetGoal.text || "");
+  if (updatedText === null) return;
+
+  const trimmed = updatedText.trim();
+  if (!trimmed || !/\S/.test(trimmed)) {
+    alert("Goal cannot be empty or only spaces.");
+    return;
+  }
+
+  targetGoal.text = trimmed;
+  persistGoalsToStorage();
+  renderGoalsList();
+}
+
 function persistGoalsToStorage() {
   storage.set(GOALS_KEY, goals);
+}
+
+// =========================================
+// UTILITIES
+// =========================================
+function escapeHTML(text) {
+  const div = document.createElement("div");
+  div.textContent = text;
+  return div.innerHTML;
 }
