@@ -1,6 +1,6 @@
 /* ===================================================================
    components.css
-   BookByte Productivity OS - Production Fluid Components
+   BookByte Productivity OS - Production Consolidated Components
 =================================================================== */
 
 /* =========================================
@@ -249,6 +249,16 @@
   gap: 0.75rem;
 }
 
+.folder-title-text {
+  cursor: pointer;
+  user-select: none;
+  transition: color 0.2s ease;
+}
+
+.folder-title-text:hover {
+  color: var(--accent);
+}
+
 .folder-content {
   display: flex;
   flex-direction: column;
@@ -300,25 +310,6 @@
   flex-shrink: 0;
 }
 
-.folder-actions button,
-.bookmark-actions button {
-  min-width: 36px;
-  height: 36px;
-  padding: 0.25rem 0.5rem;
-  border-radius: var(--radius-sm);
-  background: var(--surface-3);
-  color: white;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  transition: var(--transition);
-}
-
-.folder-actions button:hover,
-.bookmark-actions button:hover {
-  background: var(--accent);
-}
-
 /* =========================================
    TASK ENGINE COMPONENTS
 ========================================= */
@@ -368,20 +359,47 @@
   gap: 0.5rem;
 }
 
-.task-actions button {
-  width: 36px;
-  height: 36px;
-  border-radius: var(--radius-sm);
-  background: var(--surface-3);
-  color: white;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  transition: var(--transition);
+/* =========================================
+   STANDARDIZED ACTION BUTTON SUITE
+========================================= */
+.folder-actions button,
+.bookmark-actions button,
+.task-actions button,
+.folder-collapse-btn,
+.section-toggle-btn {
+  width: 36px !important;
+  min-width: 36px !important;
+  max-width: 36px !important;
+  height: 36px !important;
+  min-height: 36px !important;
+  max-height: 36px !important;
+  padding: 0 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, monospace !important;
+  font-size: 1.15rem !important;
+  font-weight: 700 !important;
+  line-height: 1 !important;
+  border-radius: var(--radius-sm) !important;
+  background: var(--surface-3) !important;
+  color: var(--text) !important;
+  border: 1px solid var(--border) !important;
+  cursor: pointer !important;
+  user-select: none !important;
+  transition: var(--transition) !important;
+  flex-shrink: 0 !important;
+  box-sizing: border-box !important;
 }
 
-.task-actions button:hover {
-  background: var(--accent);
+.folder-actions button:hover,
+.bookmark-actions button:hover,
+.task-actions button:hover,
+.folder-collapse-btn:hover {
+  background: var(--accent) !important;
+  color: #ffffff !important;
+  border-color: var(--accent) !important;
+  transform: translateY(-1px);
 }
 
 /* =========================================
@@ -467,9 +485,12 @@
 .section-header[role="button"] {
   cursor: pointer;
   user-select: none;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: nowrap !important; /* Prevents button dropping on mobile */
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 0.75rem;
   width: 100%;
   outline: none;
   border-radius: var(--radius-sm);
@@ -477,6 +498,18 @@
   transition: 
     background-color 0.2s ease,
     margin-bottom 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Ensure title shrinks gracefully on mobile without wrapping */
+.section-header[role="button"] h2 {
+  margin: 0 !important;
+  font-size: clamp(1.05rem, 4vw, 1.35rem) !important;
+  line-height: 1.2 !important;
+  flex: 1 1 auto;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 /* Accessibility Focus Indicator */
@@ -487,18 +520,26 @@
   background-color: rgba(255, 255, 255, 0.03);
 }
 
-/* Caret Indicator Glyph */
-.section-toggle-caret {
-  font-size: var(--fs-sm);
-  color: var(--text-muted, #9ca3af);
-  display: inline-block;
-  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+/* Unified Section Collapse +/- Button */
+.section-toggle-btn {
+  color: var(--accent) !important;
   pointer-events: none;
+  margin-left: auto;
 }
 
-/* Rotates Caret on Collapsed State */
-.section-header[aria-expanded="false"] .section-toggle-caret {
-  transform: rotate(-180deg);
+/* Dynamically shows − when open and + when collapsed */
+.section-header[aria-expanded="true"] .section-toggle-btn::after {
+  content: "−";
+}
+
+.section-header[aria-expanded="false"] .section-toggle-btn::after {
+  content: "+";
+}
+
+.section-header[role="button"]:hover .section-toggle-btn {
+  background: var(--accent) !important;
+  color: #ffffff !important;
+  border-color: var(--accent) !important;
 }
 
 /* Primary CSS Grid Accordion Wrapper */
@@ -514,7 +555,7 @@
     margin-top 0.35s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Grid Child Constraints (Mandatory min-height: 0 to allow true 0fr collapse) */
+/* Mandatory min-height: 0 to allow true 0fr collapse */
 .section-collapse-wrapper > * {
   min-height: 0;
   overflow: hidden;
@@ -523,16 +564,11 @@
     margin 0.35s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* ===================================================================
-   COLLAPSED STATE OVERRIDES (Eliminates All Dead Height)
-=================================================================== */
-
-/* 1. Remove the bottom margin from header when section is closed */
+/* Collapsed State Overrides */
 .section-header[aria-expanded="false"] {
   margin-bottom: 0 !important;
 }
 
-/* 2. Collapse grid rows to 0fr and remove margins */
 .section-header[aria-expanded="false"] + .section-collapse-wrapper {
   grid-template-rows: 0fr;
   opacity: 0;
@@ -542,7 +578,6 @@
   pointer-events: none;
 }
 
-/* 3. Strip padding & margins from all child elements (collapses inner .card & forms) */
 .section-header[aria-expanded="false"] + .section-collapse-wrapper > * {
   padding-top: 0 !important;
   padding-bottom: 0 !important;
@@ -552,10 +587,24 @@
   border-bottom-width: 0 !important;
 }
 
-/* 4. Symmetrically compact the parent section container */
 .section:has(.section-header[aria-expanded="false"]) {
   padding-top: clamp(0.75rem, 2vw, 1rem);
   padding-bottom: clamp(0.75rem, 2vw, 1rem);
+}
+
+/* Header buttons group alignment on mobile */
+.header-buttons-group {
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  flex-shrink: 0 !important;
+}
+
+@media (max-width: 480px) {
+  #toggle-folders {
+    padding: 6px 8px !important;
+    font-size: 0.75rem !important;
+  }
 }
 
 /* ===================================================================
@@ -585,16 +634,13 @@
               inset 0 0 20px rgba(79, 140, 255, 0.05);
 }
 
-/* =========================================
-   FLIP CLOCK GEOMETRY & VARIABLES
-========================================= */
+/* Flip Clock Geometry */
 .flip-clock-container {
   --flip-w: clamp(2.6rem, 8.5vw, 4.6rem);
   --flip-h: clamp(4.2rem, 13vw, 7.2rem);
   --flip-fs: clamp(2.8rem, 8.5vw, 4.6rem);
   --flip-radius: var(--radius-sm);
 
-  /* Theme Contract (Dark Mode Defaults) */
   --flip-card-bg: #0d101a;
   --flip-top-bg: linear-gradient(180deg, #1e263a 0%, #161d2c 100%);
   --flip-bottom-bg: linear-gradient(180deg, #131724 0%, #0d101a 100%);
@@ -630,6 +676,7 @@
   text-shadow: 0 0 16px rgba(79, 140, 255, 0.4);
   animation: colonBlink 1s infinite steps(1, start);
   padding: 0 2px;
+  margin-bottom: 1.25rem;
 }
 
 @keyframes colonBlink {
@@ -637,9 +684,7 @@
   50% { opacity: 0.3; }
 }
 
-/* =========================================
-   LEAF & PANEL ANATOMY
-========================================= */
+/* Leaf & Panel Anatomy */
 .flip-card-wrapper {
   position: relative;
   width: var(--flip-w);
@@ -753,42 +798,19 @@
   top: -100%;
 }
 
-/* =========================================
-   TWO-LEAF MECHANICAL ANIMATION KEYFRAMES
-========================================= */
 @keyframes flapTopDown {
-  0% {
-    transform: rotateX(0deg);
-    filter: brightness(1);
-  }
-  100% {
-    transform: rotateX(-90deg);
-    filter: var(--flip-shade-dark, brightness(0.35));
-  }
+  0% { transform: rotateX(0deg); filter: brightness(1); }
+  100% { transform: rotateX(-90deg); filter: var(--flip-shade-dark, brightness(0.35)); }
 }
 
 @keyframes flapBottomSettle {
-  0% {
-    transform: rotateX(90deg);
-    filter: var(--flip-shade-dark, brightness(0.35));
-  }
-  65% {
-    transform: rotateX(-4deg);
-    filter: brightness(1.04);
-  }
-  82% {
-    transform: rotateX(2deg);
-    filter: brightness(0.98);
-  }
-  100% {
-    transform: rotateX(0deg);
-    filter: brightness(1);
-  }
+  0% { transform: rotateX(90deg); filter: var(--flip-shade-dark, brightness(0.35)); }
+  65% { transform: rotateX(-4deg); filter: brightness(1.04); }
+  82% { transform: rotateX(2deg); filter: brightness(0.98); }
+  100% { transform: rotateX(0deg); filter: brightness(1); }
 }
 
-/* =========================================
-   FULLSCREEN FOCUS MODE
-========================================= */
+/* Fullscreen Focus Mode */
 .pomodoro-fullscreen {
   position: fixed !important;
   top: 0;
@@ -819,7 +841,10 @@
 
 .pomodoro-fullscreen .pomodoro-tabs,
 .pomodoro-fullscreen #pomodoro-mode,
-.pomodoro-fullscreen #pomodoro-fullscreen {
+.pomodoro-fullscreen #pomodoro-fullscreen,
+.pomodoro-fullscreen .custom-time-console,
+.pomodoro-fullscreen .unit-stepper,
+.pomodoro-fullscreen .unit-label {
   display: none !important;
 }
 
@@ -828,7 +853,194 @@
 }
 
 /* ===================================================================
-   BOOKMARK BACKUP & IMPORT/EXPORT UTILITIES
+   PROFESSIONAL CUSTOM POMODORO STEPPERS & CONSOLE
+=================================================================== */
+.flip-unit {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+.unit-label {
+  font-size: clamp(0.6rem, 1.6vw, 0.72rem);
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  margin-top: 0.4rem;
+}
+
+.unit-stepper {
+  width: 100%;
+  height: 24px;
+  min-height: 24px;
+  border-radius: var(--radius-sm);
+  background: var(--surface-3);
+  border: 1px solid var(--border);
+  color: var(--accent);
+  font-size: 1.1rem;
+  font-weight: 800;
+  line-height: 1;
+  cursor: pointer;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  transition: var(--transition);
+  user-select: none;
+}
+
+.stepper-up {
+  margin-bottom: 0.35rem;
+}
+
+.stepper-down {
+  margin-top: 0.35rem;
+}
+
+.unit-stepper:hover {
+  background: var(--accent);
+  color: #ffffff;
+  transform: scale(1.05);
+}
+
+.pomodoro-card.is-custom-mode:not(.timer-running) .unit-stepper {
+  display: flex;
+}
+
+.custom-time-console {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 1.25rem;
+  padding: 0.85rem 1.25rem;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  width: 100%;
+  max-width: 480px;
+  animation: fadeIn 0.25s ease-out;
+}
+
+.pomodoro-card.is-custom-mode:not(.timer-running) .custom-time-console {
+  display: flex;
+}
+
+.custom-inputs-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.custom-field {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.custom-field label {
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.field-stepper {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.field-stepper input[type="number"] {
+  width: 52px;
+  height: 36px;
+  padding: 0.25rem;
+  text-align: center;
+  font-size: 1rem;
+  font-weight: 800;
+  border-radius: var(--radius-sm);
+  background: var(--surface-2);
+  color: var(--text);
+  border: 1px solid var(--border);
+  -moz-appearance: textfield;
+}
+
+.field-stepper input[type="number"]::-webkit-outer-spin-button,
+.field-stepper input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.mini-step {
+  width: 28px;
+  height: 36px;
+  min-height: 36px;
+  border-radius: var(--radius-sm);
+  background: var(--surface-3);
+  border: 1px solid var(--border);
+  color: var(--accent);
+  font-size: 1rem;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.mini-step:hover {
+  background: var(--accent);
+  color: #ffffff;
+}
+
+.custom-quick-pills {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+}
+
+.quick-label {
+  font-size: var(--fs-xs);
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+.quick-divider {
+  color: var(--border);
+  font-size: var(--fs-xs);
+}
+
+.quick-pill {
+  padding: 0.2rem 0.55rem;
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  border-radius: 999px;
+  background: var(--surface-3);
+  color: var(--text-soft);
+  border: 1px solid var(--border);
+  cursor: pointer;
+  transition: var(--transition);
+  min-height: auto;
+}
+
+.quick-pill:hover {
+  background: var(--accent);
+  color: #ffffff;
+  border-color: var(--accent);
+  transform: translateY(-1px);
+}
+
+/* ===================================================================
+   BOOKMARK BACKUP & CONFLICT MODAL
 =================================================================== */
 .bookmark-backup-section {
   margin: 1.5rem 0;
@@ -873,9 +1085,6 @@
   }
 }
 
-/* ===================================================================
-   CONFLICT RESOLUTION ACCESSIBLE MODAL
-=================================================================== */
 .modal-backdrop {
   position: fixed;
   inset: 0;
@@ -980,273 +1189,4 @@
 
 .modal-actions .btn {
   flex: 1;
-}
-/* =========================================
-   BOOKMARK FOLDER ACCORDION (+ / −) CONTROLS
-========================================= */
-.folder-collapse-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 24px;
-  height: 24px;
-  min-height: 24px;
-  padding: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, monospace;
-  font-weight: 800;
-  font-size: 1.15rem;
-  line-height: 1;
-  border-radius: var(--radius-sm);
-  background: var(--surface-3);
-  color: var(--accent);
-  border: 1px solid var(--border);
-  cursor: pointer;
-  user-select: none;
-  transition: var(--transition);
-  flex-shrink: 0;
-}
-
-.folder-collapse-btn:hover {
-  background: var(--accent);
-  color: #ffffff;
-  transform: scale(1.08);
-}
-
-.folder-title-text {
-  cursor: pointer;
-  user-select: none;
-  transition: color 0.2s ease;
-}
-
-.folder-title-text:hover {
-  color: var(--accent);
-}
-/* =========================================
-   BOOKMARK FOLDER ACCORDION (+ / −) CONTROLS
-========================================= */
-.folder-actions .folder-collapse-btn {
-  min-width: 36px;
-  height: 36px;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, monospace;
-  font-weight: 800;
-  font-size: 1.25rem;
-  line-height: 1;
-  color: var(--accent);
-  border: 1px solid var(--border);
-  cursor: pointer;
-  user-select: none;
-  transition: var(--transition);
-}
-
-.folder-actions .folder-collapse-btn:hover {
-  background: var(--accent);
-  color: #ffffff;
-  transform: translateY(-1px);
-}
-
-.folder-title-text {
-  cursor: pointer;
-  user-select: none;
-  transition: color 0.2s ease;
-}
-
-.folder-title-text:hover {
-  color: var(--accent);
-}
-
-/* ===================================================================
-   PROFESSIONAL CUSTOM POMODORO STEPPERS & CONSOLE
-=================================================================== */
-
-.flip-unit {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  position: relative;
-}
-
-.unit-label {
-  font-size: clamp(0.6rem, 1.6vw, 0.72rem);
-  font-weight: 700;
-  letter-spacing: 1.5px;
-  color: var(--text-muted);
-  text-transform: uppercase;
-  margin-top: 0.4rem;
-}
-
-/* Card Column Stepper Buttons (+ / −) */
-.unit-stepper {
-  width: 100%;
-  height: 24px;
-  min-height: 24px;
-  border-radius: var(--radius-sm);
-  background: var(--surface-3);
-  border: 1px solid var(--border);
-  color: var(--accent);
-  font-size: 1.1rem;
-  font-weight: 800;
-  line-height: 1;
-  cursor: pointer;
-  display: none;
-  align-items: center;
-  justify-content: center;
-  padding: 0;
-  transition: var(--transition);
-  user-select: none;
-}
-
-.stepper-up {
-  margin-bottom: 0.35rem;
-}
-
-.stepper-down {
-  margin-top: 0.35rem;
-}
-
-.unit-stepper:hover {
-  background: var(--accent);
-  color: #ffffff;
-  transform: scale(1.05);
-}
-
-/* Show column steppers ONLY when in Custom mode and timer is paused */
-.pomodoro-card.is-custom-mode:not(.timer-running) .unit-stepper {
-  display: flex;
-}
-
-/* Align colons with the card baseline */
-.flip-clock-container .flip-colon {
-  margin-bottom: 1.25rem;
-}
-
-/* Inline Time Console Panel */
-.custom-time-console {
-  display: none;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.75rem;
-  margin-top: 1.25rem;
-  padding: 0.85rem 1.25rem;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-md);
-  width: 100%;
-  max-width: 480px;
-  animation: fadeIn 0.25s ease-out;
-}
-
-.pomodoro-card.is-custom-mode:not(.timer-running) .custom-time-console {
-  display: flex;
-}
-
-.custom-inputs-row {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.75rem;
-  flex-wrap: wrap;
-}
-
-.custom-field {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.25rem;
-}
-
-.custom-field label {
-  font-size: var(--fs-xs);
-  font-weight: 600;
-  color: var(--text-muted);
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.field-stepper {
-  display: flex;
-  align-items: center;
-  gap: 0.25rem;
-}
-
-.field-stepper input[type="number"] {
-  width: 52px;
-  height: 36px;
-  padding: 0.25rem;
-  text-align: center;
-  font-size: 1rem;
-  font-weight: 800;
-  border-radius: var(--radius-sm);
-  background: var(--surface-2);
-  color: var(--text);
-  border: 1px solid var(--border);
-  -moz-appearance: textfield;
-}
-
-.field-stepper input[type="number"]::-webkit-outer-spin-button,
-.field-stepper input[type="number"]::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-
-.mini-step {
-  width: 28px;
-  height: 36px;
-  min-height: 36px;
-  border-radius: var(--radius-sm);
-  background: var(--surface-3);
-  border: 1px solid var(--border);
-  color: var(--accent);
-  font-size: 1rem;
-  font-weight: 800;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0;
-  cursor: pointer;
-  transition: var(--transition);
-}
-
-.mini-step:hover {
-  background: var(--accent);
-  color: #ffffff;
-}
-
-/* Quick Adjustment Pills */
-.custom-quick-pills {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.4rem;
-  flex-wrap: wrap;
-}
-
-.quick-label {
-  font-size: var(--fs-xs);
-  color: var(--text-muted);
-  font-weight: 600;
-}
-
-.quick-divider {
-  color: var(--border);
-  font-size: var(--fs-xs);
-}
-
-.quick-pill {
-  padding: 0.2rem 0.55rem;
-  font-size: var(--fs-xs);
-  font-weight: 600;
-  border-radius: 999px;
-  background: var(--surface-3);
-  color: var(--text-soft);
-  border: 1px solid var(--border);
-  cursor: pointer;
-  transition: var(--transition);
-  min-height: auto;
-}
-
-.quick-pill:hover {
-  background: var(--accent);
-  color: #ffffff;
-  border-color: var(--accent);
-  transform: translateY(-1px);
 }

@@ -152,3 +152,16 @@ body.light .field-stepper input[type="number"] {
   color: #0f172a;
   border-color: #cbd5e1;
 }
+
+/* Section Toggle Button Light Mode Override */
+body.light .section-toggle-btn {
+  background: #eef2ff !important;
+  color: var(--accent) !important;
+  border-color: #cbd5e1 !important;
+}
+
+body.light .section-header[role="button"]:hover .section-toggle-btn {
+  background: var(--accent) !important;
+  color: #ffffff !important;
+  border-color: var(--accent) !important;
+}

@@ -1,0 +1,1356 @@
+/* ===================================================================
+   components.css
+   BookByte Productivity OS - Production Fluid Components
+=================================================================== */
+
+/* =========================================
+   CARDS & SECTIONS
+========================================= */
+.card,
+.section {
+  background: rgba(17, 24, 39, 0.7);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: clamp(1rem, 3vw, 1.5rem);
+  box-shadow: var(--shadow-md);
+  transition: var(--transition);
+}
+
+.card:hover,
+.section:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+/* =========================================
+   BUTTONS ENGINE
+========================================= */
+.btn {
+  padding: 0.75rem 1.25rem;
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  font-size: var(--fs-sm);
+  transition: var(--transition);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+}
+
+.btn-sm {
+  padding: 6px 14px;
+  font-size: 0.85rem;
+}
+
+.btn-primary {
+  background: var(--accent);
+  color: white;
+}
+
+.btn-primary:hover {
+  background: var(--accent-hover);
+}
+
+.btn-secondary {
+  background: var(--surface-3);
+  color: var(--text);
+}
+
+.btn-secondary:hover {
+  background: #324156;
+}
+
+.btn-danger {
+  background: var(--danger);
+  color: white;
+}
+
+.btn-warning {
+  background: var(--warning);
+  color: #111;
+}
+
+.btn-focus {
+  background: linear-gradient(135deg, #4f46e5, #7c3aed);
+  color: white;
+  padding: 1rem 2rem;
+  border-radius: 999px;
+  font-size: var(--fs-base);
+  box-shadow: var(--shadow-md);
+}
+
+/* =========================================
+   BADGES & LABELS
+========================================= */
+.badge {
+  background: var(--surface-2);
+  padding: 0.35rem 0.75rem;
+  border-radius: 999px;
+  font-size: var(--fs-xs);
+  color: var(--text-soft);
+}
+
+/* =========================================
+   CLOCK MODULE COMPONENTS
+========================================= */
+.clock-card {
+  position: relative;
+  overflow: hidden;
+  box-shadow: none;
+}
+
+.clock-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(90deg, #4f8cff, #8b5cf6, #06b6d4);
+}
+
+.clock-title {
+  font-size: var(--fs-md);
+  font-weight: 500;
+  color: var(--text-muted);
+  margin-bottom: 0.75rem;
+}
+
+.clock-phase {
+  margin-bottom: 0.75rem;
+  font-size: var(--fs-sm);
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.clock-time {
+  font-size: clamp(1.75rem, 5vw, 2.5rem);
+  font-weight: 800;
+  letter-spacing: 2px;
+  margin-bottom: 0.75rem;
+}
+
+.clock-date {
+  color: var(--text-muted);
+  font-size: var(--fs-sm);
+}
+
+/* =========================================
+   GREETING & QUOTE ENGINES
+========================================= */
+#greeting-text {
+  font-size: var(--fs-xl);
+  font-weight: 800;
+}
+
+.greeting-subtext {
+  color: var(--text-muted);
+  margin-top: 0.5rem;
+}
+
+.greeting-card {
+  margin: 0.75rem 0;
+}
+
+#quote-text {
+  font-size: var(--fs-md);
+  line-height: 1.6;
+  color: var(--text-soft);
+  font-weight: 800;
+}
+
+#quote-author {
+  color: var(--accent);
+  font-weight: 600;
+  font-size: var(--fs-sm);
+}
+
+#quote-timer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-top: 1rem;
+  font-size: var(--fs-xs);
+  color: var(--text-muted);
+}
+
+#new-quote-btn {
+  padding: 0.4rem 0.8rem;
+  font-size: var(--fs-xs);
+  min-height: auto;
+  border-radius: var(--radius-sm);
+  line-height: 1.2;
+}
+
+#new-quote-btn:hover {
+  transform: translateY(-1px);
+}
+
+/* =========================================
+   TIME CONVERTER CONTEXTS
+========================================= */
+.result {
+  background: var(--surface-2);
+  border: 1px dashed var(--border);
+  padding: 1rem;
+  border-radius: var(--radius-md);
+  color: var(--text-soft);
+  font-size: var(--fs-base);
+}
+
+.arrow {
+  font-size: var(--fs-lg);
+  font-weight: 700;
+  color: var(--accent);
+}
+
+/* =========================================
+   SMART BOOKMARK MANAGER COMPONENTS
+========================================= */
+.bookmark-manager {
+  margin: 0.75rem 0;
+}
+
+.folder {
+  margin-top: 1.25rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.folder-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  padding: 0.5rem 0.35rem;
+  background: rgba(255, 255, 255, 0.04);
+  border-bottom: 1px solid var(--border);
+}
+
+.folder-header h3 {
+  font-size: var(--fs-base);
+  margin: 0;
+}
+
+.folder-title-group {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.folder-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 0.5rem 0.35rem;
+}
+
+.link {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  border-radius: var(--radius-sm);
+  background: rgba(255, 255, 255, 0.03);
+  box-sizing: border-box;
+  transition: var(--transition);
+}
+
+.link:hover {
+  background: rgba(255, 255, 255, 0.06);
+  transform: translateX(4px);
+}
+
+.bookmark-content-core {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-width: 0;
+}
+
+.bookmark-content-core a {
+  font-weight: 600;
+  font-size: var(--fs-sm);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.folder-actions,
+.bookmark-actions {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  width: auto;
+  flex-shrink: 0;
+}
+
+.folder-actions button,
+.bookmark-actions button {
+  min-width: 36px;
+  height: 36px;
+  padding: 0.25rem 0.5rem;
+  border-radius: var(--radius-sm);
+  background: var(--surface-3);
+  color: white;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition);
+}
+
+.folder-actions button:hover,
+.bookmark-actions button:hover {
+  background: var(--accent);
+}
+
+/* =========================================
+   TASK ENGINE COMPONENTS
+========================================= */
+#task-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: 1.25rem;
+}
+
+.task-item {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 0.75rem 1rem;
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: var(--radius-sm);
+  box-sizing: border-box;
+  gap: 0.75rem;
+}
+
+.task-left-checkbox {
+  width: 44px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+}
+
+.task-text-container {
+  flex: 1;
+  min-width: 0;
+}
+
+.task-text {
+  display: block;
+  width: 100%;
+  white-space: normal;
+  word-break: break-word;
+  font-size: var(--fs-sm);
+}
+
+.task-actions {
+  width: auto;
+  flex-shrink: 0;
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+}
+
+.task-actions button {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-sm);
+  background: var(--surface-3);
+  color: white;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition);
+}
+
+.task-actions button:hover {
+  background: var(--accent);
+}
+
+/* =========================================
+   GLOBAL DRAG-AND-DROP INTERFACES
+========================================= */
+.task-drag-handle,
+.folder-drag-handle,
+.bookmark-drag-handle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  flex-shrink: 0;
+  cursor: grab;
+  font-size: 1.2rem;
+  color: var(--text-muted, #888);
+  padding: 0 4px;
+  user-select: none;
+}
+
+.task-drag-handle:active,
+.folder-drag-handle:active,
+.bookmark-drag-handle:active {
+  cursor: grabbing;
+}
+
+.task-item.dragging,
+.folder.dragging,
+.link.dragging {
+  opacity: 0.4;
+  outline: 2px dashed var(--accent, #4f8cff);
+  border-color: transparent;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+/* =========================================
+   DAILY GOALS & UTILITY LAYOUTS
+========================================= */
+#goal-display {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: 0.75rem;
+  min-height: 3rem;
+}
+
+#goal-display .goal-item {
+  background: rgba(79, 140, 255, 0.06);
+  border: 1px solid rgba(79, 140, 255, 0.15);
+  transition: var(--transition);
+}
+
+#goal-display .goal-item:hover {
+  background: rgba(79, 140, 255, 0.12);
+  border-color: rgba(79, 140, 255, 0.3);
+}
+
+.divider {
+  margin: 1.75rem 0;
+  border: 0;
+  border-top: 1px solid var(--border);
+}
+
+.footer-small {
+  font-size: var(--fs-xs);
+  opacity: 0.7;
+}
+
+.focus-mode-active {
+  background: #05070a !important;
+}
+
+.focus-mode-active .section,
+.focus-mode-active .card {
+  opacity: 0.95;
+}
+
+/* ===================================================================
+   ACCESSIBLE ZERO-GHOST-SPACE SECTION COLLAPSE SYSTEM
+=================================================================== */
+
+/* Interactive Section Header Bar */
+.section-header[role="button"] {
+  cursor: pointer;
+  user-select: none;
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: nowrap !important; /* Prevents button from dropping to next line */
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 0.75rem;
+  width: 100%;
+  outline: none;
+  border-radius: var(--radius-sm);
+  padding: 0.25rem 0;
+  transition: 
+    background-color 0.2s ease,
+    margin-bottom 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Ensure the title shrinks gracefully on mobile without pushing the button */
+.section-header[role="button"] h2 {
+  margin: 0 !important;
+  font-size: clamp(1.05rem, 4vw, 1.35rem) !important;
+  line-height: 1.2 !important;
+  flex: 1 1 auto;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Accessibility Focus Indicator */
+.section-header[role="button"]:focus-visible {
+  box-shadow: 0 0 0 3px var(--accent, #4f8cff);
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  background-color: rgba(255, 255, 255, 0.03);
+}
+
+/* Unified Section Collapse +/- Button */
+.section-toggle-btn {
+  width: 36px;
+  min-width: 36px;
+  max-width: 36px;
+  height: 36px;
+  min-height: 36px;
+  max-height: 36px;
+  border-radius: var(--radius-sm);
+  background: var(--surface-3);
+  color: var(--accent);
+  border: 1px solid var(--border);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, monospace;
+  font-size: 1.25rem;
+  font-weight: 800;
+  line-height: 1;
+  cursor: pointer;
+  user-select: none;
+  transition: var(--transition);
+  flex-shrink: 0 !important;
+  pointer-events: none; /* Passes clicks directly to the section header */
+  box-sizing: border-box;
+  margin-left: auto;
+}
+
+/* Dynamically shows − when open and + when collapsed */
+.section-header[aria-expanded="true"] .section-toggle-btn::after {
+  content: "−";
+}
+
+.section-header[aria-expanded="false"] .section-toggle-btn::after {
+  content: "+";
+}
+
+.section-header[role="button"]:hover .section-toggle-btn {
+  background: var(--accent);
+  color: #ffffff;
+  border-color: var(--accent);
+}
+
+/* Primary CSS Grid Accordion Wrapper */
+.section-collapse-wrapper {
+  display: grid;
+  grid-template-rows: 1fr;
+  overflow: hidden;
+  opacity: 1;
+  margin-top: 0.75rem;
+  transition: 
+    grid-template-rows 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 0.25s ease,
+    margin-top 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Grid Child Constraints (Mandatory min-height: 0 to allow true 0fr collapse) */
+.section-collapse-wrapper > * {
+  min-height: 0;
+  overflow: hidden;
+  transition: 
+    padding 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+    margin 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ===================================================================
+   COLLAPSED STATE OVERRIDES (Eliminates All Dead Height)
+=================================================================== */
+
+/* 1. Remove the bottom margin from header when section is closed */
+.section-header[aria-expanded="false"] {
+  margin-bottom: 0 !important;
+}
+
+/* 2. Collapse grid rows to 0fr and remove margins */
+.section-header[aria-expanded="false"] + .section-collapse-wrapper {
+  grid-template-rows: 0fr;
+  opacity: 0;
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+/* 3. Strip padding & margins from all child elements (collapses inner .card & forms) */
+.section-header[aria-expanded="false"] + .section-collapse-wrapper > * {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+  border-top-width: 0 !important;
+  border-bottom-width: 0 !important;
+}
+
+/* 4. Symmetrically compact the parent section container */
+.section:has(.section-header[aria-expanded="false"]) {
+  padding-top: clamp(0.75rem, 2vw, 1rem);
+  padding-bottom: clamp(0.75rem, 2vw, 1rem);
+}
+
+/* ===================================================================
+   AUTHENTIC 3D MECHANICAL SPLIT-FLAP POMODORO ENGINE
+=================================================================== */
+.pomodoro-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
+              background-color 0.4s ease,
+              box-shadow 0.4s ease;
+}
+
+#pomodoro-mode {
+  text-align: center;
+  color: var(--accent);
+  font-size: var(--fs-lg);
+}
+
+.pomodoro-card.timer-running {
+  transform: scale(1.03);
+  background: rgba(8, 11, 20, 0.92) !important;
+  border-color: rgba(79, 140, 255, 0.35);
+  box-shadow: var(--shadow-lg),
+              0 0 40px rgba(79, 140, 255, 0.12),
+              inset 0 0 20px rgba(79, 140, 255, 0.05);
+}
+
+/* =========================================
+   FLIP CLOCK GEOMETRY & VARIABLES
+========================================= */
+.flip-clock-container {
+  --flip-w: clamp(2.6rem, 8.5vw, 4.6rem);
+  --flip-h: clamp(4.2rem, 13vw, 7.2rem);
+  --flip-fs: clamp(2.8rem, 8.5vw, 4.6rem);
+  --flip-radius: var(--radius-sm);
+
+  /* Theme Contract (Dark Mode Defaults) */
+  --flip-card-bg: #0d101a;
+  --flip-top-bg: linear-gradient(180deg, #1e263a 0%, #161d2c 100%);
+  --flip-bottom-bg: linear-gradient(180deg, #131724 0%, #0d101a 100%);
+  --flip-upper-bg: linear-gradient(180deg, #1e263c 0%, #161b2b 100%);
+  --flip-lower-bg: linear-gradient(180deg, #141826 0%, #0e111b 100%);
+  --flip-text: #ffffff;
+  --flip-text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  --flip-split-line: rgba(0, 0, 0, 0.85);
+  --flip-split-border: rgba(255, 255, 255, 0.1);
+  --flip-shade-dark: brightness(0.35);
+  --flip-shadow: 0 1px 3px rgba(0, 0, 0, 0.4),
+                 0 6px 18px rgba(0, 0, 0, 0.5),
+                 0 14px 28px rgba(0, 0, 0, 0.6);
+
+  display: inline-flex;
+  align-items: center;
+  gap: clamp(0.35rem, 1.5vw, 0.8rem);
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-weight: 800;
+  user-select: none;
+  perspective: 1400px;
+}
+
+.flip-group {
+  display: flex;
+  gap: clamp(0.2rem, 0.8vw, 0.4rem);
+}
+
+.flip-colon {
+  font-size: var(--flip-fs);
+  line-height: var(--flip-h);
+  color: var(--accent);
+  text-shadow: 0 0 16px rgba(79, 140, 255, 0.4);
+  animation: colonBlink 1s infinite steps(1, start);
+  padding: 0 2px;
+}
+
+@keyframes colonBlink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+/* =========================================
+   LEAF & PANEL ANATOMY
+========================================= */
+.flip-card-wrapper {
+  position: relative;
+  width: var(--flip-w);
+  height: var(--flip-h);
+  border-radius: var(--flip-radius);
+  background: var(--flip-card-bg);
+  perspective: 700px;
+  box-shadow: var(--flip-shadow);
+  transition: transform 0.25s ease, background 0.3s ease, box-shadow 0.3s ease;
+}
+
+.flip-card-wrapper:hover {
+  transform: translateY(-2px);
+}
+
+.flip-card-wrapper::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  transform: translateY(-50%);
+  background: var(--flip-split-line);
+  border-bottom: 1px solid var(--flip-split-border);
+  z-index: 10;
+  pointer-events: none;
+}
+
+.flip-card-wrapper .card-top,
+.flip-card-wrapper .card-bottom,
+.flip-card-wrapper .card-flip-upper,
+.flip-card-wrapper .card-flip-lower {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 50%;
+  overflow: hidden;
+  box-sizing: border-box;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.flip-card-wrapper span {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: var(--flip-h);
+  line-height: var(--flip-h);
+  font-size: var(--flip-fs);
+  font-weight: 800;
+  text-align: center;
+  color: var(--flip-text);
+  text-shadow: var(--flip-text-shadow);
+  font-variant-numeric: tabular-nums;
+  transition: color 0.3s ease;
+}
+
+.card-top {
+  top: 0;
+  border-top-left-radius: var(--flip-radius);
+  border-top-right-radius: var(--flip-radius);
+  background: var(--flip-top-bg);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  z-index: 1;
+}
+
+.card-top span {
+  top: 0;
+}
+
+.card-bottom {
+  top: 50%;
+  border-bottom-left-radius: var(--flip-radius);
+  border-bottom-right-radius: var(--flip-radius);
+  background: var(--flip-bottom-bg);
+  z-index: 1;
+}
+
+.card-bottom span {
+  top: -100%;
+}
+
+.card-flip-upper {
+  top: 0;
+  border-top-left-radius: var(--flip-radius);
+  border-top-right-radius: var(--flip-radius);
+  background: var(--flip-upper-bg);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  transform-origin: bottom center;
+  z-index: 4;
+  animation: flapTopDown 0.18s cubic-bezier(0.4, 0, 0.7, 1) forwards;
+}
+
+.card-flip-upper span {
+  top: 0;
+}
+
+.card-flip-lower {
+  top: 50%;
+  border-bottom-left-radius: var(--flip-radius);
+  border-bottom-right-radius: var(--flip-radius);
+  background: var(--flip-lower-bg);
+  transform-origin: top center;
+  z-index: 5;
+  transform: rotateX(90deg);
+  animation: flapBottomSettle 0.22s 0.16s cubic-bezier(0.2, 0.85, 0.35, 1.25) forwards;
+}
+
+.card-flip-lower span {
+  top: -100%;
+}
+
+/* =========================================
+   TWO-LEAF MECHANICAL ANIMATION KEYFRAMES
+========================================= */
+@keyframes flapTopDown {
+  0% {
+    transform: rotateX(0deg);
+    filter: brightness(1);
+  }
+  100% {
+    transform: rotateX(-90deg);
+    filter: var(--flip-shade-dark, brightness(0.35));
+  }
+}
+
+@keyframes flapBottomSettle {
+  0% {
+    transform: rotateX(90deg);
+    filter: var(--flip-shade-dark, brightness(0.35));
+  }
+  65% {
+    transform: rotateX(-4deg);
+    filter: brightness(1.04);
+  }
+  82% {
+    transform: rotateX(2deg);
+    filter: brightness(0.98);
+  }
+  100% {
+    transform: rotateX(0deg);
+    filter: brightness(1);
+  }
+}
+
+/* =========================================
+   FULLSCREEN FOCUS MODE
+========================================= */
+.pomodoro-fullscreen {
+  position: fixed !important;
+  top: 0;
+  left: 0;
+  width: 100vw !important;
+  height: 100vh !important;
+  z-index: var(--z-modal) !important;
+  border-radius: 0 !important;
+  background: #030408 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  align-items: center !important;
+  padding: 2rem !important;
+}
+
+.pomodoro-fullscreen .flip-clock-container {
+  --flip-w: clamp(4.2rem, 11vw, 8.5rem);
+  --flip-h: clamp(7rem, 17vw, 13.5rem);
+  --flip-fs: clamp(4.6rem, 11vw, 9rem);
+  gap: clamp(0.6rem, 2.5vw, 1.6rem);
+}
+
+.pomodoro-fullscreen .flip-card-wrapper {
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.85),
+              0 0 50px rgba(79, 140, 255, 0.08);
+}
+
+.pomodoro-fullscreen .pomodoro-tabs,
+.pomodoro-fullscreen #pomodoro-mode,
+.pomodoro-fullscreen #pomodoro-fullscreen,
+.pomodoro-fullscreen .custom-time-console,
+.pomodoro-fullscreen .unit-stepper,
+.pomodoro-fullscreen .unit-label {
+  display: none !important;
+}
+
+.pomodoro-fullscreen #pomodoro-exit-fullscreen {
+  display: inline-flex !important;
+}
+
+/* ===================================================================
+   BOOKMARK BACKUP & IMPORT/EXPORT UTILITIES
+=================================================================== */
+.bookmark-backup-section {
+  margin: 1.5rem 0;
+}
+
+.bookmark-backup-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1.25rem;
+  flex-wrap: wrap;
+}
+
+.backup-info h3 {
+  font-size: var(--fs-md);
+  margin-bottom: 0.25rem;
+}
+
+.backup-subtext {
+  color: var(--text-muted);
+  font-size: var(--fs-xs);
+  margin: 0;
+}
+
+.backup-actions {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 640px) {
+  .bookmark-backup-wrapper {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .backup-actions {
+    width: 100%;
+  }
+  .backup-actions .btn {
+    flex: 1;
+  }
+}
+
+/* ===================================================================
+   CONFLICT RESOLUTION ACCESSIBLE MODAL
+=================================================================== */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(4, 7, 14, 0.78);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: var(--z-modal);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+}
+
+.modal-card {
+  width: 100%;
+  max-width: 480px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-lg), 0 0 30px rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.modal-card h3 {
+  font-size: var(--fs-md);
+  margin: 0;
+  color: var(--warning);
+}
+
+.modal-card p {
+  font-size: var(--fs-sm);
+  margin: 0;
+}
+
+.conflict-preview {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  padding: 0.75rem;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+}
+
+#conflict-emoji {
+  font-size: 1.5rem;
+  flex-shrink: 0;
+}
+
+.conflict-meta {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  flex: 1;
+}
+
+.conflict-meta strong {
+  font-size: var(--fs-sm);
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.conflict-meta code {
+  font-size: var(--fs-xs);
+  color: var(--accent);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.modal-footer-batch {
+  margin: 0.25rem 0;
+}
+
+.checkbox-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  font-size: var(--fs-xs);
+  color: var(--text-soft);
+  user-select: none;
+}
+
+.checkbox-label input[type="checkbox"] {
+  width: auto;
+  cursor: pointer;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+.modal-actions .btn {
+  flex: 1;
+}
+/* =========================================
+   BOOKMARK FOLDER ACCORDION (+ / −) CONTROLS
+========================================= */
+.folder-collapse-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  min-height: 24px;
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, monospace;
+  font-weight: 800;
+  font-size: 1.15rem;
+  line-height: 1;
+  border-radius: var(--radius-sm);
+  background: var(--surface-3);
+  color: var(--accent);
+  border: 1px solid var(--border);
+  cursor: pointer;
+  user-select: none;
+  transition: var(--transition);
+  flex-shrink: 0;
+}
+
+.folder-collapse-btn:hover {
+  background: var(--accent);
+  color: #ffffff;
+  transform: scale(1.08);
+}
+
+.folder-title-text {
+  cursor: pointer;
+  user-select: none;
+  transition: color 0.2s ease;
+}
+
+.folder-title-text:hover {
+  color: var(--accent);
+}
+/* =========================================
+   BOOKMARK FOLDER ACCORDION (+ / −) CONTROLS
+========================================= */
+.folder-actions .folder-collapse-btn {
+  min-width: 36px;
+  height: 36px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, monospace;
+  font-weight: 800;
+  font-size: 1.25rem;
+  line-height: 1;
+  color: var(--accent);
+  border: 1px solid var(--border);
+  cursor: pointer;
+  user-select: none;
+  transition: var(--transition);
+}
+
+.folder-actions .folder-collapse-btn:hover {
+  background: var(--accent);
+  color: #ffffff;
+  transform: translateY(-1px);
+}
+
+.folder-title-text {
+  cursor: pointer;
+  user-select: none;
+  transition: color 0.2s ease;
+}
+
+.folder-title-text:hover {
+  color: var(--accent);
+}
+
+/* ===================================================================
+   PROFESSIONAL CUSTOM POMODORO STEPPERS & CONSOLE
+=================================================================== */
+
+.flip-unit {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+.unit-label {
+  font-size: clamp(0.6rem, 1.6vw, 0.72rem);
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  margin-top: 0.4rem;
+}
+
+/* Card Column Stepper Buttons (+ / −) */
+.unit-stepper {
+  width: 100%;
+  height: 24px;
+  min-height: 24px;
+  border-radius: var(--radius-sm);
+  background: var(--surface-3);
+  border: 1px solid var(--border);
+  color: var(--accent);
+  font-size: 1.1rem;
+  font-weight: 800;
+  line-height: 1;
+  cursor: pointer;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  transition: var(--transition);
+  user-select: none;
+}
+
+.stepper-up {
+  margin-bottom: 0.35rem;
+}
+
+.stepper-down {
+  margin-top: 0.35rem;
+}
+
+.unit-stepper:hover {
+  background: var(--accent);
+  color: #ffffff;
+  transform: scale(1.05);
+}
+
+/* Show column steppers ONLY when in Custom mode and timer is paused */
+.pomodoro-card.is-custom-mode:not(.timer-running) .unit-stepper {
+  display: flex;
+}
+
+/* Align colons with the card baseline */
+.flip-clock-container .flip-colon {
+  margin-bottom: 1.25rem;
+}
+
+/* Inline Time Console Panel */
+.custom-time-console {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 1.25rem;
+  padding: 0.85rem 1.25rem;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  width: 100%;
+  max-width: 480px;
+  animation: fadeIn 0.25s ease-out;
+}
+
+.pomodoro-card.is-custom-mode:not(.timer-running) .custom-time-console {
+  display: flex;
+}
+
+.custom-inputs-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.custom-field {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.custom-field label {
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.field-stepper {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.field-stepper input[type="number"] {
+  width: 52px;
+  height: 36px;
+  padding: 0.25rem;
+  text-align: center;
+  font-size: 1rem;
+  font-weight: 800;
+  border-radius: var(--radius-sm);
+  background: var(--surface-2);
+  color: var(--text);
+  border: 1px solid var(--border);
+  -moz-appearance: textfield;
+}
+
+.field-stepper input[type="number"]::-webkit-outer-spin-button,
+.field-stepper input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.mini-step {
+  width: 28px;
+  height: 36px;
+  min-height: 36px;
+  border-radius: var(--radius-sm);
+  background: var(--surface-3);
+  border: 1px solid var(--border);
+  color: var(--accent);
+  font-size: 1rem;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.mini-step:hover {
+  background: var(--accent);
+  color: #ffffff;
+}
+
+/* Quick Adjustment Pills */
+.custom-quick-pills {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+}
+
+.quick-label {
+  font-size: var(--fs-xs);
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+.quick-divider {
+  color: var(--border);
+  font-size: var(--fs-xs);
+}
+
+.quick-pill {
+  padding: 0.2rem 0.55rem;
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  border-radius: 999px;
+  background: var(--surface-3);
+  color: var(--text-soft);
+  border: 1px solid var(--border);
+  cursor: pointer;
+  transition: var(--transition);
+  min-height: auto;
+}
+
+.quick-pill:hover {
+  background: var(--accent);
+  color: #ffffff;
+  border-color: var(--accent);
+  transform: translateY(-1px);
+}
+/* ===================================================================
+   STANDARDIZED BUTTON SUITE (EDIT, DELETE, +/- TOGGLES)
+=================================================================== */
+.folder-actions button,
+.bookmark-actions button,
+.task-actions button,
+.folder-collapse-btn,
+.section-toggle-btn {
+  width: 36px !important;
+  min-width: 36px !important;
+  max-width: 36px !important;
+  height: 36px !important;
+  min-height: 36px !important;
+  max-height: 36px !important;
+  padding: 0 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, monospace !important;
+  font-size: 1.15rem !important;
+  font-weight: 700 !important;
+  line-height: 1 !important;
+  border-radius: var(--radius-sm) !important;
+  background: var(--surface-3) !important;
+  color: var(--text) !important;
+  border: 1px solid var(--border) !important;
+  cursor: pointer !important;
+  user-select: none !important;
+  transition: var(--transition) !important;
+  flex-shrink: 0 !important;
+  box-sizing: border-box !important;
+}
+
+.folder-actions button:hover,
+.bookmark-actions button:hover,
+.task-actions button:hover,
+.folder-collapse-btn:hover {
+  background: var(--accent) !important;
+  color: #ffffff !important;
+  border-color: var(--accent) !important;
+  transform: translateY(-1px);
+}
+
+/* Mobile Header Button Group Constraints */
+.header-buttons-group {
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  flex-shrink: 0 !important;
+}
+
+@media (max-width: 480px) {
+  #toggle-folders {
+    padding: 6px 8px !important;
+    font-size: 0.75rem !important;
+  }
+}
