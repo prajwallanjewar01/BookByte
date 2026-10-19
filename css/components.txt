@@ -1,0 +1,1525 @@
+/* ===================================================================
+   components.css
+   BookByte Productivity OS - Production Fluid Components
+=================================================================== */
+
+/* =========================================
+   CARDS & SECTIONS
+========================================= */
+.card,
+.section {
+  background: rgba(17, 24, 39, 0.7);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  /* Fluid padding keeps cards breathable on Desktop, tight on Mobile */
+  padding: clamp(1rem, 3vw, 1.5rem);
+  box-shadow: var(--shadow-md);
+  transition: var(--transition);
+}
+.card:hover,
+.section:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+/* =========================================
+   BUTTONS ENGINE
+========================================= */
+.btn {
+  padding: 0.75rem 1.25rem;
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  font-size: var(--fs-sm);
+  transition: var(--transition);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+.btn:hover {
+  transform: translateY(-1px);
+}
+.btn-primary {
+  background: var(--accent);
+  color: white;
+}
+.btn-primary:hover {
+  background: var(--accent-hover);
+}
+.btn-secondary {
+  background: var(--surface-3);
+  color: var(--text);
+}
+.btn-secondary:hover {
+  background: #324156;
+}
+.btn-danger {
+  background: var(--danger);
+  color: white;
+}
+.btn-warning {
+  background: var(--warning);
+  color: #111;
+}
+.btn-focus {
+  background: linear-gradient(135deg, #4f46e5, #7c3aed);
+  color: white;
+  padding: 1rem 2rem;
+  border-radius: 999px;
+  font-size: var(--fs-base);
+  box-shadow: var(--shadow-md);
+}
+
+/* =========================================
+   BADGES & LABELS
+========================================= */
+.badge {
+  background: var(--surface-2);
+  padding: 0.35rem 0.75rem;
+  border-radius: 999px;
+  font-size: var(--fs-xs);
+  color: var(--text-soft);
+}
+
+/* =========================================
+   CLOCK MODULE COMPONENTS
+========================================= */
+.clock-card {
+  position: relative;
+  overflow: hidden;
+}
+.clock-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(90deg, #4f8cff, #8b5cf6, #06b6d4);
+}
+.clock-title {
+  font-size: var(--fs-md);
+  font-weight: 500;
+  color: var(--text-muted);
+  margin-bottom: 0.75rem;
+}
+.clock-phase {
+  margin-bottom: 0.75rem;
+  font-size: var(--fs-sm);
+  color: var(--accent);
+  font-weight: 600;
+}
+.clock-time {
+  font-size: clamp(1.75rem, 5vw, 2.5rem);
+  font-weight: 800;
+  letter-spacing: 2px;
+  margin-bottom: 0.75rem;
+}
+.clock-date {
+  color: var(--text-muted);
+  font-size: var(--fs-sm);
+}
+
+/* =========================================
+   GREETING & QUOTE ENGINES
+========================================= */
+#greeting-text {
+  font-size: var(--fs-xl);
+  font-weight: 800;
+}
+.greeting-subtext {
+  color: var(--text-muted);
+  margin-top: 0.5rem;
+}
+.greeting-card {
+  margin: 0.75rem 0;
+}
+#quote-text {
+  font-size: var(--fs-md);
+  line-height: 1.6;
+  color: var(--text-soft);
+  font-weight: 800;
+}
+#quote-author {
+  color: var(--accent);
+  font-weight: 600;
+  font-size: var(--fs-sm);
+}
+#quote-timer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-top: 1rem;
+  font-size: var(--fs-xs);
+  color: var(--text-muted);
+}
+#new-quote-btn {
+  padding: 0.4rem 0.8rem;
+  font-size: var(--fs-xs);
+  min-height: auto;
+  border-radius: var(--radius-sm);
+  line-height: 1.2;
+}
+#new-quote-btn:hover {
+  transform: translateY(-1px);
+}
+
+/* =========================================
+   TIME CONVERTER CONTEXTS
+========================================= */
+.result {
+  background: var(--surface-2);
+  border: 1px dashed var(--border);
+  padding: 1rem;
+  border-radius: var(--radius-md);
+  color: var(--text-soft);
+  font-size: var(--fs-base);
+}
+.arrow {
+  font-size: var(--fs-lg);
+  font-weight: 700;
+  color: var(--accent);
+}
+
+/* =========================================
+   SMART BOOKMARK MANAGER COMPONENTS
+========================================= */
+.bookmark-manager {
+  margin: 0.75rem 0;
+}
+.folder {
+  margin-top: 1.25rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.03);
+}
+.folder-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  padding: 0.5rem 0.35rem;
+  background: rgba(255, 255, 255, 0.04);
+  border-bottom: 1px solid var(--border);
+}
+.folder-header h3 {
+  font-size: var(--fs-base);
+  margin: 0;
+}
+.folder-title-group {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+.folder-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding:  0.5rem 0.35rem;
+}
+.link {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  border-radius: var(--radius-sm);
+  background: rgba(255, 255, 255, 0.03);
+  box-sizing: border-box;
+  transition: var(--transition);
+}
+.link:hover {
+  background: rgba(255, 255, 255, 0.06);
+  transform: translateX(4px);
+}
+.bookmark-content-core {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-width: 0;
+}
+.bookmark-content-core a {
+  font-weight: 600;
+  font-size: var(--fs-sm);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+/* Unified Horizontal Layout for Bookmark/Folder Controls */
+.folder-actions,
+.bookmark-actions {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  width: auto;
+  flex-shrink: 0;
+}
+.folder-actions button,
+.bookmark-actions button {
+  min-width: 36px;
+  height: 36px;
+  padding: 0.25rem 0.5rem;
+  border-radius: var(--radius-sm);
+  background: var(--surface-3);
+  color: white;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition);
+}
+.folder-actions button:hover,
+.bookmark-actions button:hover {
+  background: var(--accent);
+}
+
+/* =========================================
+   POMODORO ENGINE
+========================================= */
+#pomodoro-time {
+  font-size: clamp(2.5rem, 10vw, 4rem);
+  font-weight: 800;
+  text-align: center;
+  margin: 1.25rem 0;
+  letter-spacing: 3px;
+}
+#pomodoro-mode {
+  text-align: center;
+  color: var(--accent);
+  font-size: var(--fs-lg);
+}
+
+/* =========================================
+   TASK ENGINE COMPONENTS
+========================================= */
+#task-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: 1.25rem;
+}
+.task-item {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 0.75rem 1rem;
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: var(--radius-sm);
+  box-sizing: border-box;
+  gap: 0.75rem;
+}
+.task-left-checkbox {
+  width: 44px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+}
+.task-text-container {
+  flex: 1;
+  min-width: 0;
+}
+.task-text {
+  display: block;
+  width: 100%;
+  white-space: normal;
+  word-break: break-word;
+  font-size: var(--fs-sm);
+}
+.task-actions {
+  width: auto;
+  flex-shrink: 0;
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+}
+.task-actions button {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-sm);
+  background: var(--surface-3);
+  color: white;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition);
+}
+.task-actions button:hover {
+  background: var(--accent);
+}
+
+/* =========================================
+   GLOBAL DRAG-AND-DROP SYSTEM INTERFACES
+========================================= */
+.task-drag-handle,
+.folder-drag-handle,
+.bookmark-drag-handle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  flex-shrink: 0;
+  cursor: grab;
+  font-size: 1.2rem;
+  color: var(--text-muted, #888);
+  padding: 0 4px;
+  user-select: none;
+}
+.task-drag-handle:active,
+.folder-drag-handle:active,
+.bookmark-drag-handle:active {
+  cursor: grabbing;
+}
+/* Universal Dragging Visual Accent Placeholder State */
+.task-item.dragging,
+.folder.dragging,
+.link.dragging {
+  opacity: 0.4;
+  outline: 2px dashed var(--accent-color, #4a90e2);
+  border-color: transparent;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+/* =========================================
+   DAILY GOALS & APP GENERAL LAYOUTS
+========================================= */
+#goal-display {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: 0.75rem;
+  min-height: 3rem;
+}
+/* Modifies the inner items inside the goal container to clean up background spaces */
+#goal-display .goal-item {
+  background: rgba(79, 140, 255, 0.06);
+  border: 1px solid rgba(79, 140, 255, 0.15);
+  transition: var(--transition);
+}
+#goal-display .goal-item:hover {
+  background: rgba(79, 140, 255, 0.12);
+  border-color: rgba(79, 140, 255, 0.3);
+}
+.divider {
+  margin: 1.75rem 0;
+  border: 0;
+  border-top: 1px solid var(--border);
+}
+.footer-small {
+  font-size: var(--fs-xs);
+  opacity: 0.7;
+}
+.focus-mode-active {
+  background: #05070a !important;
+}
+.focus-mode-active .section,
+.focus-mode-active .card {
+  opacity: 0.95;
+}
+
+/* ===================================================================
+   ACCESSIBLE SECTION COLLAPSE GRID SYSTEM
+=================================================================== */
+/* Update header container behavior to support a clickable interactive footprint */
+.section-header[role="button"] {
+  cursor: pointer;
+  user-select: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  outline: none;
+  border-radius: var(--radius-sm);
+  padding: 0.25rem 0;
+  transition: background-color 0.2s ease;
+}
+/* Provide clear visual focus indicators for keyboard accessibility paths */
+.section-header[role="button"]:focus-visible {
+  box-shadow: 0 0 0 3px var(--accent, #4f8cff);
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  background-color: rgba(255, 255, 255, 0.02);
+}
+/* Style configuration for the structural layout icon indicators */
+.section-toggle-caret {
+  font-size: var(--fs-sm);
+  color: var(--text-muted, #9ca3af);
+  display: inline-block;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  /* margin-left: auto; */
+  /* padding: 0.5rem; */
+}
+/* Rotate caret transformation profile when collapsed tracking attributes are updated */
+.section-header[aria-expanded="false"] .section-toggle-caret {
+  transform: rotate(-180deg);
+}
+/* Master collapse grid container - handles smooth height transformations */
+.section-collapse-wrapper {
+  display: grid;
+  grid-template-rows: 1fr;
+  transition: grid-template-rows 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+              opacity 0.25s ease,
+              margin-top 0.35s ease;
+  opacity: 1;
+  margin-top: 0.75rem;
+}
+/* Inner structural containment mask - prevents element clipping leakages */
+.section-collapse-wrapper > div,
+.section-collapse-wrapper > form {
+  overflow: hidden;
+  min-height: 0;
+  padding-bottom: 4px; /* Protects floating component box shadows */
+}
+/* Collapsed functional target layout configuration state */
+.section-header[aria-expanded="false"] + .section-collapse-wrapper {
+  grid-template-rows: 0fr;
+  opacity: 0;
+  margin-top: 0;
+  pointer-events: none; /* Disables mouse interaction paths when hidden */
+}
+/* =========================================
+   POMODORO FULLSCREEN & FLIP CLOCK
+========================================= */
+
+.pomodoro-card {
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Digital Clock Base */
+.digital-clock {
+  font-family: 'Courier New', Courier, monospace; /* Monospace for flip-clock feel */
+  font-variant-numeric: tabular-nums;
+  transition: font-size 0.4s ease, color 0.4s ease;
+}
+
+/* Tab Buttons Sizing */
+.btn-sm {
+  padding: 6px 12px;
+  font-size: 0.85rem;
+}
+
+/* FULLSCREEN OVERRIDE STATE */
+.pomodoro-fullscreen {
+  position: fixed !important;
+  top: 0;
+  left: 0;
+  width: 100vw !important;
+  height: 100vh !important;
+  z-index: 99999 !important;
+  border-radius: 0 !important;
+  background: #05070a !important; /* Deep black background */
+  justify-content: center !important;
+  align-items: center !important;
+  padding: 2rem !important;
+}
+
+/* Scale up the clock massively in fullscreen */
+.pomodoro-fullscreen #pomodoro-time {
+  font-size: clamp(6rem, 25vw, 15rem) !important;
+  color: var(--accent) !important;
+  text-shadow: 0 0 40px rgba(79, 140, 255, 0.4);
+  line-height: 1;
+  margin: 20px 0;
+}
+
+/* Hide tabs and header text in fullscreen for deep focus */
+.pomodoro-fullscreen .pomodoro-tabs,
+.pomodoro-fullscreen #pomodoro-mode,
+.pomodoro-fullscreen #pomodoro-fullscreen {
+  display: none !important;
+}
+
+/* Show the exit button ONLY in fullscreen */
+.pomodoro-fullscreen #pomodoro-exit-fullscreen {
+  display: inline-flex !important;
+}
+/* ===================================================================
+   3D MECHANICAL FLIP CLOCK DESIGN ENGINE
+=================================================================== */
+.flip-clock-container {
+  display: inline-flex;
+  align-items: center;
+  gap: clamp(0.35rem, 1.5vw, 0.75rem);
+  font-family: 'Inter', system-ui, sans-serif;
+  font-weight: 800;
+  user-select: none;
+  perspective: 1000px;
+}
+.flip-group {
+  display: flex;
+  gap: clamp(0.2rem, 0.8vw, 0.4rem);
+}
+.flip-colon {
+  font-size: clamp(2rem, 8vw, 4.5rem);
+  color: var(--accent);
+  text-shadow: 0 0 12px rgba(79, 140, 255, 0.2);
+  padding-bottom: 0.5rem;
+  animation: colonBlink 1s infinite steps(1, start);
+}
+/* Independent Digit Card Base Scaffold */
+.flip-card-wrapper {
+  position: relative;
+  width: clamp(2.5rem, 8vw, 4.5rem);
+  height: clamp(4rem, 12vw, 6.5rem);
+  font-size: clamp(2.2rem, 7vw, 4.2rem);
+  color: #ffffff;
+  background: #1e2538;
+  border-radius: var(--radius-sm);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+}
+/* Upper and Lower Panel Partitions */
+.flip-card-wrapper .card-top,
+.flip-card-wrapper .card-bottom,
+.flip-card-wrapper .card-flip-surface {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 50%;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  background: #181e2e;
+}
+/* Mechanical Horizon Splitter-Line Layout */
+.flip-card-wrapper::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: rgba(0, 0, 0, 0.4);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  z-index: 5;
+}
+.flip-card-wrapper .card-top {
+  top: 0;
+  align-items: flex-end;
+  border-top-left-radius: var(--radius-sm);
+  border-top-right-radius: var(--radius-sm);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+}
+.flip-card-wrapper .card-bottom {
+  bottom: 0;
+  align-items: flex-start;
+  border-bottom-left-radius: var(--radius-sm);
+  border-bottom-right-radius: var(--radius-sm);
+  background: #121824;
+}
+/* Transrogative Flip Overlay Plate */
+.card-flip-surface {
+  top: 0;
+  align-items: flex-end;
+  transform-origin: bottom;
+  border-top-left-radius: var(--radius-sm);
+  border-top-right-radius: var(--radius-sm);
+  z-index: 3;
+  background: #181e2e;
+}
+.card-flip-surface.flip-down {
+  animation: flipDownAnim 0.35s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+/* =========================================
+   ANIMATION KEYFRAME BLUEPRINTS
+========================================= */
+@keyframes flipDownAnim {
+  0% { transform: rotateX(0deg); background: #181e2e; }
+  50% { background: #0f1322; }
+  100% { transform: rotateX(-180deg); background: #0b0e17; }
+}
+@keyframes colonBlink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+/* =========================================
+   FULLSCREEN FOCUS STATE MODIFICATIONS
+========================================= */
+.pomodoro-fullscreen {
+  position: fixed !important;
+  top: 0; left: 0; width: 100vw !important; height: 100vh !important;
+  z-index: var(--z-modal) !important;
+  border-radius: 0 !important;
+  background: #05070a !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  align-items: center !important;
+  padding: 2rem !important;
+}
+.pomodoro-fullscreen .flip-clock-container {
+  gap: clamp(0.75rem, 3vw, 1.5rem);
+}
+.pomodoro-fullscreen .flip-card-wrapper {
+  width: clamp(4.5rem, 11vw, 9rem) !important;
+  height: clamp(7.5rem, 17vw, 13.5rem) !important;
+  font-size: clamp(4.5rem, 11vw, 9.5rem) !important;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+}
+.pomodoro-fullscreen .pomodoro-tabs,
+.pomodoro-fullscreen #pomodoro-mode,
+.pomodoro-fullscreen #pomodoro-fullscreen {
+  display: none !important;
+}
+.pomodoro-fullscreen #pomodoro-exit-fullscreen {
+  display: inline-flex !important;
+}
+
+/* ===================================================================
+   3D HIGH-FIDELITY MECHANICAL SPLIT-FLAP DESIGN SYSTEM
+=================================================================== */
+.pomodoro-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.4s ease;
+}
+
+/* Premium Enlargement/Darkening Hook Activated via Start Button Initialization */
+.pomodoro-card.timer-running {
+  transform: scale(1.03);
+  background: rgba(10, 14, 23, 0.85) !important;
+  border-color: rgba(79, 140, 255, 0.25);
+  box-shadow: var(--shadow-lg), 0 0 30px rgba(79, 140, 255, 0.1);
+}
+
+.flip-clock-container {
+  display: inline-flex;
+  align-items: center;
+  gap: clamp(0.35rem, 1.5vw, 0.8rem);
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-weight: 800;
+  user-select: none;
+  perspective: 1000px; /* Establishes the 3D depth field */
+}
+
+.flip-group {
+  display: flex;
+  gap: clamp(0.2rem, 0.8vw, 0.4rem);
+}
+
+.flip-colon {
+  font-size: clamp(2rem, 8vw, 4.5rem);
+  color: var(--accent);
+  text-shadow: 0 0 15px rgba(79, 140, 255, 0.3);
+  padding-bottom: 0.6rem;
+}
+
+/* Master Card Aspect Ratio Frame Scaffolding */
+.flip-card-wrapper {
+  position: relative;
+  width: clamp(2.6rem, 8.5vw, 4.8rem);
+  height: clamp(4.2rem, 13vw, 7.2rem);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+  border-radius: var(--radius-sm);
+  perspective: 500px;
+}
+
+/* Joint Component Structure - Top and Bottom Panel Split Masks */
+.flip-card-wrapper .card-top,
+.flip-card-wrapper .card-bottom,
+.flip-card-wrapper .card-flip-surface {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 50%;
+  overflow: hidden;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+/* Mechanical Horizon Splitter-Line Layout */
+.flip-card-wrapper::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: rgba(0, 0, 0, 0.4);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  z-index: 5;
+}
+
+/* Absolute Mathematical Font Height Vector Alignments (Fixes Truncation Bugs) */
+.flip-card-wrapper span {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: clamp(4.2rem, 13vw, 7.2rem);       /* Forces text wrapper to full card height */
+  line-height: clamp(4.2rem, 13vw, 7.2rem);  /* Guarantees clean geometric vertical centering */
+  text-align: center;
+  color: #ffffff;
+}
+
+.card-top {
+  top: 0;
+  background: #181e2e;
+  border-top-left-radius: var(--radius-sm);
+  border-top-right-radius: var(--radius-sm);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+}
+.card-top span { top: 0; }
+
+.card-bottom {
+  bottom: 0;
+  background: #111522;
+  border-bottom-left-radius: var(--radius-sm);
+  border-bottom-right-radius: var(--radius-sm);
+}
+.card-bottom span { top: -100%; } /* Shifts lower text half upwards into visibility window */
+
+/* Dynamic Animated Flap Overlay Sheet */
+.card-flip-surface {
+  top: 0;
+  transform-origin: bottom;
+  border-top-left-radius: var(--radius-sm);
+  border-top-right-radius: var(--radius-sm);
+  z-index: 3;
+  background: #181e2e;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+}
+.card-flip-surface span { top: 0; }
+
+.card-flip-surface.flip-down {
+  animation: mechanicalFlapDown 0.38s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+/* =========================================
+   ANIMATION TRANSITION MODULES
+========================================= */
+@keyframes mechanicalFlapDown {
+  0% { transform: rotateX(0deg); background: #181e2e; }
+  50% { background: #0f1320; }
+  100% { transform: rotateX(-180deg); background: #080a12; }
+}
+
+/* =========================================
+   FULLSCREEN MODE ENFORCEMENT OVERRIDES
+========================================= */
+.pomodoro-fullscreen {
+  position: fixed !important;
+  top: 0; left: 0; width: 100vw !important; height: 100vh !important;
+  z-index: var(--z-modal) !important;
+  border-radius: 0 !important;
+  background: #04060b !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  align-items: center !important;
+  padding: 2rem !important;
+}
+
+.pomodoro-fullscreen .flip-clock-container {
+  gap: clamp(0.6rem, 2.5vw, 1.5rem);
+}
+
+.pomodoro-fullscreen .flip-card-wrapper {
+  width: clamp(4.2rem, 11vw, 8.5rem) !important;
+  height: clamp(7rem, 17vw, 13rem) !important;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.7);
+}
+
+.pomodoro-fullscreen .flip-card-wrapper span {
+  height: clamp(7rem, 17vw, 13rem) !important;
+  line-height: clamp(7rem, 17vw, 13rem) !important;
+  font-size: clamp(4.5rem, 11vw, 8.5rem) !important;
+}
+
+.pomodoro-fullscreen .pomodoro-tabs,
+.pomodoro-fullscreen #pomodoro-mode,
+.pomodoro-fullscreen #pomodoro-fullscreen {
+  display: none !important;
+}
+
+.pomodoro-fullscreen #pomodoro-exit-fullscreen {
+  display: inline-flex !important;
+}
+
+/* ===================================================================
+   PREMIUM 3D MECHANICAL SPLIT-FLAP PHYSICS & MOTION SYSTEM
+=================================================================== */
+.pomodoro-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), 
+              background-color 0.4s ease,
+              box-shadow 0.5s ease;
+}
+
+/* Hyper-Realistic Ambient Glow Pulse when the timer is active */
+.pomodoro-card.timer-running {
+  transform: scale(1.04);
+  background: rgba(8, 11, 20, 0.9) !important;
+  border-color: rgba(79, 140, 255, 0.35);
+  /* Combined layered structural shadows and interactive outer neon glow */
+  box-shadow: 
+    var(--shadow-lg),
+    0 0 40px rgba(79, 140, 255, 0.12),
+    inset 0 0 20px rgba(79, 140, 255, 0.05);
+}
+
+.flip-clock-container {
+  display: inline-flex;
+  align-items: center;
+  gap: clamp(0.35rem, 1.5vw, 0.8rem);
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-weight: 800;
+  user-select: none;
+  perspective: 1200px; /* Enhanced 3D spatial viewing plane depth */
+}
+
+.flip-group {
+  display: flex;
+  gap: clamp(0.2rem, 0.8vw, 0.4rem);
+}
+
+/* Smooth Ambient Blinking Pulse for the Colon Dividers */
+.flip-colon {
+  font-size: clamp(2rem, 8vw, 4.5rem);
+  color: var(--accent);
+  text-shadow: 0 0 15px rgba(79, 140, 255, 0.4);
+  padding-bottom: 0.6rem;
+  animation: mechanicalColonPulse 1s infinite cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Card Case Shell with Multi-Layered Plate Blade Stack Depth Shadows */
+.flip-card-wrapper {
+  position: relative;
+  width: clamp(2.6rem, 8.5vw, 4.8rem);
+  height: clamp(4.2rem, 13vw, 7.2rem);
+  border-radius: var(--radius-sm);
+  perspective: 600px;
+  /* Visual stacking trick: simulates dozens of hidden plastic numbers resting behind */
+  box-shadow: 
+    0 1px 2px rgba(0, 0, 0, 0.3),
+    0 4px 12px rgba(0, 0, 0, 0.4),
+    0 16px 30px rgba(0, 0, 0, 0.6),
+    inset 0 0 15px rgba(0, 0, 0, 0.8);
+  transition: transform 0.3s ease;
+}
+
+/* Micro-interaction: Hovering over the timer creates an elegant physics drag depth */
+.flip-card-wrapper:hover {
+  transform: translateY(-2px) scale(1.02);
+}
+
+/* Shared Top & Bottom Plate Panels Layout */
+.flip-card-wrapper .card-top,
+.flip-card-wrapper .card-bottom,
+.flip-card-wrapper .card-flip-surface {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 50%;
+  overflow: hidden;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  transition: filter 0.25s ease;
+}
+
+/* Mechanical Horizon Splitter-Line Layout */
+.flip-card-wrapper::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: #000000;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  z-index: 5;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.6);
+}
+
+/* Internal Centering Font Vector Alignment Spans */
+.flip-card-wrapper span {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: clamp(4.2rem, 13vw, 7.2rem);
+  line-height: clamp(4.2rem, 13vw, 7.2rem);
+  text-align: center;
+  color: #ffffff;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+/* Top Leaf Casing with Ambient Highlight Reflection */
+.card-top {
+  top: 0;
+  background: linear-gradient(to bottom, #1c2336, #161b2b);
+  border-top-left-radius: var(--radius-sm);
+  border-top-right-radius: var(--radius-sm);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+}
+.card-top span { top: 0; }
+
+/* Bottom Leaf Casing with Internal Depth Shading Shadow */
+.card-bottom {
+  bottom: 0;
+  background: linear-gradient(to bottom, #121624, #0d0f1a);
+  border-bottom-left-radius: var(--radius-sm);
+  border-bottom-right-radius: var(--radius-sm);
+}
+.card-bottom span { top: -100%; }
+
+/* Moving Falling Mechanical Surface Overlay Plate */
+.card-flip-surface {
+  top: 0;
+  transform-origin: bottom;
+  border-top-left-radius: var(--radius-sm);
+  border-top-right-radius: var(--radius-sm);
+  z-index: 3;
+  background: linear-gradient(to bottom, #1c2336, #161b2b);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+}
+.card-flip-surface span { top: 0; }
+
+/* Triggers the Snap-and-Bounce Core Physics Keyframes */
+.card-flip-surface.flip-down {
+  animation: mechanicalOvershootDrop 0.42s cubic-bezier(0.25, 1, 0.36, 1) forwards;
+}
+
+/* =========================================
+   CINEMATIC MECHANICAL KEYFRAME PHYSICS
+========================================= */
+@keyframes mechanicalOvershootDrop {
+  0% {
+    transform: rotateX(0deg);
+    filter: brightness(1);
+  }
+  35% {
+    /* Shadow passes over the plate dynamically as it turns away from screen light sources */
+    filter: brightness(0.35);
+  }
+  70% {
+    transform: rotateX(-184deg); /* 1. OVERSHOOT: Swings past the bottom stopper pin */
+    filter: brightness(0.85);
+  }
+  85% {
+    transform: rotateX(-178deg); /* 2. REBOUND: Deflects backwards off the pin contact */
+  }
+  100% {
+    transform: rotateX(-180deg); /* 3. SETTLE: Rests firmly flat against the bottom base */
+    filter: brightness(0.9);
+  }
+}
+
+@keyframes mechanicalColonPulse {
+  0%, 100% { opacity: 1; transform: scale(1); filter: drop-shadow(0 0 10px rgba(79,140,255,0.6)); }
+  50% { opacity: 0.25; transform: scale(0.96); filter: drop-shadow(0 0 0px rgba(0,0,0,0)); }
+}
+
+/* =========================================
+   CINEMATIC FULLSCREEN FOCUS CONFIGURATIONS
+========================================= */
+.pomodoro-fullscreen {
+  position: fixed !important;
+  top: 0; left: 0; width: 100vw !important; height: 100vh !important;
+  z-index: var(--z-modal) !important;
+  border-radius: 0 !important;
+  background: #030408 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  align-items: center !important;
+  padding: 2rem !important;
+}
+
+.pomodoro-fullscreen .flip-clock-container {
+  gap: clamp(0.6rem, 3vw, 1.8rem);
+}
+
+.pomodoro-fullscreen .flip-card-wrapper {
+  width: clamp(4.5rem, 12vw, 9.5rem) !important;
+  height: clamp(7.5rem, 18vw, 14.5rem) !important;
+  box-shadow: 
+    0 30px 70px rgba(0, 0, 0, 0.8),
+    0 0 60px rgba(79, 140, 255, 0.08);
+}
+
+.pomodoro-fullscreen .flip-card-wrapper span {
+  height: clamp(7.5rem, 18vw, 14.5rem) !important;
+  line-height: clamp(7.5rem, 18vw, 14.5rem) !important;
+  font-size: clamp(4.8rem, 11.5vw, 9.5rem) !important;
+}
+
+.pomodoro-fullscreen .pomodoro-tabs,
+.pomodoro-fullscreen #pomodoro-mode,
+.pomodoro-fullscreen #pomodoro-fullscreen {
+  display: none !important;
+}
+
+.pomodoro-fullscreen #pomodoro-exit-fullscreen {
+  display: inline-flex !important;
+}
+
+/* ===================================================================
+   AUTHENTIC 3D MECHANICAL SPLIT-FLAP FLIP-CLOCK ENGINE
+=================================================================== */
+
+.pomodoro-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
+              background-color 0.4s ease,
+              box-shadow 0.4s ease;
+}
+
+/* Subtle focus enlargement & glow when session is active */
+.pomodoro-card.timer-running {
+  transform: scale(1.03);
+  background: rgba(8, 11, 20, 0.92) !important;
+  border-color: rgba(79, 140, 255, 0.35);
+  box-shadow: var(--shadow-lg),
+              0 0 40px rgba(79, 140, 255, 0.12),
+              inset 0 0 20px rgba(79, 140, 255, 0.05);
+}
+
+.btn-sm {
+  padding: 6px 14px;
+  font-size: 0.85rem;
+}
+
+/* =========================================
+   FLIP CLOCK GEOMETRY & CONTAINER
+========================================= */
+.flip-clock-container {
+  --flip-w: clamp(2.6rem, 8.5vw, 4.6rem);
+  --flip-h: clamp(4.2rem, 13vw, 7.2rem);
+  --flip-fs: clamp(2.8rem, 8.5vw, 4.6rem);
+  --flip-radius: 8px;
+
+  display: inline-flex;
+  align-items: center;
+  gap: clamp(0.35rem, 1.5vw, 0.8rem);
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-weight: 800;
+  user-select: none;
+  perspective: 1400px;
+}
+
+.flip-group {
+  display: flex;
+  gap: clamp(0.2rem, 0.8vw, 0.4rem);
+}
+
+/* Central colon dividers */
+.flip-colon {
+  font-size: var(--flip-fs);
+  line-height: var(--flip-h);
+  color: var(--accent);
+  text-shadow: 0 0 16px rgba(79, 140, 255, 0.4);
+  animation: colonBlink 1s infinite steps(1, start);
+  padding: 0 2px;
+}
+
+@keyframes colonBlink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+/* Base Card Shell */
+.flip-card-wrapper {
+  position: relative;
+  width: var(--flip-w);
+  height: var(--flip-h);
+  border-radius: var(--flip-radius);
+  background: #0d101a;
+  perspective: 700px;
+  box-shadow: 
+    0 1px 3px rgba(0, 0, 0, 0.4),
+    0 6px 18px rgba(0, 0, 0, 0.5),
+    0 14px 28px rgba(0, 0, 0, 0.6);
+  transition: transform 0.25s ease;
+}
+
+.flip-card-wrapper:hover {
+  transform: translateY(-2px);
+}
+
+/* Center Mechanical Splitter Horizon Groove */
+.flip-card-wrapper::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  transform: translateY(-50%);
+  background: rgba(0, 0, 0, 0.85);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  z-index: 10;
+  pointer-events: none;
+}
+
+/* Common Panel Face Architecture */
+.flip-card-wrapper .card-top,
+.flip-card-wrapper .card-bottom,
+.flip-card-wrapper .card-flip-upper,
+.flip-card-wrapper .card-flip-lower {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 50%;
+  overflow: hidden;
+  box-sizing: border-box;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+/* Precision Centering Spans: guarantees upper & lower halves align with 0px offset */
+.flip-card-wrapper span {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: var(--flip-h);
+  line-height: var(--flip-h);
+  font-size: var(--flip-fs);
+  font-weight: 800;
+  text-align: center;
+  color: #ffffff;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Static Upper Leaf (preloaded with fresh number behind the falling flap) */
+.card-top {
+  top: 0;
+  border-top-left-radius: var(--flip-radius);
+  border-top-right-radius: var(--flip-radius);
+  background: linear-gradient(180deg, #1e263a 0%, #161d2c 100%);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.6);
+  z-index: 1;
+}
+.card-top span {
+  top: 0;
+}
+
+/* Static Lower Leaf (holds old number until new flap lands) */
+.card-bottom {
+  top: 50%;
+  border-bottom-left-radius: var(--flip-radius);
+  border-bottom-right-radius: var(--flip-radius);
+  background: linear-gradient(180deg, #131724 0%, #0d101a 100%);
+  z-index: 1;
+}
+.card-bottom span {
+  top: -100%;
+}
+
+/* =========================================
+   ANIMATED MOVING LEAVES
+========================================= */
+
+/* Upper Leaf: flips down from 0deg to -90deg */
+.card-flip-upper {
+  top: 0;
+  border-top-left-radius: var(--flip-radius);
+  border-top-right-radius: var(--flip-radius);
+  background: linear-gradient(180deg, #1e263c 0%, #161b2b 100%);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.6);
+  transform-origin: bottom center;
+  z-index: 4;
+  animation: flapTopDown 0.18s cubic-bezier(0.4, 0, 0.7, 1) forwards;
+}
+.card-flip-upper span {
+  top: 0;
+}
+
+/* @keyframes flapTopDown {
+  0% {
+    transform: rotateX(0deg);
+    filter: brightness(1);
+  }
+  100% {
+    transform: rotateX(-90deg);
+    filter: brightness(0.35);
+  }
+} */
+
+/* Lower Leaf: drops from 90deg to 0deg with mechanical bounce & overshoot */
+.card-flip-lower {
+  top: 50%;
+  border-bottom-left-radius: var(--flip-radius);
+  border-bottom-right-radius: var(--flip-radius);
+  background: linear-gradient(180deg, #141826 0%, #0e111b 100%);
+  transform-origin: top center;
+  z-index: 5;
+  transform: rotateX(90deg);
+  animation: flapBottomSettle 0.22s 0.16s cubic-bezier(0.2, 0.85, 0.35, 1.25) forwards;
+}
+.card-flip-lower span {
+  top: -100%;
+}
+
+/* @keyframes flapBottomSettle {
+  0% {
+    transform: rotateX(90deg);
+    filter: brightness(0.35);
+  }
+  65% {
+    transform: rotateX(-4deg); 
+    filter: brightness(1.08);
+  }
+  82% {
+    transform: rotateX(2deg); 
+    filter: brightness(0.98);
+  }
+  100% {
+    transform: rotateX(0deg);
+    filter: brightness(1);
+  }
+} 
+*/
+
+/* =========================================
+   THEME-AWARE FLIP ANIMATION KEYFRAMES
+========================================= */
+@keyframes flapTopDown {
+  0% {
+    transform: rotateX(0deg);
+    filter: brightness(1);
+  }
+  100% {
+    transform: rotateX(-90deg);
+    /* Uses theme variable so cards don't turn black in light mode */
+    filter: var(--flip-shade-dark, brightness(0.35));
+  }
+}
+
+@keyframes flapBottomSettle {
+  0% {
+    transform: rotateX(90deg);
+    filter: var(--flip-shade-dark, brightness(0.35));
+  }
+  65% {
+    transform: rotateX(-4deg);
+    filter: brightness(1.04);
+  }
+  82% {
+    transform: rotateX(2deg);
+    filter: brightness(0.98);
+  }
+  100% {
+    transform: rotateX(0deg);
+    filter: brightness(1);
+  }
+}
+
+/* =========================================
+   CINEMATIC FULLSCREEN FOCUS MODE
+========================================= */
+.pomodoro-fullscreen {
+  position: fixed !important;
+  top: 0; left: 0; width: 100vw !important; height: 100vh !important;
+  z-index: var(--z-modal) !important;
+  border-radius: 0 !important;
+  background: #030408 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  align-items: center !important;
+  padding: 2rem !important;
+}
+
+.pomodoro-fullscreen .flip-clock-container {
+  --flip-w: clamp(4.2rem, 11vw, 8.5rem);
+  --flip-h: clamp(7rem, 17vw, 13.5rem);
+  --flip-fs: clamp(4.6rem, 11vw, 9rem);
+  gap: clamp(0.6rem, 2.5vw, 1.6rem);
+}
+
+.pomodoro-fullscreen .flip-card-wrapper {
+  box-shadow: 
+    0 25px 60px rgba(0, 0, 0, 0.85),
+    0 0 50px rgba(79, 140, 255, 0.08);
+}
+
+.pomodoro-fullscreen .pomodoro-tabs,
+.pomodoro-fullscreen #pomodoro-mode,
+.pomodoro-fullscreen #pomodoro-fullscreen {
+  display: none !important;
+}
+
+.pomodoro-fullscreen #pomodoro-exit-fullscreen {
+  display: inline-flex !important;
+}
+
+
+.flip-clock-container {
+  --flip-w: clamp(2.6rem, 8.5vw, 4.6rem);
+  --flip-h: clamp(4.2rem, 13vw, 7.2rem);
+  --flip-fs: clamp(2.8rem, 8.5vw, 4.6rem);
+  --flip-radius: 8px;
+
+  /* Theme-aware variables (defaults to Dark Mode) */
+  --flip-card-bg: #0d101a;
+  --flip-top-bg: linear-gradient(180deg, #1e263a 0%, #161d2c 100%);
+  --flip-bottom-bg: linear-gradient(180deg, #131724 0%, #0d101a 100%);
+  --flip-upper-bg: linear-gradient(180deg, #1e263c 0%, #161b2b 100%);
+  --flip-lower-bg: linear-gradient(180deg, #141826 0%, #0e111b 100%);
+  --flip-text: #ffffff;
+  --flip-text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  --flip-split-line: rgba(0, 0, 0, 0.85);
+  --flip-split-border: rgba(255, 255, 255, 0.1);
+  --flip-shadow: 0 1px 3px rgba(0, 0, 0, 0.4), 0 6px 18px rgba(0, 0, 0, 0.5), 0 14px 28px rgba(0, 0, 0, 0.6);
+
+  display: inline-flex;
+  align-items: center;
+  gap: clamp(0.35rem, 1.5vw, 0.8rem);
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-weight: 800;
+  user-select: none;
+  perspective: 1400px;
+}
+
+.flip-group {
+  display: flex;
+  gap: clamp(0.2rem, 0.8vw, 0.4rem);
+}
+
+/* Central colon dividers */
+.flip-colon {
+  font-size: var(--flip-fs);
+  line-height: var(--flip-h);
+  color: var(--accent);
+  text-shadow: 0 0 16px rgba(79, 140, 255, 0.4);
+  animation: colonBlink 1s infinite steps(1, start);
+  padding: 0 2px;
+}
+
+@keyframes colonBlink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+/* Base Card Shell */
+.flip-card-wrapper {
+  position: relative;
+  width: var(--flip-w);
+  height: var(--flip-h);
+  border-radius: var(--flip-radius);
+  background: var(--flip-card-bg);
+  perspective: 700px;
+  box-shadow: var(--flip-shadow);
+  transition: transform 0.25s ease, background 0.3s ease, box-shadow 0.3s ease;
+}
+
+.flip-card-wrapper:hover {
+  transform: translateY(-2px);
+}
+
+/* Center Mechanical Splitter Horizon Groove */
+.flip-card-wrapper::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  transform: translateY(-50%);
+  background: var(--flip-split-line);
+  border-bottom: 1px solid var(--flip-split-border);
+  z-index: 10;
+  pointer-events: none;
+}
+
+/* Common Panel Face Architecture */
+.flip-card-wrapper .card-top,
+.flip-card-wrapper .card-bottom,
+.flip-card-wrapper .card-flip-upper,
+.flip-card-wrapper .card-flip-lower {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 50%;
+  overflow: hidden;
+  box-sizing: border-box;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+/* Precision Centering Spans */
+.flip-card-wrapper span {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: var(--flip-h);
+  line-height: var(--flip-h);
+  font-size: var(--flip-fs);
+  font-weight: 800;
+  text-align: center;
+  color: var(--flip-text);
+  text-shadow: var(--flip-text-shadow);
+  font-variant-numeric: tabular-nums;
+  transition: color 0.3s ease;
+}
+
+/* Static Upper Leaf */
+.card-top {
+  top: 0;
+  border-top-left-radius: var(--flip-radius);
+  border-top-right-radius: var(--flip-radius);
+  background: var(--flip-top-bg);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  z-index: 1;
+}
+.card-top span {
+  top: 0;
+}
+
+/* Static Lower Leaf */
+.card-bottom {
+  top: 50%;
+  border-bottom-left-radius: var(--flip-radius);
+  border-bottom-right-radius: var(--flip-radius);
+  background: var(--flip-bottom-bg);
+  z-index: 1;
+}
+.card-bottom span {
+  top: -100%;
+}
+
+/* Moving Upper Leaf */
+.card-flip-upper {
+  top: 0;
+  border-top-left-radius: var(--flip-radius);
+  border-top-right-radius: var(--flip-radius);
+  background: var(--flip-upper-bg);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  transform-origin: bottom center;
+  z-index: 4;
+  animation: flapTopDown 0.18s cubic-bezier(0.4, 0, 0.7, 1) forwards;
+}
+.card-flip-upper span {
+  top: 0;
+}
+
+/* Moving Lower Leaf */
+.card-flip-lower {
+  top: 50%;
+  border-bottom-left-radius: var(--flip-radius);
+  border-bottom-right-radius: var(--flip-radius);
+  background: var(--flip-lower-bg);
+  transform-origin: top center;
+  z-index: 5;
+  transform: rotateX(90deg);
+  animation: flapBottomSettle 0.22s 0.16s cubic-bezier(0.2, 0.85, 0.35, 1.25) forwards;
+}
+.card-flip-lower span {
+  top: -100%;
+}

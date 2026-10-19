@@ -1,0 +1,125 @@
+/* ===================================================================
+   themes.css - Production Light Theme Overrides
+=================================================================== */
+
+body.light {
+  --bg: #f5f7fb;
+  --surface: #ffffff;
+  --surface-2: #eef2ff;
+  --surface-3: #dbe4ff;
+  --text: #111827;
+  --text-muted: #6b7280;
+  --text-soft: #374151;
+  --border: rgba(0, 0, 0, 0.08);
+  background: linear-gradient(135deg, #f8fafc, #eef2ff, #ffffff);
+}
+
+/* Glassmorphism overrides for Light Mode */
+body.light .card,
+body.light .section {
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px); /* Safari support */
+}
+
+/* Structural Backgrounds */
+body.light .folder {
+  background: rgba(0, 0, 0, 0.02);
+}
+
+body.light .link {
+  background: rgba(0, 0, 0, 0.03);
+}
+
+body.light .link:hover {
+  background: rgba(0, 0, 0, 0.06);
+}
+
+/* Form Overrides */
+body.light input,
+body.light select,
+body.light textarea {
+  background: #ffffff;
+}
+
+/* Utility Elements */
+body.light .badge {
+  background: rgba(0, 0, 0, 0.06);
+}
+
+body.light .result {
+  background: rgba(0, 0, 0, 0.03);
+}
+
+/* ===================================================================
+   POMODORO LIGHT THEME - ZERO DARK BACKGROUNDS
+=================================================================== */
+
+/* 1. Base Flip Clock in Light Mode: Pure Crisp White / Soft Slate */
+body.light .flip-clock-container {
+  --flip-card-bg: #ffffff;
+  --flip-top-bg: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+  --flip-bottom-bg: linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%);
+  --flip-upper-bg: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+  --flip-lower-bg: linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%);
+  --flip-text: #0f172a;
+  --flip-text-shadow: none;
+  --flip-split-line: #cbd5e1;
+  --flip-split-border: #ffffff;
+  /* Light-mode shading: gentle shadow instead of pitch black */
+  --flip-shade-dark: brightness(0.92) contrast(1.02);
+  --flip-shadow: 0 2px 6px rgba(0, 0, 0, 0.05), 
+                 0 8px 20px rgba(79, 140, 255, 0.08);
+}
+
+/* 2. Flip Card Border & Surface */
+body.light .flip-card-wrapper {
+  background: var(--flip-card-bg);
+  border: 1px solid rgba(226, 232, 240, 0.9);
+}
+
+body.light .card-top {
+  border-bottom: 1px solid #e2e8f0;
+}
+
+/* 3. Pomodoro Card in Light Mode (Idle & Active) */
+body.light .pomodoro-card {
+  background: rgba(255, 255, 255, 0.95) !important;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+body.light .pomodoro-card.timer-running {
+  background: #ffffff !important;
+  border-color: rgba(79, 140, 255, 0.45);
+  box-shadow: 0 12px 36px rgba(79, 140, 255, 0.15) !important;
+}
+
+/* 4. Fullscreen Focus Mode Backdrop in Light Mode */
+body.light .pomodoro-fullscreen {
+  background: #f8fafc !important;
+}
+
+body.light .pomodoro-fullscreen .flip-card-wrapper {
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.08), 
+              0 0 40px rgba(79, 140, 255, 0.12);
+}
+
+/* 5. Light-Mode Tabs & Secondary Button Styling */
+body.light .pomodoro-tabs .btn-secondary,
+body.light .pomodoro-actions .btn-secondary {
+  background: #eef2ff;
+  color: #334155;
+  border: 1px solid #e2e8f0;
+}
+
+body.light .pomodoro-tabs .btn-secondary:hover,
+body.light .pomodoro-actions .btn-secondary:hover {
+  background: #e0e7ff;
+  color: #1e293b;
+}
+
+/* 6. Text Labels */
+body.light #pomodoro-mode {
+  color: var(--accent);
+}
