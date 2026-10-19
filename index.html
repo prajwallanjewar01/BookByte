@@ -1,42 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <!-- ========================================= -->
-  <!-- META -->
-  <!-- ========================================= -->
   <meta charset="UTF-8" />
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
-  />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <meta
-    name="description"
-    content="BookByte Productivity OS - Personal productivity dashboard with bookmarks, clocks, tasks, focus tools, and productivity widgets."
-  />
+  <meta name="description"
+    content="BookByte Productivity OS - Personal productivity dashboard with bookmarks, clocks, tasks, focus tools, and productivity widgets." />
 
-  <meta
-    name="theme-color"
-    content="#0b0e13"
-  />
+  <meta name="theme-color" content="#0b0e13" />
 
-  <!-- ========================================= -->
-  <!-- TITLE -->
-  <!-- ========================================= -->
   <title>🔖 BookByte Productivity OS</title>
 
-  <!-- ========================================= -->
-  <!-- FAVICON -->
-  <!-- ========================================= -->
-  <link
-    rel="icon"
-    type="image/png"
-    href="./assets/images/logo.png"
-  />
+  <link rel="icon" type="image/png" href="./assets/images/logo.png" />
 
-  <!-- ========================================= -->
-  <!-- CSS MODULES -->
-  <!-- ========================================= -->
   <link rel="stylesheet" href="./css/base.css" />
   <link rel="stylesheet" href="./css/layout.css" />
   <link rel="stylesheet" href="./css/components.css" />
@@ -45,14 +22,8 @@
 
 <body class="dark">
 
-  <!-- ========================================= -->
-  <!-- APP CONTAINER -->
-  <!-- ========================================= -->
   <div class="wrap">
 
-    <!-- ========================================= -->
-    <!-- HEADER -->
-    <!-- ========================================= -->
     <header class="header">
 
       <div class="brand">
@@ -66,51 +37,33 @@
       </div>
 
       <div class="header-actions">
-        <button
-          id="theme-toggle"
-          class="btn btn-secondary"
-          aria-label="Toggle Theme"
-        >
+        <button id="theme-toggle" class="btn btn-secondary" aria-label="Toggle Theme">
           🌞
         </button>
       </div>
 
     </header>
 
-    <!-- ========================================= -->
-    <!-- GREETING + QUOTES -->
-    <!-- ========================================= -->
-    <section
-      id="greeting-box"
-      class="card greeting-card"
-    >
+    <section id="greeting-box" class="card greeting-card">
 
       <div class="greeting-top">
-
         <div>
           <h2 id="greeting-text">
             Loading...
           </h2>
-
           <p class="greeting-subtext">
             Stay productive and focused today.
           </p>
         </div>
-
-        
-
       </div>
 
       <div class="quote-wrapper">
-
         <p id="quote-text">
           Fetching wisdom...
         </p>
-
         <small id="quote-author">
           —
         </small>
-
       </div>
 
       <div id="quote-timer">
@@ -118,10 +71,7 @@
         <span id="quote-countdown">
           --
         </span>
-        <button
-          id="new-quote-btn"
-          class="btn btn-primary"
-        >
+        <button id="new-quote-btn" class="btn btn-primary" aria-label="Refresh Quote">
           🔄
         </button>
       </div>
@@ -129,469 +79,386 @@
     </section>
 
     <!-- ========================================= -->
-    <!-- CLOCKS -->
+    <!-- GLOBAL CLOCKS -->
     <!-- ========================================= -->
     <section class="section">
 
-      <div class="section-header">
+      <div class="section-header" role="button" tabindex="0" aria-expanded="true" aria-controls="clocks-collapse-content">
         <h2>
           🌍 Global Clocks
         </h2>
+        <span class="section-toggle-caret" aria-hidden="true">▲</span>
       </div>
 
-      <div class="clock-row">
+      <div class="section-collapse-wrapper" id="clocks-collapse-content">
+        <div class="clock-row">
 
-        <!-- IST -->
-        <div class="card clock-card" id="ist-card-clock">
-
-          <div class="clock-title">
-            Indian Standard Time
+          <div class="card clock-card" id="ist-card-clock">
+            <div class="clock-title">Indian Standard Time</div>
+            <div id="phase-ist" class="clock-phase"></div>
+            <div id="clock-ist" class="clock-time">--:--:--</div>
+            <div id="date-ist" class="clock-date"></div>
           </div>
 
-          <div
-            id="phase-ist"
-            class="clock-phase"
-          ></div>
-
-          <div
-            id="clock-ist"
-            class="clock-time"
-          >
-            --:--:--
+          <div class="card clock-card">
+            <div class="clock-title">Central Time</div>
+            <div id="phase-ct" class="clock-phase"></div>
+            <div id="clock-ct" class="clock-time">--:--:--</div>
+            <div id="date-ct" class="clock-date"></div>
           </div>
 
-          <div
-            id="date-ist"
-            class="clock-date"
-          ></div>
+          <div class="card clock-card">
+            <div class="clock-title">Coordinated Universal Time</div>
+            <div id="phase-utc" class="clock-phase"></div>
+            <div id="clock-utc" class="clock-time">--:--:--</div>
+            <div id="date-utc" class="clock-date"></div>
+          </div>
 
         </div>
-
-        <!-- CT -->
-        <div class="card clock-card">
-
-          <div class="clock-title">
-            Central Time
-          </div>
-
-          <div
-            id="phase-ct"
-            class="clock-phase"
-          ></div>
-
-          <div
-            id="clock-ct"
-            class="clock-time"
-          >
-            --:--:--
-          </div>
-
-          <div
-            id="date-ct"
-            class="clock-date"
-          ></div>
-
-        </div>
-
-        <!-- UTC -->
-        <div class="card clock-card">
-
-          <div class="clock-title">
-            Coordinated Universal Time
-          </div>
-
-          <div
-            id="phase-utc"
-            class="clock-phase"
-          ></div>
-
-          <div
-            id="clock-utc"
-            class="clock-time"
-          >
-            --:--:--
-          </div>
-
-          <div
-            id="date-utc"
-            class="clock-date"
-          ></div>
-
-        </div>
-
       </div>
 
     </section>
 
     <!-- ========================================= -->
-    <!-- TIME CONVERTER -->
+    <!-- TIMEZONE CONVERTER -->
     <!-- ========================================= -->
-    <section
-      class="section"
-      id="time-converter"
-    >
+    <section class="section" id="time-converter">
 
-      <div class="section-header">
+      <div class="section-header" role="button" tabindex="0" aria-expanded="true" aria-controls="converter-collapse-content">
         <h2>
           ⏱️ Timezone Converter
         </h2>
+        <span class="section-toggle-caret" aria-hidden="true">▲</span>
       </div>
 
-      <div class="converter-wrapper">
+      <div class="section-collapse-wrapper" id="converter-collapse-content">
+        <div class="converter-wrapper">
 
-        <!-- INPUT -->
-        <div class="converter-top">
+          <div class="converter-top">
+            <input type="datetime-local" id="time-input" aria-label="Select date and time" />
+            <button id="now-btn" class="btn btn-secondary">Now</button>
+          </div>
 
-          <input
-            type="datetime-local"
-            id="time-input"
-            aria-label="Select date and time"
-          />
+          <div class="converter-middle">
+            <select id="from-tz" aria-label="From timezone">
+              <option value="Asia/Kolkata">IST</option>
+              <option value="America/Chicago">CT</option>
+              <option value="UTC">UTC</option>
+            </select>
 
-          <button
-            id="now-btn"
-            class="btn btn-secondary"
-          >
-            Now
-          </button>
+            <span class="arrow" aria-hidden="true">→</span>
 
-        </div>
+            <select id="to-tz" aria-label="To timezone">
+              <option value="America/Chicago">CT</option>
+              <option value="UTC">UTC</option>
+              <option value="Asia/Kolkata">IST</option>
+            </select>
 
-        <!-- CONTROLS -->
-        <div class="converter-middle">
+            <button id="convert-btn" class="btn btn-primary">Convert</button>
+          </div>
 
-          <select
-            id="from-tz"
-            aria-label="From timezone"
-          >
-            <option value="Asia/Kolkata">
-              IST
-            </option>
-
-            <option value="America/Chicago">
-              CT
-            </option>
-
-            <option value="UTC">
-              UTC
-            </option>
-          </select>
-
-          <span class="arrow">
-            →
-          </span>
-
-          <select
-            id="to-tz"
-            aria-label="To timezone"
-          >
-
-            <option value="America/Chicago">
-              CT
-            </option>
-
-            <option value="UTC">
-              UTC
-            </option>
-
-            <option value="Asia/Kolkata">
-              IST
-            </option>
-
-          </select>
-
-          <button
-            id="convert-btn"
-            class="btn btn-primary"
-          >
-            Convert
-          </button>
+          <div id="time-output" class="result">
+            Converted time appears here.
+          </div>
 
         </div>
-
-        <!-- OUTPUT -->
-        <div
-          id="time-output"
-          class="result"
-        >
-          Converted time appears here.
-        </div>
-
       </div>
 
     </section>
 
     <!-- ========================================= -->
-    <!-- SEARCH -->
+    <!-- BOOKMARK DATA MIGRATION (IMPORT / EXPORT) -->
+    <!-- ========================================= -->
+    <section class="section bookmark-backup-section" id="bookmark-backup">
+      <div class="bookmark-backup-wrapper">
+        <div class="backup-info">
+          <h3>📦 Bookmark Data Migration</h3>
+          <p class="backup-subtext">Backup your bookmarks to a local JSON file or restore an existing collection.</p>
+        </div>
+        <div class="backup-actions">
+          <button type="button" id="bm-export-btn" class="btn btn-secondary" title="Export bookmarks as JSON">
+            ⬇️ Export JSON
+          </button>
+          <button type="button" id="bm-import-btn" class="btn btn-primary" title="Import bookmarks from JSON">
+            ⬆️ Import JSON
+          </button>
+          <input type="file" id="bm-file-input" accept=".json,application/json" class="hidden" aria-label="Upload Bookmark JSON file" />
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================= -->
+    <!-- CONFLICT RESOLUTION MODAL -->
+    <!-- ========================================= -->
+    <div id="conflict-modal" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="conflict-title">
+      <div class="modal-card card">
+        <h3 id="conflict-title">⚠️ Duplicate Bookmark Detected</h3>
+        <p id="conflict-desc">The following URL is already saved in your bookmarks:</p>
+        
+        <div class="conflict-preview">
+          <span id="conflict-emoji">🔖</span>
+          <div class="conflict-meta">
+            <strong id="conflict-label">Title</strong>
+            <code id="conflict-url">https://example.com</code>
+          </div>
+        </div>
+
+        <div class="modal-footer-batch">
+          <label class="checkbox-label">
+            <input type="checkbox" id="conflict-apply-all" />
+            <span>Apply this choice to all remaining duplicates</span>
+          </label>
+        </div>
+
+        <div class="modal-actions">
+          <button type="button" id="conflict-ignore-btn" class="btn btn-secondary">Ignore (Skip)</button>
+          <button type="button" id="conflict-keep-btn" class="btn btn-primary">Keep Both</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========================================= -->
+    <!-- ADD BOOKMARK SECTION -->
+    <!-- ========================================= -->
+    <section class="section" id="bookmark-add-section">
+      
+      <div class="section-header" role="button" tabindex="0" aria-expanded="true" aria-controls="bookmarks-add-collapse">
+        <h2>
+          📚 Add Bookmark
+        </h2>
+        <span class="section-toggle-caret" aria-hidden="true">▲</span>
+      </div>
+      
+      <div class="section-collapse-wrapper" id="bookmarks-add-collapse">
+        <form id="bookmark-form" class="bookmark-form">
+          <input type="text" id="bm-category" placeholder="Category (e.g. Work)" required />
+          <input type="text" id="bm-emoji" placeholder="Emoji" maxlength="2" required />
+          <input type="text" id="bm-label" placeholder="Bookmark Label" required />
+          <input type="url" id="bm-url" placeholder="https://example.com" required />
+          
+          <div class="bookmark-form-actions">
+            <button type="submit" class="btn btn-primary">Add / Update</button>
+            <button type="button" id="bm-clear" class="btn btn-danger">Clear All</button>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <!-- ========================================= -->
+    <!-- SEARCH SECTION -->
     <!-- ========================================= -->
     <section class="search-section">
-
       <div class="search">
-
-        <input
-          id="filter"
-          class="search-bar"
-          type="search"
-          placeholder="Search bookmarks..."
-          aria-label="Search bookmarks"
-        />
-
-        <span
-          class="badge"
-          id="count"
-        >
-          0 shown
-        </span>
-
+        <input id="filter" class="search-bar" type="search" placeholder="Search bookmarks..." aria-label="Search bookmarks" />
+        <span class="badge" id="count">0 shown</span>
       </div>
-
     </section>
 
     <!-- ========================================= -->
-    <!-- BOOKMARK MANAGER -->
+    <!-- BOOKMARK LIST SECTION -->
     <!-- ========================================= -->
-    <section
-      class="section"
-      id="bookmark-manager"
-    >
-
-      <div class="section-header">
-
+    <section class="section" id="bookmark-list-section">
+      <div class="section-header" role="button" tabindex="0" aria-expanded="true" aria-controls="bookmarks-list-collapse">
         <h2>
-          📚 Smart Bookmark Manager
+          📚 Bookmark List
         </h2>
-
-        <button
-          id="toggle-folders"
-          class="btn btn-secondary"
-        >
-          📁 Toggle Folders
-        </button>
-
-      </div>
-
-      <!-- FORM -->
-      <form
-        id="bookmark-form"
-        class="bookmark-form"
-      >
-
-        <input
-          type="text"
-          id="bm-category"
-          placeholder="Category (e.g. Work)"
-          required
-        />
-
-        <input
-          type="text"
-          id="bm-emoji"
-          placeholder="Emoji"
-          maxlength="2"
-          required
-        />
-
-        <input
-          type="text"
-          id="bm-label"
-          placeholder="Bookmark Label"
-          required
-        />
-
-        <input
-          type="url"
-          id="bm-url"
-          placeholder="https://example.com"
-          required
-        />
-
-        <div class="bookmark-form-actions">
-
-          <button
-            type="submit"
-            class="btn btn-primary"
-          >
-            Add / Update
+        <div class="header-buttons-group" style="display: flex; align-items: center; gap: 12px;">
+          <button id="toggle-folders" class="btn btn-secondary" type="button">
+            📁 Toggle Folders
           </button>
-
-          <button
-            type="button"
-            id="bm-clear"
-            class="btn btn-danger"
-          >
-            Clear All
-          </button>
-
+          <span class="section-toggle-caret" aria-hidden="true">▲</span>
         </div>
-
-      </form>
-
-      <!-- BOOKMARK LIST -->
-      <div id="bookmark-list"></div>
-
+      </div>
+      <div class="section-collapse-wrapper" id="bookmarks-list-collapse">
+        <div id="bookmark-list"></div>
+      </div>
     </section>
 
     <!-- ========================================= -->
-    <!-- POMODORO -->
+    <!-- POMODORO TIMER SYSTEM -->
     <!-- ========================================= -->
-    <section
-      class="section"
-      id="pomodoro"
-    >
+    <section class="section" id="pomodoro">
 
-      <div class="section-header">
+      <div class="section-header" role="button" tabindex="0" aria-expanded="true" aria-controls="pomodoro-collapse-content">
         <h2>
           🍅 Pomodoro Timer
         </h2>
+        <span class="section-toggle-caret" aria-hidden="true">▲</span>
       </div>
 
-      <div class="card pomodoro-card">
+      <div class="section-collapse-wrapper" id="pomodoro-collapse-content">
+        <div class="card pomodoro-card" id="pomodoro-container">
+          
+          <div class="pomodoro-tabs" style="display: flex; justify-content: center; gap: 8px; margin-bottom: 20px; flex-wrap: wrap;">
+            <button id="mode-focus" class="btn btn-primary btn-sm" type="button">Focus</button>
+            <button id="mode-short" class="btn btn-secondary btn-sm" type="button">Short Break</button>
+            <button id="mode-long" class="btn btn-secondary btn-sm" type="button">Long Break</button>
+            <button id="mode-custom" class="btn btn-secondary btn-sm" type="button">⚙️ Custom</button>
+          </div>
 
-        <h3 id="pomodoro-mode">
-          Focus Mode
-        </h3>
+          <h3 id="pomodoro-mode" style="margin-bottom: 16px; font-weight: 600; color: var(--text-soft);">Focus Mode</h3>
+          
+          <!-- 3D MECHANICAL FLIP CLOCK WITH COLUMN STEPPERS -->
+          <div class="flip-clock-container" id="pomodoro-time">
+            
+            <!-- HOURS UNIT -->
+            <div class="flip-unit" data-unit="hours">
+              <button type="button" class="unit-stepper stepper-up" data-step="h" data-val="1" title="Add 1 Hour" aria-label="Add 1 Hour">+</button>
+              <div class="flip-group">
+                <div class="flip-card-wrapper" id="h1"><div class="card-top"><span>0</span></div><div class="card-bottom"><span>0</span></div></div>
+                <div class="flip-card-wrapper" id="h2"><div class="card-top"><span>0</span></div><div class="card-bottom"><span>0</span></div></div>
+              </div>
+              <button type="button" class="unit-stepper stepper-down" data-step="h" data-val="-1" title="Subtract 1 Hour" aria-label="Subtract 1 Hour">−</button>
+              <div class="unit-label">HOURS</div>
+            </div>
 
-        <div id="pomodoro-time">
-          25:00
+            <div class="flip-colon">:</div>
+
+            <!-- MINUTES UNIT -->
+            <div class="flip-unit" data-unit="minutes">
+              <button type="button" class="unit-stepper stepper-up" data-step="m" data-val="1" title="Add 1 Minute" aria-label="Add 1 Minute">+</button>
+              <div class="flip-group">
+                <div class="flip-card-wrapper" id="m1"><div class="card-top"><span>2</span></div><div class="card-bottom"><span>2</span></div></div>
+                <div class="flip-card-wrapper" id="m2"><div class="card-top"><span>5</span></div><div class="card-bottom"><span>5</span></div></div>
+              </div>
+              <button type="button" class="unit-stepper stepper-down" data-step="m" data-val="-1" title="Subtract 1 Minute" aria-label="Subtract 1 Minute">−</button>
+              <div class="unit-label">MINUTES</div>
+            </div>
+
+            <div class="flip-colon">:</div>
+
+            <!-- SECONDS UNIT -->
+            <div class="flip-unit" data-unit="seconds">
+              <button type="button" class="unit-stepper stepper-up" data-step="s" data-val="5" title="Add 5 Seconds" aria-label="Add 5 Seconds">+</button>
+              <div class="flip-group">
+                <div class="flip-card-wrapper" id="s1"><div class="card-top"><span>0</span></div><div class="card-bottom"><span>0</span></div></div>
+                <div class="flip-card-wrapper" id="s2"><div class="card-top"><span>0</span></div><div class="card-bottom"><span>0</span></div></div>
+              </div>
+              <button type="button" class="unit-stepper stepper-down" data-step="s" data-val="-5" title="Subtract 5 Seconds" aria-label="Subtract 5 Seconds">−</button>
+              <div class="unit-label">SECONDS</div>
+            </div>
+
+          </div>
+
+          <!-- INLINE PROFESSIONAL CUSTOM TIME CONSOLE -->
+          <div class="custom-time-console" id="custom-time-console">
+            <div class="custom-inputs-row">
+              <div class="custom-field">
+                <label for="custom-input-h">Hours</label>
+                <div class="field-stepper">
+                  <button type="button" class="mini-step" data-step="h" data-val="-1">−</button>
+                  <input type="number" id="custom-input-h" min="0" max="99" value="0" />
+                  <button type="button" class="mini-step" data-step="h" data-val="1">+</button>
+                </div>
+              </div>
+
+              <div class="custom-field">
+                <label for="custom-input-m">Minutes</label>
+                <div class="field-stepper">
+                  <button type="button" class="mini-step" data-step="m" data-val="-1">−</button>
+                  <input type="number" id="custom-input-m" min="0" max="59" value="45" />
+                  <button type="button" class="mini-step" data-step="m" data-val="1">+</button>
+                </div>
+              </div>
+
+              <div class="custom-field">
+                <label for="custom-input-s">Seconds</label>
+                <div class="field-stepper">
+                  <button type="button" class="mini-step" data-step="s" data-val="-5">−</button>
+                  <input type="number" id="custom-input-s" min="0" max="59" value="0" />
+                  <button type="button" class="mini-step" data-step="s" data-val="5">+</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="custom-quick-pills">
+              <span class="quick-label">Presets:</span>
+              <button type="button" class="quick-pill" data-preset="25">25m</button>
+              <button type="button" class="quick-pill" data-preset="45">45m</button>
+              <button type="button" class="quick-pill" data-preset="60">60m</button>
+              <span class="quick-divider">|</span>
+              <button type="button" class="quick-pill" data-quick="300">+5m</button>
+              <button type="button" class="quick-pill" data-quick="-300">−5m</button>
+              <button type="button" class="quick-pill" data-quick="60">+1m</button>
+              <button type="button" class="quick-pill" data-quick="15">+15s</button>
+            </div>
+          </div>
+
+          <div class="pomodoro-actions" style="display: flex; justify-content: center; gap: 12px; margin-top: 24px; flex-wrap: wrap; width: 100%;">
+            <button id="pomodoro-start" class="btn btn-primary" type="button">Start</button>
+            <button id="pomodoro-reset" class="btn btn-secondary" type="button">Reset</button>
+            <button id="pomodoro-fullscreen" class="btn btn-focus" type="button">⛶ Fullscreen Focus</button>
+          </div>
+          
+          <button id="pomodoro-exit-fullscreen" class="btn btn-danger hidden" style="margin-top: 24px;" type="button">Exit Fullscreen</button>
+
         </div>
-
-        <div class="pomodoro-actions">
-
-          <button
-            id="pomodoro-start"
-            class="btn btn-primary"
-          >
-            Start
-          </button>
-
-          <button
-            id="pomodoro-reset"
-            class="btn btn-secondary"
-          >
-            Reset
-          </button>
-
-          <button
-            id="pomodoro-switch"
-            class="btn btn-warning"
-          >
-            Switch
-          </button>
-
-        </div>
-
       </div>
 
     </section>
 
     <!-- ========================================= -->
-    <!-- TASKS + GOALS -->
+    <!-- TASKS & GOALS -->
     <!-- ========================================= -->
-    <section
-      class="section"
-      id="tasks"
-    >
+    <section class="section" id="tasks">
 
-      <div class="section-header">
+      <div class="section-header" role="button" tabindex="0" aria-expanded="true" aria-controls="tasks-collapse-content">
         <h2>
           📝 Tasks & Goals
         </h2>
+        <span class="section-toggle-caret" aria-hidden="true">▲</span>
       </div>
 
-      <!-- TASK INPUT -->
-      <div class="task-input-row">
+      <div class="section-collapse-wrapper" id="tasks-collapse-content">
+        <div>
+          <div class="task-input-row">
+            <input type="text" id="task-input" placeholder="Add Task..." aria-label="Task Input" />
+            <button id="add-task" class="btn btn-primary" type="button">Add</button>
+          </div>
 
-        <input
-          type="text"
-          id="task-input"
-          placeholder="Add Task..."
-          aria-label="Task Input"
-        />
+          <div id="task-list"></div>
 
-        <button
-          id="add-task"
-          class="btn btn-primary"
-        >
-          Add
-        </button>
+          <hr class="divider" />
 
-      </div>
-
-      <!-- TASK LIST -->
-      <div id="task-list"></div>
-
-      <!-- DIVIDER -->
-      <hr class="divider" />
-
-      <!-- DAILY GOAL -->
-      <div class="goal-section">
-
-        <h3>
-          🎯 Daily Goal Items
-        </h3>
-
-        <div class="task-input-row">
-
-          <input
-            id="goal-input"
-            placeholder="Add new daily goal target..."
-            aria-label="Goal Input"
-          />
-
-          <button
-            id="save-goal"
-            class="btn btn-primary"
-          >
-            Add
-          </button>
-
+          <div class="goal-section">
+            <h3>🎯 Daily Goal Items</h3>
+            <div class="task-input-row">
+              <input id="goal-input" placeholder="Add new daily goal target..." aria-label="Goal Input" />
+              <button id="save-goal" class="btn btn-primary" type="button">Add</button>
+            </div>
+            <div id="goal-display"></div>
+          </div>
         </div>
-
-        <div id="goal-display"></div>
-
       </div>
 
     </section>
 
     <!-- ========================================= -->
-    <!-- FOCUS MODE -->
+    <!-- GLOBAL FOCUS MODE TOGGLE -->
     <!-- ========================================= -->
     <section class="focus-section">
-
-      <button
-        id="focus-mode"
-        class="btn btn-focus"
-      >
+      <button id="focus-mode" class="btn btn-focus" type="button">
         🌙 Focus Mode
       </button>
-
     </section>
 
     <!-- ========================================= -->
     <!-- FOOTER -->
     <!-- ========================================= -->
     <footer class="footer">
-
       <p>
         Tip: Add, edit, delete, organize, and track your bookmarks —
         everything is saved locally in your browser automatically.
       </p>
-
       <p class="footer-small">
         Built with HTML, CSS, JavaScript & localStorage.
       </p>
-
     </footer>
 
   </div>
 
-  <!-- ========================================= -->
-  <!-- MAIN APP MODULE -->
-  <!-- ========================================= -->
-  <script
-    type="module"
-    src="./js/app.js"
-  ></script>
+  <script type="module" src="./js/app.js"></script>
 
 </body>
+
 </html>
